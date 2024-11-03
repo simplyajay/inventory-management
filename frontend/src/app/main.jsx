@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar/Navbar";
-import Sidebar from "@/components/Sidebar/Sidebar";
+import Navbar from "@/app/(components)/Navbar/Navbar";
+import Sidebar from "@/app/(components)/Sidebar/Sidebar";
 
 const MainLayout = ({ children }) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
