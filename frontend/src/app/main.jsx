@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
@@ -9,19 +9,18 @@ const MainLayout = ({ children }) => {
   const handleToggle = () => {
     setSidebarVisible((prev) => !prev);
   };
-
   return (
-    <div className="antialiased m-0 p-0 h-screen flex flex-col">
-      <nav>
+    <div className="antialiased m-0 p-0 h-screen w-screen flex flex-col">
+      <nav className="h-[9%]">
         <Navbar toggle={handleToggle} unfold={sidebarVisible}></Navbar>
       </nav>
-      <main className="flex flex-1 w-screen h-screen overflow-hidden">
-        <aside className="flex flex-col justify-center">
+      <main className="flex flex-1 overflow-hidden">
+        <aside className="h-full">
           <Sidebar visible={sidebarVisible} />
         </aside>
         <div
           className={`flex-1 overflow-auto ${
-            sidebarVisible ? "ml-[70px] md:ml-[180px]" : ""
+            sidebarVisible ? "" : ""
           } transition-all duration-200`}
         >
           {children}

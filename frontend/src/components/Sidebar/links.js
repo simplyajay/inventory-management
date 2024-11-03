@@ -11,7 +11,12 @@ import {
 } from "../Icons/Icons";
 
 export const overview = [
-  { id: "home", name: "Home", link: "/", icon: <HomeIcon /> },
+  {
+    id: "dashboard",
+    name: "Dashboard",
+    link: "/dashboard",
+    icon: <HomeIcon />,
+  },
   {
     id: "products",
     name: "Products",
@@ -41,7 +46,6 @@ export const overview = [
     name: "Sale",
     link: "/sale",
     icon: <SaleIcon />,
-    hasFunction: true,
   },
 ];
 
@@ -50,11 +54,6 @@ export const account = [
     id: "profile",
     name: "Profile",
     icon: <UserIcon />,
-  },
-  {
-    id: "settings",
-    name: "Settings",
-    icon: <SettingsIcon />,
   },
   {
     id: "logout",

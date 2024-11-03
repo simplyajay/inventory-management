@@ -1,32 +1,14 @@
-"use client";
 import React from "react";
-
-import { useRouter } from "next/navigation";
+import HomePageComponent from "@/components/Home/HomePageComponent";
 
 const HomePage = () => {
-  const router = useRouter();
   return (
-    <div>
-      HomePage
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            router.push("/login");
-            console.log("login");
-          }}
-        >
-          login
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            router.push("/register");
-            console.log("register");
-          }}
-        >
-          create new account
-        </button>
+    <div className="w-screen h-screen flex flex-col items-center justify-around gap-5 px-20 py-10">
+      <div className="h-[20%] w-full flex items-center justify-center ">
+        <h1 className="text-5xl">Home Page</h1>
+      </div>
+      <div className="w-full flex-1 flex items-center justify-center">
+        <HomePageComponent />
       </div>
     </div>
   );

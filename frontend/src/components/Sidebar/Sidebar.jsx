@@ -1,15 +1,21 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { overview, account } from "./links";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authenticationSlice";
+import { usePathname } from "next/navigation";
 
 const Sidebar = (props) => {
   const [selectedLink, setSelectedLink] = useState(null);
   const { visible } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authentication.user);
+  const currentPath = usePathname();
+
+  useEffect(() => {
+    setSelectedLink(currentPath);
+  }, [currentPath]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -17,7 +23,7 @@ const Sidebar = (props) => {
 
   return (
     <div
-      className={`md:h-[80%] h-[88%] px-2 py-5 flex flex-col w-[70px] md:w-[180px] fixed gap-5 shadow-lg bg-background rounded-lg select-none ${
+      className={`h-full px-2 py-5 flex flex-col w-[65px] md:w-[180px] gap-5 shadow-lg bg-yellow-500 select-none ${
         visible ? "translate-x-0" : "-translate-x-full"
       }  transform duration-200 ease-in-out transition-all overflow-hidden`}
     >
@@ -31,11 +37,11 @@ const Sidebar = (props) => {
           <ul id="overview" className="flex flex-col gap-3">
             {overview.map((item) => (
               <li key={item.id}>
-                <Link href={item.link}>
+                <Link replace href={item.link}>
                   <div
-                    onClick={() => setSelectedLink(item.name)}
-                    className={`flex gap-5 p-1 rounded-lg hover:bg-[#bbb4d9] ${
-                      selectedLink === item.name ? "bg-[#bbb4d9]" : ""
+                    onClick={() => setSelectedLink(item.link)}
+                    className={`flex gap-3 p-1 rounded-lg hover:bg-[#bbb4d9] ${
+                      selectedLink === item.link ? "bg-[#bbb4d9]" : ""
                     }`}
                   >
                     <div className="flex items-center justify-center">
@@ -62,11 +68,10 @@ const Sidebar = (props) => {
             {account.map((item) => (
               <li key={item.id}>
                 <Link
+                  replace
                   href={
                     item.id === "profile"
                       ? `/user/${user.username}/profile`
-                      : item.id === "settings"
-                      ? `/user/${user.username}/settings`
                       : item.link
                   }
                   onClick={() => {
@@ -75,7 +80,7 @@ const Sidebar = (props) => {
                 >
                   <div
                     onClick={() => setSelectedLink(item.name)}
-                    className={`flex gap-5 p-1 rounded-lg hover:bg-[#bbb4d9] ${
+                    className={`flex gap-3 p-1 rounded-lg hover:bg-[#bbb4d9] ${
                       selectedLink === item.name ? "bg-[#bbb4d9]" : ""
                     }`}
                   >

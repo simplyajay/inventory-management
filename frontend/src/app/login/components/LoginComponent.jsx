@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authenticationSlice";
@@ -29,12 +30,14 @@ const LoginForm = () => {
     defaultValues: initialValues,
     shouldFocusError: false,
   });
+  const router = useRouter();
   const { errors } = formState;
 
   const onSubmit = async (values) => {
     const user = await validateLogin(values.username, values.password);
     if (user) {
       dispatch(login(user));
+      router.replace("/dashboard");
       console.log("password correct");
     } else {
       setError("password", {

@@ -5,8 +5,8 @@ export const HomeIcon = (props) => {
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path
@@ -22,8 +22,8 @@ export const ProductIcon = (props) => {
     <svg
       fill="currentColor"
       viewBox="0 0 16 17"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z" />
@@ -40,8 +40,8 @@ export const SupplierIcon = (props) => {
       strokeLinejoin="round"
       strokeWidth={1.5}
       viewBox="0 0 24 24"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path stroke="none" d="M0 0h24v24H0z" />
@@ -57,8 +57,8 @@ export const DocumentIcon = (props) => {
     <svg
       viewBox="0 0 512 512"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path
@@ -89,8 +89,8 @@ export const PurchaseIcon = (props) => {
       strokeLinejoin="round"
       strokeWidth={2}
       viewBox="0 0 24 24"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M9 21 A1 1 0 0 1 8 22 A1 1 0 0 1 7 21 A1 1 0 0 1 9 21 z" />
@@ -105,8 +105,8 @@ export const UserIcon = (props) => {
     <svg
       viewBox="0 0 480 480"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       strokeWidth={1.5}
       {...props}
     >
@@ -125,8 +125,8 @@ export const SettingsIcon = (props) => {
       strokeLinejoin="round"
       strokeWidth={1.5}
       viewBox="0 0 24 24"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z" />
@@ -140,8 +140,8 @@ export const LogoutIcon = (props) => {
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       strokeWidth={1.5}
       {...props}
     >
@@ -156,8 +156,8 @@ export const SaleIcon = (props) => {
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8z" />
@@ -171,8 +171,8 @@ export const MenuFoldIcon = (props) => {
     <svg
       viewBox="0 0 1024 1024"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 000-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0014.4 7z" />
@@ -185,8 +185,8 @@ export const MenuUnfoldIcon = (props) => {
     <svg
       viewBox="0 0 1024 1024"
       fill="currentColor"
-      height="1em"
-      width="1em"
+      height="0.7em"
+      width="0.7em"
       {...props}
     >
       <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 000 13.8z" />
