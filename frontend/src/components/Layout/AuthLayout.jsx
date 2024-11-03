@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MainLayout from "@/app/main";
-import LandingComponent from "../Landing/LandingComponent";
 import { useSelector } from "react-redux";
 
 const AuthLayout = ({ children }) => {
@@ -11,7 +10,7 @@ const AuthLayout = ({ children }) => {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     setLoading(false);
     if (!isLoggedIn) {
       router.push("/login"); // Redirect to login if not logged in
@@ -22,10 +21,10 @@ const AuthLayout = ({ children }) => {
 
   if (loading) {
     return <p>Loading...</p>; // Optionally show a loading state
-  }
+  } */
 
   if (!isLoggedIn) {
-    return <LandingComponent>{children}</LandingComponent>;
+    return <>{children}</>;
   }
 
   return <MainLayout>{children}</MainLayout>;
