@@ -5,10 +5,10 @@ import { overview, account } from "./links";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authenticationSlice";
 import { usePathname } from "next/navigation";
+import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 
-const Sidebar = (props) => {
+const Sidebar = ({ unfold, toggle }) => {
   const [selectedLink, setSelectedLink] = useState(null);
-  const { visible } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authentication.user);
   const currentPath = usePathname();
@@ -23,14 +23,30 @@ const Sidebar = (props) => {
 
   return (
     <div
-      className={`h-full px-2 py-5 flex flex-col w-[65px] md:w-[180px] gap-5 shadow-lg bg-yellow-500 select-none ${
-        visible ? "translate-x-0" : "-translate-x-full"
-      }  transform duration-200 ease-in-out transition-all overflow-hidden`}
+      className={`h-full px-2 py-5 flex flex-col w-[65px] md:w-[180px] gap-5 shadow-lg bg-yellow-500
+        ${
+          unfold ? "md:w-[180px]" : "md:w-[65px]"
+        } select-none transform duration-200 ease-in-out transition-all overflow-hidden`}
     >
+      <div
+        className={`flex items-center gap-5 ${
+          unfold ? "self-end" : "self-center"
+        }`}
+      >
+        <div
+          className="text-3xl hover:cursor-pointer hidden md:block"
+          onClick={toggle}
+        >
+          {unfold ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
+        </div>
+      </div>
       <div className="h-full flex flex-col justify-between pb-[20px]">
         <div className="flex flex-col gap-5">
           <div className="h-[15px] text-xs">
-            <label className="hidden md:inline" htmlFor="overview">
+            <label
+              className={`${unfold ? "hidden md:inline" : "hidden"}`}
+              htmlFor="overview"
+            >
               OVERVIEW
             </label>
           </div>
@@ -60,7 +76,10 @@ const Sidebar = (props) => {
         </div>
         <div className="flex flex-col gap-5">
           <div className="h-[15px] text-xs">
-            <label className="hidden md:inline" htmlFor="account">
+            <label
+              className={`${unfold ? "hidden md:inline" : "hidden"}`}
+              htmlFor="account"
+            >
               ACCOUNT
             </label>
           </div>

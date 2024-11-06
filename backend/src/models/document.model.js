@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 const DocumentSchema = mongoose.Schema(
   {
     _orgId: { type: String, required: true },
+    documentId: { type: String, required: true },
     type: { type: String, required: true },
     date: { type: Date, required: true },
-    product: { type: String, required: true },
-    supplier: { type: String, required: true },
+    productId: { type: String, required: true },
+    supplierId: { type: String, required: true },
     quantity: { type: Number, required: true },
     netCost: { type: Number, required: true },
     vatType: { type: String, required: true },
@@ -16,5 +17,5 @@ const DocumentSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Documents = mongoose.model("Document", DocumentSchema);
-export default Documents;
+const Document = mongoose.model("Document", DocumentSchema);
+export default Document;

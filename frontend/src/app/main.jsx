@@ -11,20 +11,14 @@ const MainLayout = ({ children }) => {
   };
   return (
     <div className="antialiased m-0 p-0 h-screen w-screen flex flex-col">
-      <nav className="h-[9%]">
+      <nav className="">
         <Navbar toggle={handleToggle} unfold={sidebarVisible}></Navbar>
       </nav>
-      <main className="flex flex-1 overflow-hidden">
+      <main className="flex-1 flex overflow-hidden">
         <aside className="h-full">
-          <Sidebar visible={sidebarVisible} />
+          <Sidebar toggle={handleToggle} unfold={sidebarVisible} />
         </aside>
-        <div
-          className={`flex-1 overflow-auto ${
-            sidebarVisible ? "" : ""
-          } transition-all duration-200`}
-        >
-          {children}
-        </div>
+        <div className="flex-1 overflow-auto">{children}</div>
       </main>
       <footer></footer>
     </div>

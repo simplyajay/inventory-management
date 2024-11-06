@@ -1,4 +1,5 @@
 import Organization from "../../models/organization.model.js";
+import User from "../../models/user.model.js";
 
 export const createOrganization = async (req, res) => {
   try {

@@ -19,8 +19,8 @@ export const overview = [
   },
   {
     id: "products",
-    name: "Products",
-    link: "/products",
+    name: "Stocks",
+    link: "/stocks",
     icon: <ProductIcon />,
   },
   {
