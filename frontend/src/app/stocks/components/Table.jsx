@@ -2,7 +2,7 @@
 import { getProducts } from "@/api/products";
 import React, { useState, useEffect } from "react";
 
-const tableHeads = ["SKU", "NAME", "PRICE"];
+const tableHeads = ["SKU", "NAME", "QUANTITY", "PRICE"];
 
 const ProductTable = () => {
   const [loading, setLoading] = useState(true);
