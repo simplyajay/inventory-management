@@ -22,7 +22,7 @@ export const validateOnRegister = async (data, res) => {
   }
 };
 
-export const validateOnLogin = async (identifier, pw, res) => {
+export const authenticateLogin = async (identifier, pw, res) => {
   if (!identifier) {
     return res.status(404).json({ message: `Invalid Credentials` });
   }

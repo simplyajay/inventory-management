@@ -1,7 +1,7 @@
 import express from "express";
 import {
   validateOnRegister,
-  validateOnLogin,
+  authenticateLogin,
 } from "../controller/validation.controller.js";
 
 const validationRouter = express.Router();
@@ -13,7 +13,7 @@ validationRouter.post("/api/register", (req, res) => {
 
 validationRouter.post("/api/login", (req, res) => {
   const { identifier, password } = req.body;
-  validateOnLogin(identifier, password, res);
+  authenticateLogin(identifier, password, res);
 });
 
 export default validationRouter;
