@@ -27,7 +27,6 @@ export const findProduct = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   try {
     const orgId = req.query._id;
-    console.log(orgId);
     const products = await Product.find({ _orgId: orgId });
     return res.status(200).json(products);
   } catch (error) {

@@ -2,6 +2,7 @@ import express from "express";
 import initializeDb from "./connection/connection.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
 import userRouter from "./api/routes/user.route.js";
 import organizationRouter from "./api/routes/organization.route.js";
@@ -11,6 +12,9 @@ import documentRouter from "./api/routes/document.route.js";
 
 const app = express();
 const port = 3001;
+dotenv.config();
+const url = process.env.MONGODB_URL;
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -20,7 +24,7 @@ app.use(
   })
 );
 
-initializeDb().then((successful) => {
+initializeDb(url).then((successful) => {
   if (successful) {
     app.use(userRouter);
     app.use(organizationRouter);

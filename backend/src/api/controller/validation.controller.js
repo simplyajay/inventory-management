@@ -38,7 +38,7 @@ export const authenticateLogin = async (identifier, pw, res) => {
     if (targetUser) {
       const isMatch = await comparePassword(pw, password);
       if (isMatch) {
-        const token = jwt.sign({ _id: targetUser._id }, "secret");
+        const token = jwt.sign({ _id: targetUser._id }, process.env.JWT_SECRET);
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 5 * 60 * 1000, // 5 minutes
