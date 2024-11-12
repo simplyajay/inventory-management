@@ -1,6 +1,8 @@
 import User from "../../models/user.model.js";
 import { comparePassword } from "../service/hash.service.js";
 
+import jwt from "jsonwebtoken";
+
 export const validateOnRegister = async (data, res) => {
   if (!data) {
     return res.status(400).json({ message: `Username or Email is required` });
@@ -36,6 +38,12 @@ export const authenticateLogin = async (identifier, pw, res) => {
     if (targetUser) {
       const isMatch = await comparePassword(pw, password);
       if (isMatch) {
+        const token = jwt.sign({ _id: targetUser._id }, "secret");
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          maxAge: 5 * 60 * 1000, // 5 minutes
+          secure: false,
+        });
         return res.status(200).json(user);
       }
       return res.status(404).json({ message: "Invalid Credentials." });
