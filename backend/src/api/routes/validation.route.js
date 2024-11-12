@@ -6,24 +6,14 @@ import {
 
 const validationRouter = express.Router();
 
-validationRouter.post("/api/validate/reg/email", (req, res) => {
-  const { email } = req.body;
-  validateOnRegister("email", email, res);
+validationRouter.post("/api/register", (req, res) => {
+  const { target } = req.body;
+  validateOnRegister(target, res);
 });
 
-validationRouter.post("/api/validate/reg/username", (req, res) => {
-  const { username } = req.body;
-  validateOnRegister("username", username, res);
-});
-
-validationRouter.post("/api/validate/login/username", (req, res) => {
-  const { username, password } = req.body;
-  validateOnLogin("username", username, password, res);
-});
-
-validationRouter.post("/api/validate/login/email", (req, res) => {
-  const { email, password } = req.body;
-  validateOnLogin("email", email, password, res);
+validationRouter.post("/api/login", (req, res) => {
+  const { identifier, password } = req.body;
+  validateOnLogin(identifier, password, res);
 });
 
 export default validationRouter;

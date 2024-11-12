@@ -15,10 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addNewOrg, addNewUser } from "@/app/register/service";
-import {
-  validateEmail,
-  validateUsername,
-} from "@/api/validation/registerValidation";
+import { validateOnRegister } from "@/api/controller/validation";
 
 const RegistrationForm = () => {
   const [step, setStep] = useState(1);
@@ -44,19 +41,10 @@ const RegistrationForm = () => {
     shouldFocusError: false,
   });
 
-  const validate = async (type, data) => {
-    if (data) {
-      let isValid;
-      switch (type) {
-        case "email":
-          isValid = await validateEmail(data);
-          break;
-        case "username":
-          isValid = await validateUsername(data);
-          break;
-        default:
-          break;
-      }
+  const validate = async (type, target) => {
+    if (target) {
+      const isValid = await validateOnRegister(target);
+
       if (!isValid) {
         setError(type, {
           type: "manual",

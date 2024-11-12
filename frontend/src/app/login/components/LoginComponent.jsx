@@ -7,7 +7,7 @@ import { login } from "@/store/slices/authenticationSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { validateLogin } from "@/api/validation/loginValidation";
+import { validateLogin } from "@/api/controller/validation";
 
 const initialValues = {
   username: "",
@@ -38,7 +38,6 @@ const LoginForm = () => {
     if (user) {
       dispatch(login(user));
       router.replace("/dashboard");
-      console.log("password correct");
     } else {
       setError("password", {
         type: "manual",
