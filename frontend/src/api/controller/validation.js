@@ -20,7 +20,7 @@ export const validateLogin = async (identifier, password) => {
 
 export const validateOnRegister = async (target) => {
   try {
-    const res = await fetch("http://localhost:3001/api/register", {
+    const res = await fetch("http://localhost:3001/api/validate-registration", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ target }),

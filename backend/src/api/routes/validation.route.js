@@ -6,7 +6,7 @@ import {
 
 const validationRouter = express.Router();
 
-validationRouter.post("/api/register", (req, res) => {
+validationRouter.post("/api/validate-registration", (req, res) => {
   const { target } = req.body;
   validateOnRegister(target, res);
 });
