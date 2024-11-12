@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authenticationSlice";
 import { usePathname } from "next/navigation";
 import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
+import { useRouter } from "next/navigation";
 
 const Sidebar = ({ unfold, toggle }) => {
   const [selectedLink, setSelectedLink] = useState(null);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authentication.user);
   const currentPath = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     setSelectedLink(currentPath);

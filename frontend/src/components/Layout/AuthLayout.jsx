@@ -5,7 +5,6 @@ import MainLayout from "@/app/main";
 import { useSelector } from "react-redux";
 
 const AuthLayout = ({ children }) => {
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const currentPath = usePathname();
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
@@ -20,11 +19,12 @@ const AuthLayout = ({ children }) => {
   }, [isLoggedIn, currentPath, router]);
 
   // if user is logged in and will try to navigate to a public route, or is not logged in, children will render without using mainlayout
-  // main layout is where the sidebar, navigationbar and protected pages
+
   if (!isLoggedIn || (isLoggedIn && isPublicRoute)) {
     return <>{children}</>;
   }
 
+  // main layout is where the sidebar, navigationbar and protected pages
   return <MainLayout>{children}</MainLayout>;
 };
 

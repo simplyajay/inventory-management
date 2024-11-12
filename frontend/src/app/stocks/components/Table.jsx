@@ -1,24 +1,6 @@
-"use client";
-import { getProducts } from "@/api/products";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const tableHeads = ["SKU", "NAME", "QUANTITY", "PRICE"];
-
-const ProductTable = () => {
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await getProducts();
-      if (data) {
-        setProducts(data);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+const ProductTable = ({ onRowClick, products, loading, tableHeads }) => {
   return (
     <div className="w-full">
       {loading ? (
@@ -35,17 +17,26 @@ const ProductTable = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr
-                key={product._id}
-                className="text-center hover:bg-blue-50 hover:cursor-pointer"
-              >
-                <td className="md:p-1">{product.sku}</td>
-                <td className="md:p-1">{product.name}</td>
-                <td className="md:p-1">{product.quantity}</td>
-                <td className="md:p-1">{`$${product.price}`}</td>
-              </tr>
-            ))}
+            {loading ? (
+              <>Loading...</>
+            ) : (
+              <>
+                {products.map((product) => (
+                  <tr
+                    key={product._id}
+                    className="text-center hover:bg-blue-50 hover:cursor-pointer"
+                    onClick={() => onRowClick(product)}
+                  >
+                    <td className="p-2">{product.sku}</td>
+                    <td className="p-2">{product.name}</td>
+                    <td className="p-2">{product.description}</td>
+                    <td className="p-2">{product.unitOfMeasurement}</td>
+                    <td className="p-2">{product.quantity}</td>
+                    <td className="p-2">{product.price}</td>
+                  </tr>
+                ))}
+              </>
+            )}
           </tbody>
         </table>
       )}

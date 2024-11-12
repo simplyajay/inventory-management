@@ -8,10 +8,10 @@ const UserSchema = mongoose.Schema(
       required: true,
     },
     _orgId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "organizations", // refers to the collection named 'organizations'
       required: function () {
-        return this.role === "Organization"; // only required if accountType is Organization
+        return this.accountType === "Organization"; // only required if accountType is Organization
       },
     },
     username: { type: String, required: true },

@@ -1,4 +1,5 @@
 import Product from "../../models/product.model.js";
+import mongoose from "mongoose";
 
 export const createProduct = async (req, res) => {
   try {
@@ -26,7 +27,8 @@ export const findProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const orgId = req.query._id;
+    const products = await Product.find({ _orgId: orgId });
     return res.status(200).json(products);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -36,7 +38,6 @@ export const getAllProducts = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-
     const product = await Product.findByIdAndUpdate(id, req.body);
 
     if (!product) {
@@ -44,6 +45,7 @@ export const updateProduct = async (req, res) => {
     }
 
     const updatedProduct = await Product.findById(id);
+
     return res.status(200).json(updatedProduct);
   } catch (error) {
     return res.status(500).json({ message: error.message });

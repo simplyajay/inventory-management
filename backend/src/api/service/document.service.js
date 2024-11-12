@@ -1,8 +1,11 @@
 import Document from "../../models/document.model.js";
 
-export const generateDocumentID = async () => {
+export const generateDocumentID = async (user) => {
   try {
-    const docs = await Document.find({}, { documentId: 1 }).lean();
+    const docs = await Document.find(
+      { _orgId: user._orgId },
+      { documentId: 1 }
+    ).lean();
     const ids = docs
       .map((doc) => parseInt(doc.documentId.split("-")[1], 10))
       .filter((num) => !isNaN(num));
