@@ -1,17 +1,22 @@
 export const getProducts = async (id) => {
   try {
-    const url = new URL("http://localhost:3001/api/products");
+    const url = new URL("http://localhost:3001/api/stocks");
     url.searchParams.append("_id", id);
-
     const res = await fetch(url, {
       method: "GET",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
 
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
     const data = await res.json();
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        return { status: res.status, message: "Unauthorized" };
+      }
+      return { error: data.message };
+    }
+
     return data;
   } catch (error) {
     console.error("Error fetching products", error);
@@ -19,14 +24,15 @@ export const getProducts = async (id) => {
   }
 };
 
-export const updateProduct = async (productID, product) => {
+export const updateProduct = async (productId, product) => {
   try {
-    const res = await fetch(`http://localhost:3001/api/products/${productID}`, {
+    const prod = { ...product, _id: productId };
+    const res = await fetch(`http://localhost:3001/api/products/${productId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
+      credentials: "include",
+      body: JSON.stringify(prod),
     });
-
     if (!res.ok) {
       throw new Error("Error updating product");
     }

@@ -13,7 +13,6 @@ validationRouter.post("/api/validate-registration", (req, res) => {
 
 validationRouter.post("/api/login", (req, res) => {
   const { identifier, password } = req.body;
-  console.log(identifier);
   authenticateLogin(identifier, password, res);
 });
 

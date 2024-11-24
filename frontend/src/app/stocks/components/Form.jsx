@@ -9,7 +9,12 @@ import { updateProductById, fetchProducts } from "@/store/slices/productSlice";
 const fieldClass =
   "p-2 text-sm rounded-lg focus:outline-none w-full focus:ring-2 focus:ring-blue-100 border border-gray-300";
 
-const ProductForm = ({ updateForm, initialValues, collapse }) => {
+const ProductForm = ({
+  updateForm,
+  initialValues,
+  collapse,
+  selectedProduct,
+}) => {
   const dispatch = useDispatch();
   const { register, handleSubmit, formState, clearErrors, reset } = useForm({
     mode: "onBlur", //validate on blur
@@ -19,7 +24,7 @@ const ProductForm = ({ updateForm, initialValues, collapse }) => {
   });
   const { errors } = formState;
 
-  const { loading, selectedProduct } = useSelector((state) => state.product);
+  const { loading } = useSelector((state) => state.product);
   const { user } = useSelector((state) => state.authentication);
 
   useEffect(() => {

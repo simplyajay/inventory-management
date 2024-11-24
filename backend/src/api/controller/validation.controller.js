@@ -42,7 +42,8 @@ export const authenticateLogin = async (identifier, pw, res) => {
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 5 * 60 * 1000, // 5 minutes
-          secure: false,
+          secure: false, //process.env.NODE_ENV === "production", // Set to true in production
+          sameSite: "lax",
         });
         return res.status(200).json(user);
       }

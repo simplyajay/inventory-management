@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
 import ProductTable from "./Table";
 import ProductForm from "./Form";
 import { initialValues } from "./validationSchema";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import { fetchProducts, setSelectedProduct } from "@/store/slices/productSlice";
 
 const getProductValues = (product) => {
@@ -21,37 +22,37 @@ const getProductValues = (product) => {
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "PRICE"];
 
 const ProductPageLayout = () => {
-  const dispatch = useDispatch();
   //local states
   const [pageInfoVisible, setPageInfoVisible] = useState(false);
   const [isEditForm, setIsEditForm] = useState(false);
+
   //global states
-  const { products, loading, selectedProduct } = useSelector(
+  const { user } = useSelector((state) => state.authentication);
+  const { selectedProduct, products, loading } = useSelector(
     (state) => state.product
   );
-  const { user, isLoggedIn } = useSelector((state) => state.authentication);
+  const dispatch = useDispatch();
+
+  const router = useRouter();
 
   //memo
   const ProductTableMemo = React.memo(ProductTable);
   const ProductFormMemo = React.memo(ProductForm);
 
-  const loadProducts = () => {
+  const loadProducts = async () => {
     let targetId = user._orgId ? user._orgId : user._id;
     dispatch(fetchProducts(targetId));
   };
 
   //load on initial render
   useEffect(() => {
-    if (isLoggedIn) {
-      loadProducts();
-    }
+    loadProducts();
   }, []);
 
   //collapse product info panel
   const collapse = () => {
     setPageInfoVisible(false);
   };
-
   const productValues = useMemo(() => {
     if (selectedProduct) {
       return getProductValues(selectedProduct);
@@ -74,7 +75,9 @@ const ProductPageLayout = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <>loading</>
+  ) : (
     <div className="h-full w-full flex flex-col md:flex-row gap-5 md:gap-10 justify-between ">
       <div
         className={`h-full w-full flex flex-col rounded-lg shadow-md overflow-hidden bg-[white]`}
@@ -117,6 +120,7 @@ const ProductPageLayout = () => {
             updateForm={isEditForm}
             initialValues={isEditForm ? productValues : initialValues}
             collapse={collapse}
+            selectedProduct={selectedProduct}
           />
         </div>
       </div>

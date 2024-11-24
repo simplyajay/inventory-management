@@ -3,6 +3,7 @@ export const validateLogin = async (identifier, password) => {
     const res = await fetch("http://localhost:3001/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ identifier, password }),
     });
 

@@ -11,8 +11,8 @@ import verifyToken from "../middleware/verifyToken.js";
 const productRouter = express.Router();
 
 productRouter.post("/api/products", verifyToken, createProduct);
-productRouter.get("/api/products/:id", verifyToken, findProduct);
-productRouter.get("/api/products", verifyToken, getAllProducts);
+productRouter.get("/api/stocks/:id", verifyToken, findProduct);
+productRouter.get("/api/stocks", verifyToken, getAllProducts);
 productRouter.put("/api/products/:id", verifyToken, updateProduct);
 productRouter.delete("/api/products/:id", verifyToken, deleteProduct);
 
