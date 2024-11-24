@@ -13,6 +13,7 @@ export const validateLogin = async (identifier, password) => {
 
     const data = await res.json();
 
+    console.log(data.token);
     return data;
   } catch (error) {
     return;

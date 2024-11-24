@@ -10,6 +10,7 @@ const AuthLayout = ({ children }) => {
   const publicPaths = ["/login", "/register", "/"];
   const isPublicPath = publicPaths.includes(currentPath);
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const [loading, setLoading] = useState(true);
 
   const [isPublic, setIsPublic] = useState(false);
 
@@ -24,6 +25,7 @@ const AuthLayout = ({ children }) => {
     } else {
       setIsPublic(false);
     }
+    setLoading(false);
   }, [isLoggedIn, currentPath, router]);
 
   return isPublic ? <>{children}</> : <MainLayout>{children}</MainLayout>;

@@ -42,10 +42,10 @@ export const authenticateLogin = async (identifier, pw, res) => {
         res.cookie("jwt", token, {
           httpOnly: true,
           maxAge: 5 * 60 * 1000, // 5 minutes
-          secure: false, //process.env.NODE_ENV === "production", // Set to true in production
+          secure: process.env.NODE_ENV === "production", // Set to true in production
           sameSite: "lax",
         });
-        return res.status(200).json(user);
+        return res.status(200).json({ user, token });
       }
       return res.status(404).json({ message: "Invalid Credentials." });
     }
@@ -53,4 +53,15 @@ export const authenticateLogin = async (identifier, pw, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }
+};
+
+export const logOut = async (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Set to true in production
+    sameSite: "lax",
+    path: "/", // Adjust the path as necessary
+  });
+
+  return res.status(200).json({ message: "Logged out successfully" });
 };

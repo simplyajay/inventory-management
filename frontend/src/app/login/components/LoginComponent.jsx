@@ -34,7 +34,8 @@ const LoginForm = () => {
   const { errors } = formState;
 
   const onSubmit = async (values) => {
-    const user = await validateLogin(values.username, values.password);
+    //destructure returned data from validatelogin
+    const { user } = await validateLogin(values.username, values.password);
     if (user) {
       dispatch(login(user));
       router.replace("/dashboard");
