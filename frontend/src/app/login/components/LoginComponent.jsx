@@ -7,7 +7,7 @@ import { login } from "@/store/slices/authenticationSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { validateLogin } from "@/api/controller/validation";
+import { validateLogin } from "@/api/validation";
 
 const initialValues = {
   username: "",
@@ -35,8 +35,9 @@ const LoginForm = () => {
 
   const onSubmit = async (values) => {
     //destructure returned data from validatelogin
-    const { user } = await validateLogin(values.username, values.password);
-    if (user) {
+    const data = await validateLogin(values.username, values.password);
+    if (data) {
+      const { user } = data;
       dispatch(login(user));
       router.replace("/dashboard");
     } else {

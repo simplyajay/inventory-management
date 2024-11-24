@@ -7,6 +7,7 @@ import { logout } from "@/store/slices/authenticationSlice";
 import { usePathname } from "next/navigation";
 import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 import { useRouter } from "next/navigation";
+import { logOutUser } from "@/api/validation";
 
 const Sidebar = ({ unfold, toggle }) => {
   const [selectedLink, setSelectedLink] = useState(null);
@@ -20,7 +21,13 @@ const Sidebar = ({ unfold, toggle }) => {
   }, [currentPath]);
 
   const handleLogout = () => {
-    dispatch(logout());
+    logOutUser()
+      .then(() => {
+        dispatch(logout());
+      })
+      .finally(() => {
+        router.replace("/");
+      });
   };
 
   return (

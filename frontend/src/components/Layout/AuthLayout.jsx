@@ -1,34 +1,28 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import React from "react";
 import MainLayout from "./MainLayout";
-import { useSelector } from "react-redux";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const AuthLayout = ({ children }) => {
-  const router = useRouter();
-  const currentPath = usePathname();
-  const publicPaths = ["/login", "/register", "/"];
-  const isPublicPath = publicPaths.includes(currentPath);
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
-  const [loading, setLoading] = useState(true);
+  const cookieStore = cookies();
+  const token = cookieStore.get("jwt-token")?.value;
 
-  const [isPublic, setIsPublic] = useState(false);
+  let isLoggedIn = false;
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      if (!isPublicPath) {
-        router.replace("/login");
-      } else {
-        router.replace(currentPath);
-      }
-      setIsPublic(true);
-    } else {
-      setIsPublic(false);
+  if (token) {
+    try {
+      // Decode the JWT token to get the payload (without verifying)
+      const decoded = jwtDecode(token);
+
+      // If decoding is successful, you can assume the user is logged in
+      isLoggedIn = !!decoded; // If the token has a payload, it's assumed valid
+    } catch (error) {
+      console.error("Error decoding token:", error.message);
     }
-    setLoading(false);
-  }, [isLoggedIn, currentPath, router]);
+  }
 
-  return isPublic ? <>{children}</> : <MainLayout>{children}</MainLayout>;
+  return isLoggedIn ? <MainLayout>{children}</MainLayout> : <>{children}</>;
 };
 
 export default AuthLayout;

@@ -1,5 +1,5 @@
-import { addOrganization } from "@/api/controller/organizations";
-import { addUser } from "@/api/controller/users";
+import { addOrganization } from "@/api/organizations";
+import { addUser } from "@/api/users";
 
 export const addNewOrg = async (orgData) => {
   const organization = await addOrganization(orgData);

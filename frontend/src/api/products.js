@@ -1,6 +1,6 @@
 export const getProducts = async (id) => {
   try {
-    const url = new URL("http://localhost:3001/api/stocks");
+    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks`);
     url.searchParams.append("_id", id);
     const res = await fetch(url, {
       method: "GET",
@@ -27,12 +27,15 @@ export const getProducts = async (id) => {
 export const updateProduct = async (productId, product) => {
   try {
     const prod = { ...product, _id: productId };
-    const res = await fetch(`http://localhost:3001/api/products/${productId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(prod),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/products/${productId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(prod),
+      }
+    );
     if (!res.ok) {
       throw new Error("Error updating product");
     }

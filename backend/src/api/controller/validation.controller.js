@@ -32,14 +32,14 @@ export const authenticateLogin = async (identifier, pw, res) => {
     const targetUser = await User.findOne({
       $or: [{ username: identifier }, { email: identifier }],
     });
-    const userObj = targetUser.toObject();
-    const { password, ...user } = userObj;
 
     if (targetUser) {
+      const userObj = targetUser.toObject();
+      const { password, ...user } = userObj;
       const isMatch = await comparePassword(pw, password);
       if (isMatch) {
         const token = jwt.sign({ _id: targetUser._id }, process.env.JWT_SECRET);
-        res.cookie("jwt", token, {
+        res.cookie(process.env.TOKEN, token, {
           httpOnly: true,
           maxAge: 5 * 60 * 1000, // 5 minutes
           secure: process.env.NODE_ENV === "production", // Set to true in production
@@ -56,7 +56,7 @@ export const authenticateLogin = async (identifier, pw, res) => {
 };
 
 export const logOut = async (req, res) => {
-  res.clearCookie("jwt", {
+  res.clearCookie(process.env.TOKEN, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // Set to true in production
     sameSite: "lax",

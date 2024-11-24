@@ -4,6 +4,7 @@ import {
   authenticateLogin,
   logOut,
 } from "../controller/validation.controller.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const validationRouter = express.Router();
 
@@ -17,8 +18,6 @@ validationRouter.post("/api/login", (req, res) => {
   authenticateLogin(identifier, password, res);
 });
 
-validationRouter.post("/api/logout", (req, res) => {
-  logOut(res);
-});
+validationRouter.post("/api/logout", verifyToken, logOut);
 
 export default validationRouter;
