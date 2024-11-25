@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import Sidebar from "@/components/Sidebar/Sidebar";
-const MainLayout = ({ children }) => {
+const ProtectedLayout = ({ children }) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const handleToggle = () => {
@@ -25,4 +25,4 @@ const MainLayout = ({ children }) => {
   );
 };
 
-export default MainLayout;
+export default ProtectedLayout;

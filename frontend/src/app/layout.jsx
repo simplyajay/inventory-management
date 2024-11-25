@@ -1,6 +1,8 @@
-import Providers from "./providers";
-import AuthLayout from "@/components/Layout/AuthLayout";
 import "@/globals.css";
+import Providers from "./providers";
+import ProtectedLayout from "@/components/Layout/ProtectedLayout";
+import { cookies } from "next/headers";
+import { verify } from "jsonwebtoken";
 
 export const metadata = {
   title: "Point of Sale System",
@@ -8,11 +10,27 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get(process.env.NEXT_PUBLIC_TOKEN);
+
+  let user = null;
+
+  if (token) {
+    try {
+      user = verify(token.value, process.env.NEXT_PUBLIC_JWT);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  }
   return (
     <Providers>
       <html lang="en">
         <body>
-          <AuthLayout> {children}</AuthLayout>
+          {user ? (
+            <ProtectedLayout user={user}> {children}</ProtectedLayout>
+          ) : (
+            <>{children}</>
+          )}
         </body>
       </html>
     </Providers>
