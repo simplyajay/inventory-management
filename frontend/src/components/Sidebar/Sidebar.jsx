@@ -9,10 +9,15 @@ import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 import { useRouter } from "next/navigation";
 import { logOutUser } from "@/api/validation";
 
-const Sidebar = ({ unfold, toggle }) => {
-  const [selectedLink, setSelectedLink] = useState(null);
-  const dispatch = useDispatch();
+const Sidebar = () => {
+  //global states
   const user = useSelector((state) => state.authentication.user);
+  const dispatch = useDispatch();
+
+  //local states
+  const [selectedLink, setSelectedLink] = useState(null);
+  const [collapsed, setCollapsed] = useState(true);
+
   const currentPath = usePathname();
   const router = useRouter();
 
@@ -30,30 +35,34 @@ const Sidebar = ({ unfold, toggle }) => {
       });
   };
 
+  const handleToggle = () => {
+    setCollapsed((prev) => !prev);
+  };
+
   return (
     <div
       className={`h-full px-2 py-5 flex flex-col w-[65px] md:w-[180px] gap-5 shadow-lg bg-yellow-500
         ${
-          unfold ? "md:w-[180px]" : "md:w-[65px]"
+          !collapsed ? "md:w-[180px]" : "md:w-[65px]"
         } select-none transform duration-200 ease-in-out transition-all overflow-hidden`}
     >
       <div
         className={`flex items-center gap-5 ${
-          unfold ? "self-end" : "self-center"
+          !collapsed ? "self-end" : "self-center"
         }`}
       >
         <div
           className="text-3xl hover:cursor-pointer hidden md:block"
-          onClick={toggle}
+          onClick={handleToggle}
         >
-          {unfold ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
+          {!collapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
         </div>
       </div>
       <div className="h-full flex flex-col justify-between pb-[20px]">
         <div className="flex flex-col gap-5">
           <div className="h-[15px] text-xs">
             <label
-              className={`${unfold ? "hidden md:inline" : "hidden"}`}
+              className={`${!collapsed ? "hidden md:inline" : "hidden"}`}
               htmlFor="overview"
             >
               OVERVIEW
@@ -86,7 +95,7 @@ const Sidebar = ({ unfold, toggle }) => {
         <div className="flex flex-col gap-5">
           <div className="h-[15px] text-xs">
             <label
-              className={`${unfold ? "hidden md:inline" : "hidden"}`}
+              className={`${!collapsed ? "hidden md:inline" : "hidden"}`}
               htmlFor="account"
             >
               ACCOUNT

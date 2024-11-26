@@ -1,6 +1,7 @@
 import "@/globals.css";
 import Providers from "./providers";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
+import Navbar from "@/components/Navbar/Navbar";
 import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
 
@@ -25,12 +26,16 @@ const RootLayout = ({ children }) => {
   return (
     <Providers>
       <html lang="en">
-        <body>
-          {user ? (
-            <ProtectedLayout user={user}> {children}</ProtectedLayout>
-          ) : (
-            <>{children}</>
-          )}
+        <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
+          <Navbar />
+          <main className="flex flex-1 ">
+            {user ? (
+              <ProtectedLayout user={user}> {children}</ProtectedLayout>
+            ) : (
+              <>{children}</>
+            )}
+          </main>
+          <footer></footer>
         </body>
       </html>
     </Providers>

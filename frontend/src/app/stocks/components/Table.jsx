@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ProductTable = ({ onRowClick, products, loading, tableHeads }) => {
+  const [page, setPage] = useState(false);
   return (
     <div className="w-full">
       {loading ? (
