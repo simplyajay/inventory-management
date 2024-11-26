@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authenticationSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { validateLogin } from "@/api/validation";
+import { validateLogin } from "@/services/validation";
 
 const initialValues = {
   username: "",
@@ -23,6 +23,7 @@ const fieldClass =
   "px-2 py-3 text-sm rounded-lg min-w-full focus:outline-none focus:ring-2 focus:ring-blue-100 border border-gray-300";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { register, handleSubmit, formState, clearErrors, setError } = useForm({
     mode: "onBlur", //validate on blur
@@ -32,14 +33,14 @@ const LoginForm = () => {
   });
   const router = useRouter();
   const { errors } = formState;
-
   const onSubmit = async (values) => {
-    //destructure returned data from validatelogin
+    setLoading(true);
     const data = await validateLogin(values.username, values.password);
     if (data) {
       const { user } = data;
       dispatch(login(user));
       router.replace("/dashboard");
+      router.refresh();
     } else {
       setError("password", {
         type: "manual",
@@ -105,15 +106,20 @@ const LoginForm = () => {
       <div className=" flex flex-col gap-4 justify-center w-full ">
         <button
           type="submit"
+          disabled={loading ? true : false}
           className="min-w-[5rem] border border-gray-300 rounded-lg p-2 bg-[#fcfbff] hover:bg-[#f2eefe] transition-colors duration-200"
         >
-          Login
+          {loading ? "loading..." : "Login"}
         </button>
         <div className="flex md:flex-row flex-col gap-2">
           <p className="text-sm text-gray-500">
             Don't have an account?{" "}
             <b className="hover:cursor-pointer text-gray-600 hover:text-gray-800">
-              <Link href={"/register"}>Register</Link>
+              {loading ? (
+                <Link href={"/register"}>Register</Link>
+              ) : (
+                <>Register</>
+              )}
             </b>
           </p>
         </div>

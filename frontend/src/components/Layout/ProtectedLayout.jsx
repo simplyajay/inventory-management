@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
-const ProtectedLayout = ({ children }) => {
+const ProtectedLayout = async ({ children }) => {
   return (
     <>
       <aside className="">

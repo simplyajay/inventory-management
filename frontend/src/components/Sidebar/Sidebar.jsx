@@ -7,7 +7,7 @@ import { logout } from "@/store/slices/authenticationSlice";
 import { usePathname } from "next/navigation";
 import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 import { useRouter } from "next/navigation";
-import { logOutUser } from "@/api/validation";
+import { logOutUser } from "@/services/validation";
 
 const Sidebar = () => {
   //global states
@@ -31,7 +31,7 @@ const Sidebar = () => {
         dispatch(logout());
       })
       .finally(() => {
-        router.replace("/");
+        router.refresh();
       });
   };
 
