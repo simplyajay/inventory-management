@@ -41,7 +41,7 @@ export const authenticateLogin = async (identifier, pw, res) => {
         const token = jwt.sign({ _id: targetUser._id }, process.env.JWT_SECRET);
         res.cookie(process.env.TOKEN, token, {
           httpOnly: true,
-          maxAge: 5 * 60 * 1000, // 5 minutes
+          maxAge: 30 * 60 * 1000, // 5 minutes
           secure: process.env.NODE_ENV === "production", // Set to true in production
           sameSite: "lax",
         });

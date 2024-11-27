@@ -18,14 +18,12 @@ export const middleware = (req) => {
     return NextResponse.next();
   }
 
-  const isLoggedIn = token ? true : false;
-
-  if (!isLoggedIn && !publicPaths.includes(pathname)) {
+  if (!token && !publicPaths.includes(pathname)) {
     // Redirect to login page if not logged in and accessing a protected route
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (isLoggedIn && pathname === "/login") {
+  if (token && pathname === "/login") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
