@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { validateLogin } from "@/services/validation";
+import { getFetchOptions } from "@/utils/fetchOptions";
 
 const initialValues = {
   username: "",
@@ -35,7 +36,15 @@ const LoginForm = () => {
   const { errors } = formState;
   const onSubmit = async (values) => {
     setLoading(true);
-    const data = await validateLogin(values.username, values.password);
+    const fetchOptions = getFetchOptions(
+      "POST",
+      {
+        identifier: values.username,
+        password: values.password,
+      },
+      true
+    );
+    const data = await validateLogin(fetchOptions);
     if (data) {
       const { user } = data;
       dispatch(login(user));

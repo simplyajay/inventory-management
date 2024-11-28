@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addNewOrg, addNewUser } from "@/app/register/service";
 import { validateOnRegister } from "@/services/validation";
+import { getFetchOptions } from "@/utils/fetchOptions";
 
 const RegistrationForm = () => {
   const [step, setStep] = useState(1);
@@ -43,7 +44,8 @@ const RegistrationForm = () => {
 
   const validate = async (type, target) => {
     if (target) {
-      const isValid = await validateOnRegister(target);
+      const fetchOptions = getFetchOptions("POST", { target });
+      const isValid = await validateOnRegister(fetchOptions);
 
       if (!isValid) {
         setError(type, {

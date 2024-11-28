@@ -2,8 +2,7 @@ import "@/globals.css";
 import Providers from "./providers";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
 import Navbar from "@/components/Navbar/Navbar";
-import { cookies } from "next/headers";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export const metadata = {
   title: "Point of Sale System",
@@ -19,6 +18,9 @@ export const getAuth = async () => {
     return auth;
   }
   try {
+    //CURRENT TO DO
+    //REFRACTOR FRONTEND REQUESTS
+    //REFRACTOR LOGIN, REGISTER, AND PRODUCT COMPONENTS
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, {
       method: "GET",
       headers: {
@@ -26,13 +28,11 @@ export const getAuth = async () => {
         Authorization: `Bearer ${token.value}`,
       },
     });
-    2;
     if (!res.ok) {
       return auth;
     }
-
     const userData = await res.json();
-    auth.user = userData;
+    auth.user = userData.firstname;
     auth.authenticated = true;
   } catch (error) {
     console.error("Error", error);

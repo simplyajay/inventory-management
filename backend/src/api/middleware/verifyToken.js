@@ -1,26 +1,8 @@
 import jwt from "jsonwebtoken";
+import { getToken } from "../service/token.service.js";
 
 const verifyToken = async (req, res, next) => {
-  const getToken = () => {
-    const authHeader = req.headers["authorization"];
-
-    if (authHeader) {
-      const token = authHeader.split(" ")[1];
-      if (token) {
-        return token;
-      }
-    }
-
-    const cookie = req.cookies[process.env.TOKEN];
-
-    if (cookie) {
-      return cookie;
-    }
-
-    return null;
-  };
-
-  const token = getToken();
+  const token = getToken(req);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized. No token provided" });
