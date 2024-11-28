@@ -63,5 +63,6 @@ export const getAuthenticatedUser = async (fetchOptions) => {
     return user;
   } catch (error) {
     console.error("Error", error);
+    return null;
   }
 };

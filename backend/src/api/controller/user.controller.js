@@ -27,7 +27,6 @@ export const getAllUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
   const token = getToken(req);
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

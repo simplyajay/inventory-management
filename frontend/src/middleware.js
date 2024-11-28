@@ -27,5 +27,10 @@ export const middleware = (req) => {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  return NextResponse.next();
+  //inject current path to the response
+  const currentPath = req.nextUrl.pathname;
+  const res = NextResponse.next();
+  res.headers.set("currentPath", currentPath);
+
+  return res;
 };

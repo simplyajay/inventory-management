@@ -16,7 +16,7 @@ export const getFetchOptions = (
   }
 
   if (headers) {
-    options.headers["Authorization"] = `Bearer ${token}`;
+    options.headers["authorization"] = `Bearer ${token}`;
   }
 
   return options;
