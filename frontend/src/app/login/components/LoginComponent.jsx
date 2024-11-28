@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "@/store/slices/authenticationSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -25,7 +23,6 @@ const fieldClass =
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const { register, handleSubmit, formState, clearErrors, setError } = useForm({
     mode: "onBlur", //validate on blur
     resolver: yupResolver(validationSchema), // use Yup schema for validation
@@ -47,7 +44,6 @@ const LoginForm = () => {
     const data = await validateLogin(fetchOptions);
     if (data) {
       const { user } = data;
-      dispatch(login(user));
       router.replace("/dashboard");
       router.refresh();
     } else {

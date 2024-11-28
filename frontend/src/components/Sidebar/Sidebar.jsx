@@ -2,8 +2,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { overview, account } from "./links";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/store/slices/authenticationSlice";
+import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 import { useRouter } from "next/navigation";
@@ -12,7 +11,6 @@ import { logOutUser } from "@/services/validation";
 const Sidebar = () => {
   //global states
   const user = useSelector((state) => state.authentication.user);
-  const dispatch = useDispatch();
 
   //local states
   const [selectedLink, setSelectedLink] = useState(null);
@@ -28,7 +26,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     logOutUser()
       .then(() => {
-        dispatch(logout());
+        router.replace("/");
       })
       .finally(() => {
         router.refresh();

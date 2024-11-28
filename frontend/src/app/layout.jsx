@@ -28,15 +28,16 @@ const RootLayout = async ({ children }) => {
   const publicPaths = ["/", "/register"];
 
   const user = await getAuth();
+  const initialState = { authentication: { user } };
 
   return (
-    <Providers>
+    <Providers initialState={initialState}>
       <html lang="en">
         <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
           <Navbar />
           <main className="flex flex-1 ">
             {user && !publicPaths.includes(currentPath) ? (
-              <ProtectedLayout user={user}> {children}</ProtectedLayout>
+              <ProtectedLayout> {children}</ProtectedLayout>
             ) : (
               <>{children}</>
             )}
