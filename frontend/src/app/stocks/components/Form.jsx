@@ -12,7 +12,7 @@ const fieldClass =
 const ProductForm = ({
   updateForm,
   initialValues,
-  collapse,
+  collapseForm,
   selectedProduct,
 }) => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ProductForm = ({
       dispatch(fetchProducts(targetId));
     });
 
-    collapse();
+    collapseForm();
   };
 
   return (
@@ -189,7 +189,7 @@ const ProductForm = ({
           <button
             type="button"
             onClick={() => {
-              collapse();
+              collapseForm();
               reset();
             }}
             className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"

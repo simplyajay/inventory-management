@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addNewOrg, addNewUser } from "@/utils/register/register.util";
 import { validateOnRegister } from "@/services/validation";
-import { getFetchOptions } from "@/utils/fetchOptions/fetchOptions";
+import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 
 const Form = () => {
   const [step, setStep] = useState(1);
