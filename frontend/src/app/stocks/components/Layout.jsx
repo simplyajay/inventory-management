@@ -16,10 +16,11 @@ const ProductPageLayout = () => {
   const [isEditForm, setIsEditForm] = useState(false);
 
   //global states
-  const { user } = useSelector((state) => state.authentication);
+
   const { selectedProduct, products, loading } = useSelector(
     (state) => state.product
   );
+  const { user } = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
 
   //memo
@@ -54,13 +55,14 @@ const ProductPageLayout = () => {
   };
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    if (user) {
+      loadProducts();
+    }
+  }, [user]);
 
   const handleCollapseForm = () => {
     setPageInfoVisible(false);
   };
-
   return loading ? (
     //IMPLEMENT LOADING SKELETON
     <>loading</>
@@ -70,11 +72,9 @@ const ProductPageLayout = () => {
         <ProductTableMemo
           onRowClick={handleRowClick}
           products={products}
-          loading={loading}
           tableHeads={tableHeads}
         />
       </ProductTableWrapper>
-
       <ProductFormWrapper
         title="PRODUCT INFORMATION"
         pageInfoVisible={pageInfoVisible}

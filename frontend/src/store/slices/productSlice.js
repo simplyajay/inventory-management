@@ -6,6 +6,8 @@ export const fetchProducts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await getProducts(id);
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       return response;
     } catch (error) {
       console.error("Error fetching products", error);
@@ -18,7 +20,6 @@ export const updateProductById = createAsyncThunk(
   "products/updateProductById",
   async ({ productId, product }, { rejectWithValue }) => {
     try {
-      console.log("update reducer");
       return await updateProduct(productId, product);
     } catch (error) {
       console.error("Error updating product", error);
@@ -31,7 +32,8 @@ export const productSlice = createSlice({
   name: "product",
   initialState: {
     products: [],
-    loading: false,
+    loading: true,
+    updating: false,
     error: null,
     selectedProduct: {},
   },
@@ -56,15 +58,15 @@ export const productSlice = createSlice({
       })
 
       .addCase(updateProductById.pending, (state) => {
-        state.loading = true;
+        state.updating = true;
         state.error = null;
       })
       .addCase(updateProductById.fulfilled, (state, action) => {
-        state.loading = false;
+        state.updating = false;
         state.selectedProduct = action.payload;
       })
       .addCase(updateProductById.rejected, (state, action) => {
-        state.loading = false;
+        state.updating = false;
         state.error = action.payload;
       });
   },

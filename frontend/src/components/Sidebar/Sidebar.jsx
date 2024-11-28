@@ -69,7 +69,7 @@ const Sidebar = () => {
           <ul id="overview" className="flex flex-col gap-3">
             {overview.map((item) => (
               <li key={item.id}>
-                <Link replace href={item.link}>
+                <Link replace href={item.link} prefetch>
                   <div
                     onClick={() => setSelectedLink(item.link)}
                     className={`flex gap-3 p-1 rounded-lg hover:bg-[#bbb4d9] ${
