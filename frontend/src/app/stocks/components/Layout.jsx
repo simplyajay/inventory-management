@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import ProductTable from "./Table";
 import ProductForm from "./Form";
-import { initialValues } from "./validationSchema";
+import { initialValues } from "../../../utils/schema/product.validationSchema";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { fetchProducts, setSelectedProduct } from "@/store/slices/productSlice";

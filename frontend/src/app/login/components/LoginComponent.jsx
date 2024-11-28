@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { validateLogin } from "@/services/validation";
-import { getFetchOptions } from "@/utils/fetchOptions";
+import { getFetchOptions } from "@/utils/fetchOptions/fetchOptions";
 
 const initialValues = {
   username: "",

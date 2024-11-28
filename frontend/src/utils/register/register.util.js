@@ -1,8 +1,7 @@
-import { addOrganization } from "@/services/organizations";
-import { addUser } from "@/services/registration";
+import { createUser, createOrganization } from "@/services/registration";
 
 export const addNewOrg = async (orgData) => {
-  const organization = await addOrganization(orgData);
+  const organization = await createOrganization(orgData);
 
   if (organization) {
     return organization._id;
@@ -11,7 +10,7 @@ export const addNewOrg = async (orgData) => {
 
 export const addNewUser = async (userData) => {
   try {
-    const user = await addUser(userData);
+    const user = await createUser(userData);
     return user;
   } catch (error) {
     console.error(error);

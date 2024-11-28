@@ -1,24 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  StepOne,
-  StepTwo,
-  StepThree,
-  StepFour,
-} from "./RegistrationSteps/Steps";
+import { StepOne, StepTwo, StepThree, StepFour } from "./Steps";
 import Navigation from "./Navigation";
 import {
   getValidationSchema,
   initialValues,
-} from "../registrationValidationSchema";
+} from "../../../utils/schema/register.validationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addNewOrg, addNewUser } from "@/app/register/service";
+import { addNewOrg, addNewUser } from "@/utils/register/register.util";
 import { validateOnRegister } from "@/services/validation";
-import { getFetchOptions } from "@/utils/fetchOptions";
+import { getFetchOptions } from "@/utils/fetchOptions/fetchOptions";
 
-const RegistrationForm = () => {
+const Form = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const validationSchema = getValidationSchema(step);
@@ -158,4 +153,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default Form;

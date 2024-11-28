@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationSchema } from "./validationSchema";
+import { validationSchema } from "../../../utils/schema/product.validationSchema";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProductById, fetchProducts } from "@/store/slices/productSlice";
 

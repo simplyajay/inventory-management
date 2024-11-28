@@ -3,7 +3,7 @@ import Providers from "./providers";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
 import Navbar from "@/components/Navbar/Navbar";
 import { cookies, headers } from "next/headers";
-import { getFetchOptions } from "@/utils/fetchOptions";
+import { getFetchOptions } from "@/utils/fetchOptions/fetchOptions";
 import { getAuthenticatedUser } from "@/services/validation";
 
 export const metadata = {
