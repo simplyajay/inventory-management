@@ -9,6 +9,7 @@ import { logOutUser } from "@/services/validation";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getAuthenticatedUser } from "@/services/authentication";
 import Section from "./SidebarSection";
+import Toggle from "./Toggle";
 
 const Sidebar = () => {
   //local states
@@ -61,18 +62,8 @@ const Sidebar = () => {
         <div className="h-full w-full bg-gray-500 text-5xl"> LOADING</div>
       ) : (
         <div className="flex flex-col h-full w-full gap-5">
-          <div
-            className={`flex items-center gap-5 ${
-              !collapsed ? "self-end" : "self-center"
-            }`}
-          >
-            <div
-              className="text-3xl hover:cursor-pointer hidden md:block"
-              onClick={handleToggle}
-            >
-              {!collapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
-            </div>
-          </div>
+          <Toggle collapsed={collapsed} handleToggle={handleToggle} />
+
           <div className="h-full flex flex-col justify-between pb-[20px]">
             <Section
               name="overview"
@@ -89,6 +80,7 @@ const Sidebar = () => {
               onLinkClick={setSelectedLink}
               customFunctions={[{ target: "logout", function: handleLogout }]}
               collapsed={collapsed}
+              username={username}
             />
           </div>
         </div>

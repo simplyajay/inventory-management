@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-const ListItems = ({ item, onClick, currentLink }) => {
+const ListItems = ({ username, item, onClick, currentLink }) => {
   return (
     <div
       onClick={onClick}
@@ -19,7 +19,7 @@ const ListItems = ({ item, onClick, currentLink }) => {
         </span>
       </div>
       <p className="hidden md:flex md:flex-1 md:items-center md:whitespace-nowrap">
-        {item.name}
+        {username ? username : item.name}
       </p>
     </div>
   );
@@ -32,6 +32,7 @@ const Section = ({
   onLinkClick,
   collapsed,
   customFunctions,
+  username,
 }) => {
   const getFunction = (item) => {
     if (customFunctions) {
@@ -63,6 +64,7 @@ const Section = ({
                   item={item}
                   onClick={() => onLinkClick(item.link)}
                   currentLink={currentLink}
+                  username={username}
                 />
               </Link>
             ) : (
