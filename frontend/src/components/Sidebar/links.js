@@ -53,13 +53,12 @@ export const account = [
   {
     id: "profile",
     name: "Profile",
+    link: "/profile",
     icon: <UserIcon />,
   },
   {
     id: "logout",
     name: "Log Out",
-    link: "/login",
     icon: <LogoutIcon />,
-    hasFunction: true,
   },
 ];
