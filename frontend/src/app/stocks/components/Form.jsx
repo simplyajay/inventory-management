@@ -1,44 +1,50 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import LabeledInput from "./LabeledInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
-import { useSelector, useDispatch } from "react-redux";
-import { updateProductById, fetchProducts } from "@/store/slices/productSlice";
-import LabeledInput from "./LabeledInput";
+import { getFetchOptions } from "@/utils/api-request/fetchOptions";
+import { updateProduct } from "@/services/products";
 
 const ProductForm = ({
   updateForm,
   initialValues,
   collapseForm,
   selectedProduct,
+  fetchProducts,
 }) => {
-  const dispatch = useDispatch();
   const { register, handleSubmit, formState, clearErrors, reset } = useForm({
-    mode: "onBlur", //validate on blur
-    resolver: yupResolver(validationSchema), // use Yup schema for validation
+    mode: "onBlur",
+    resolver: yupResolver(validationSchema),
     defaultValues: initialValues,
     shouldFocusError: false,
   });
   const { errors } = formState;
 
-  const { updating } = useSelector((state) => state.product);
-  const { user } = useSelector((state) => state.authentication);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     reset(initialValues);
   }, [initialValues]);
 
+  const handleUpdateOnSave = async (values) => {
+    const product = values;
+    const productToUpdate = { _id: selectedProduct._id, ...product };
+    const fetchOptions = getFetchOptions("PUT", productToUpdate, true, false);
+    setLoading(true);
+    await updateProduct(fetchOptions, selectedProduct._id);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setLoading(false);
+  };
+
   const onSubmit = (values) => {
-    dispatch(
-      updateProductById({ productId: selectedProduct._id, product: values })
-    )
+    handleUpdateOnSave(values)
       .then(() => {
-        collapseForm();
+        fetchProducts();
       })
       .finally(() => {
-        let targetId = user._orgId ? user._orgId : user._id;
-        dispatch(fetchProducts(targetId));
+        collapseForm();
       });
   };
 
@@ -59,7 +65,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={updating ? true : false}
+            disabled={loading ? true : false}
             name="name"
             onFocus={() => () => clearErrors("name")}
             customClass={`${errors.name && `ring-2 ring-red-100`}`}
@@ -68,7 +74,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={updating ? true : false}
+            disabled={loading ? true : false}
             name="barcode"
             onFocus={() => () => clearErrors("barcode")}
             customClass={`${errors.name && `ring-2 ring-red-100`}`}
@@ -77,7 +83,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={updating ? true : false}
+            disabled={loading ? true : false}
             name="description"
             onFocus={() => () => clearErrors("description")}
             errors={errors.description}
@@ -87,7 +93,7 @@ const ProductForm = ({
           <div className="flex w-full justify-evenly h-full items-stretch gap-5">
             <LabeledInput
               register={register}
-              disabled={updateForm ? true : updating ? true : false}
+              disabled={updateForm ? true : loading ? true : false}
               name="quantity"
               onFocus={() => () => clearErrors("quantity")}
               customClass={`${
@@ -99,7 +105,7 @@ const ProductForm = ({
 
             <LabeledInput
               register={register}
-              disabled={updating ? true : false}
+              disabled={loading ? true : false}
               name="price"
               onFocus={() => () => clearErrors("price")}
               customClass={`${errors.quantity && `ring-2 ring-red-100 `}`}
@@ -108,7 +114,7 @@ const ProductForm = ({
 
             <LabeledInput
               register={register}
-              disabled={updating ? true : false}
+              disabled={loading ? true : false}
               name="unitOfMeasurement"
               onFocus={() => () => clearErrors("unitOfMeasurement")}
               type="select"
@@ -133,9 +139,9 @@ const ProductForm = ({
           <button
             type="submit"
             className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"
-            disabled={updating ? true : false}
+            disabled={loading ? true : false}
           >
-            {updateForm ? (updating ? "Saving..." : "Save") : "Create"}
+            {updateForm ? (loading ? "Saving..." : "Save") : "Create"}
           </button>
         </div>
       </form>

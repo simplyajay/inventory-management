@@ -44,3 +44,26 @@ export const getUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const hasOrganization = async (req, res) => {
+  const token = getToken(req);
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const target = await User.findById(decoded._id);
+    const userObj = target.toObject();
+    const { password, ...user } = userObj;
+
+    if (!target) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user._orgId) {
+      return res.status(200).json({ hasOrganization: false, id: user._id });
+    }
+    return res.status(200).json({ hasOrganization: true, id: user._orgId });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(500).json({ message: error.message });
+  }
+};

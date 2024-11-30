@@ -106,7 +106,7 @@ const Sidebar = () => {
                   replace
                   href={
                     item.id === "profile"
-                      ? `/user/${user.username}/profile`
+                      ? `/user/${"user.username"}/profile`
                       : item.link
                   }
                   onClick={() => {

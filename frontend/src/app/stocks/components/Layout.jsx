@@ -3,27 +3,21 @@ import React, { useEffect, useMemo, useState } from "react";
 import ProductTable from "./Table";
 import ProductForm from "./Form";
 import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts, setSelectedProduct } from "@/store/slices/productSlice";
 import { initialValues } from "../../../utils/schema/product.validationSchema";
 import { getProductValues } from "@/utils/stock/product.util";
+import { getFetchOptions } from "@/utils/api-request/fetchOptions";
+import { getProducts } from "@/services/products";
+import { hasOrganization } from "@/services/authentication";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "PRICE"];
 
 const ProductPageLayout = () => {
-  //local states
   const [pageInfoVisible, setPageInfoVisible] = useState(false);
   const [isEditForm, setIsEditForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState({});
 
-  //global states
-
-  const { selectedProduct, products, loading } = useSelector(
-    (state) => state.product
-  );
-  const { user } = useSelector((state) => state.authentication);
-  const dispatch = useDispatch();
-
-  //memo
   const ProductTableMemo = React.memo(ProductTable);
   const ProductFormMemo = React.memo(ProductForm);
 
@@ -34,11 +28,6 @@ const ProductPageLayout = () => {
     return {};
   }, [selectedProduct]);
 
-  const loadProducts = async () => {
-    let targetId = user._orgId ? user._orgId : user._id;
-    dispatch(fetchProducts(targetId));
-  };
-
   const handleAdd = () => {
     setIsEditForm(false);
     if (!pageInfoVisible) {
@@ -47,25 +36,34 @@ const ProductPageLayout = () => {
   };
 
   const handleRowClick = (prod) => {
-    dispatch(setSelectedProduct(prod));
+    setSelectedProduct(prod);
     setIsEditForm(true);
     if (!pageInfoVisible) {
       setPageInfoVisible(true);
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      loadProducts();
-    }
-  }, [user]);
-
   const handleCollapseForm = () => {
     setPageInfoVisible(false);
   };
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    const fetchOptions = getFetchOptions("GET", null, true, false);
+    const { id } = await hasOrganization(fetchOptions);
+    const fetchedProducts = await getProducts(fetchOptions, id);
+    setProducts(fetchedProducts);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return loading ? (
-    //IMPLEMENT LOADING SKELETON
-    <>loading</>
+    <div className="h-full w-full flex bg-gray-500">
+      <div className="text-5xl self-center">loading</div>
+    </div>
   ) : (
     <div className="h-full w-full flex flex-col md:flex-row gap-5 md:gap-10 justify-between ">
       <ProductTableWrapper title="PRODUCTS" handleAddProduct={handleAdd}>
@@ -73,6 +71,9 @@ const ProductPageLayout = () => {
           onRowClick={handleRowClick}
           products={products}
           tableHeads={tableHeads}
+          onProductUpdate={() => {
+            setAreProductsUpdated((prev) => !prev);
+          }}
         />
       </ProductTableWrapper>
       <ProductFormWrapper
@@ -84,6 +85,7 @@ const ProductPageLayout = () => {
           initialValues={isEditForm ? productValues : initialValues}
           collapseForm={handleCollapseForm}
           selectedProduct={selectedProduct}
+          fetchProducts={() => fetchProducts(user)}
         />
       </ProductFormWrapper>
     </div>

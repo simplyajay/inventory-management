@@ -5,12 +5,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "@/store/reducers";
 
 //initialize redux store
-const initializeStore = (preloadedState) => {
+const initializeStore = () => {
   return configureStore({
     reducer: rootReducer,
-    preloadedState,
   });
 };
+
 const Providers = ({ children, initialState }) => {
   const store = initializeStore(initialState);
   return <Provider store={store}>{children}</Provider>;
