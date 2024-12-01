@@ -6,8 +6,8 @@ const ProductTable = ({
   onRowClick,
   products,
   tableHeads,
-  handleEdit,
-  handleDelete,
+  onEditButtonClick,
+  onDeleteButtonclick,
 }) => {
   return (
     <div className="w-full h-full overflow-auto">
@@ -22,13 +22,13 @@ const ProductTable = ({
                     value === "SKU"
                       ? "md:w-[8%]"
                       : value === "NAME"
-                      ? "md:w-[40%]"
+                      ? "md:w-[40%] w-[20%]"
                       : value === "QTY"
                       ? "md:w-[10%]"
                       : value === "OUM"
                       ? "md:w-[8%]"
                       : value === "ACTIONS"
-                      ? "md:w-[7%]"
+                      ? "md:w-[8%]"
                       : ""
                   }`}
                 >
@@ -58,12 +58,12 @@ const ProductTable = ({
                 <div className="flex justify-around gap-1">
                   <ActionButton
                     customClass={`hover:bg-blue-100`}
-                    handleOnClick={handleEdit}
+                    onClick={onEditButtonClick}
                     icon={<EditIcon />}
                   />
                   <ActionButton
                     customClass={`hover:bg-blue-100`}
-                    handleOnClick={handleDelete}
+                    onClick={onDeleteButtonclick}
                     icon={<DeleteIcon />}
                   />
                 </div>

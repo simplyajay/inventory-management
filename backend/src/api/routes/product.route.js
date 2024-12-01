@@ -10,10 +10,10 @@ import verifyToken from "../middleware/verifyToken.js";
 
 const productRouter = express.Router();
 
-productRouter.post("/api/product", verifyToken, createProduct);
-productRouter.get("/api/stocks/:id", verifyToken, findProduct);
+productRouter.post("/api/stocks/add", verifyToken, createProduct);
+productRouter.get("/api/stocks/find/:id", verifyToken, findProduct);
 productRouter.get("/api/stocks", verifyToken, getAllProducts);
-productRouter.put("/api/products/:id", verifyToken, updateProduct);
-productRouter.delete("/api/products/:id", verifyToken, deleteProduct);
+productRouter.put("/api/stocks/update/:id", verifyToken, updateProduct);
+productRouter.delete("/api/stocks/delete/:id", verifyToken, deleteProduct);
 
 export default productRouter;

@@ -7,8 +7,8 @@ import { getInitialValues } from "../../../utils/schema/product.validationSchema
 import { getProductValues } from "@/utils/stock/product.util";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getProducts } from "@/services/products";
-import { hasOrganization } from "@/services/authentication";
 import { useSelector } from "react-redux";
+import ConfirmDialog from "@/components/Dialogs/ConfirmDialog";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
 
@@ -19,6 +19,7 @@ const ProductPageLayout = () => {
   const { id, orgId } = useSelector((state) => state.authentication);
 
   const [pageInfoVisible, setPageInfoVisible] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const [isEditForm, setIsEditForm] = useState(false);
   const [initialValues, setInitialValues] = useState({});
@@ -33,7 +34,7 @@ const ProductPageLayout = () => {
     return {};
   }, [selectedProduct]);
 
-  const handleAdd = () => {
+  const handleOnAddProductClick = () => {
     const sku = getNextAvailableSku(products);
     const values = getInitialValues("sku", sku);
     setInitialValues(values);
@@ -47,11 +48,15 @@ const ProductPageLayout = () => {
     setSelectedProduct(prod);
   };
 
-  const handleEdit = () => {
+  const handleEditClick = () => {
     setIsEditForm(true);
     if (!pageInfoVisible) {
       setPageInfoVisible(true);
     }
+  };
+
+  const handleConfirmDeleteClick = () => {
+    setShowConfirmDialog(false);
   };
 
   const handleCollapseForm = () => {
@@ -90,8 +95,11 @@ const ProductPageLayout = () => {
       <div className="text-5xl self-center">loading</div>
     </div>
   ) : (
-    <div className="h-full w-full flex flex-col md:flex-row gap-5 md:gap-5 justify-between ">
-      <ProductTableWrapper title="PRODUCTS" handleAddProduct={handleAdd}>
+    <div className="h-full w-full flex flex-col lg:flex-row md:flex-col gap-5 md:gap-5 justify-between ">
+      <ProductTableWrapper
+        title="PRODUCTS"
+        onAddProductClick={handleOnAddProductClick}
+      >
         <ProductTableMemo
           onRowClick={handleRowClick}
           products={products}
@@ -99,7 +107,10 @@ const ProductPageLayout = () => {
           onProductUpdate={() => {
             setAreProductsUpdated((prev) => !prev);
           }}
-          handleEdit={handleEdit}
+          onEditButtonClick={handleEditClick}
+          onDeleteButtonclick={() => {
+            setShowConfirmDialog(true);
+          }}
         />
       </ProductTableWrapper>
       <ProductFormWrapper
@@ -115,6 +126,26 @@ const ProductPageLayout = () => {
           ownerId={orgId ? orgId : id}
         />
       </ProductFormWrapper>
+      {showConfirmDialog && (
+        <ConfirmDialog
+          message={
+            <>
+              You are about to <strong className="text-red-500">Delete</strong>{" "}
+              {selectedProduct.name}
+            </>
+          }
+          cancelProps={{
+            text: "Cancel",
+            onCancel: () => setShowConfirmDialog(false),
+            customClass: "bg-gray-600",
+          }}
+          confirmProps={{
+            text: "Confirm",
+            onConfirm: handleConfirmDeleteClick,
+            customClass: "bg-red-500",
+          }}
+        />
+      )}
     </div>
   );
 };

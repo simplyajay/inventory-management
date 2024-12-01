@@ -1,16 +1,16 @@
 import React from "react";
 
-export const ProductTableWrapper = ({ children, title, handleAddProduct }) => {
+export const ProductTableWrapper = ({ children, title, onAddProductClick }) => {
   return (
     <div
-      className={`h-full w-full flex flex-col rounded-lg shadow-md bg-[white]`}
+      className={`h-[60%] lg:h-full w-full flex flex-col rounded-lg shadow-md bg-[white]`}
     >
       <div className="w-full flex rounded-tl-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
         <h1 className="text-xl font-sans">{title}</h1>
         <div className="flex-1 flex justify-end ">
           <button
             type="button"
-            onClick={handleAddProduct}
+            onClick={onAddProductClick}
             className="border border-gray-500 rounded-lg py-1 px-2"
           >
             Add Product
@@ -25,7 +25,7 @@ export const ProductTableWrapper = ({ children, title, handleAddProduct }) => {
 export const ProductFormWrapper = ({ children, title, pageInfoVisible }) => {
   return (
     <div
-      className={`h-full w-full md:w-[40%] flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
+      className={`h-full w-full lg:w-[40%] flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
         pageInfoVisible ? "block" : "hidden"
       }`}
     >

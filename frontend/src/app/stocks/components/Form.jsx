@@ -64,7 +64,7 @@ const ProductForm = ({
         onSubmit={handleSubmit(onSubmit)}
         className="h-full flex flex-col"
       >
-        <div className="flex-1 w-full flex flex-col items-center justify-around md:p-10 p-10 gap-2 md:gap-4 overflow-auto">
+        <div className="flex-1 w-full flex flex-col items-center justify-around lg:p-10 p-10 gap-2 lg:gap-4 overflow-auto">
           <LabeledInput
             register={register}
             disabled
@@ -99,7 +99,7 @@ const ProductForm = ({
             type="textArea"
           />
 
-          <div className="flex md:flex-col w-full justify-evenly h-full gap-5">
+          <div className="flex lg:flex-col w-full md:justify-evenly lg:justify-normal h-full gap-5">
             <LabeledInput
               register={register}
               disabled={updateForm ? true : updating ? true : false}
@@ -134,7 +134,7 @@ const ProductForm = ({
             </LabeledInput>
           </div>
         </div>
-        <div className="flex md:justify-end justify-center p-3 gap-2 bg-background">
+        <div className="flex lg:justify-end md:justify-end justify-center p-3 gap-2 bg-background">
           <button
             type="button"
             onClick={() => {

@@ -23,7 +23,7 @@ export const getProducts = async (fetchOptions, id) => {
 export const updateProduct = async (fetchOptions, id) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/products/${id}`,
+      `${process.env.NEXT_PUBLIC_URL}/api/stocks/update/${id}`,
       fetchOptions
     );
     if (!res.ok) {
@@ -41,7 +41,25 @@ export const updateProduct = async (fetchOptions, id) => {
 export const addProduct = async (fetchOptions) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/product`,
+      `${process.env.NEXT_PUBLIC_URL}/api/stocks/add`,
+      fetchOptions
+    );
+    if (!res.ok) {
+      throw new Error("Error adding product", res.status);
+    }
+
+    const newProduct = await res.json();
+    return newProduct;
+  } catch (error) {
+    console.error("Error adding product", error);
+    throw error;
+  }
+};
+
+export const deleteProduct = async (fetchOptions, id) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/stocks/delete/${id}`,
       fetchOptions
     );
     if (!res.ok) {
