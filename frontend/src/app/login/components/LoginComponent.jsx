@@ -43,8 +43,8 @@ const LoginForm = () => {
     );
     const data = await validateLogin(fetchOptions);
     if (data) {
-      const { user } = data;
-      router.replace("/dashboard");
+      console.log(data);
+      router.push("/dashboard");
       router.refresh();
     } else {
       setError("password", {

@@ -25,7 +25,7 @@ export const ProductTableWrapper = ({ children, title, handleAddProduct }) => {
 export const ProductFormWrapper = ({ children, title, pageInfoVisible }) => {
   return (
     <div
-      className={`h-full w-full md:w-[30%] flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
+      className={`h-full w-full md:w-[40%] flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
         pageInfoVisible ? "block" : "hidden"
       }`}
     >

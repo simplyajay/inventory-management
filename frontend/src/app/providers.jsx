@@ -5,9 +5,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "@/store/reducers";
 
 //initialize redux store
-const initializeStore = () => {
+const initializeStore = (preloadedState) => {
   return configureStore({
     reducer: rootReducer,
+    preloadedState,
   });
 };
 

@@ -1,12 +1,6 @@
 import React from "react";
 import ActionButton from "./ActionButton";
-import {
-  AnglesLeft,
-  DeleteIcon,
-  EditIcon,
-  HomeIcon,
-  NextIcon,
-} from "@/components/Icons/Icons";
+import { DeleteIcon, EditIcon } from "@/components/Icons/Icons";
 
 const ProductTable = ({
   onRowClick,

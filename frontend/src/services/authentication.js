@@ -14,20 +14,3 @@ export const getAuthenticatedUser = async (fetchOptions) => {
     return null;
   }
 };
-
-export const hasOrganization = async (fetchOptions) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/organization-id`,
-      fetchOptions
-    );
-    if (!res.ok) {
-      return null;
-    }
-    const user = await res.json();
-    return user;
-  } catch (error) {
-    console.error("Error", error);
-    return null;
-  }
-};

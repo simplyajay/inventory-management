@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const GuestComponent = ({ router }) => {
@@ -28,15 +28,16 @@ const GuestComponent = ({ router }) => {
   );
 };
 
-const UserComponent = ({ user, router }) => {
+const UserComponent = ({ username, router }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
-      <h1>{`Welcome back, ${user.firstname}`}</h1>
+      <h1>{`Welcome back, ${username}`}</h1>
       <button
         type="button"
         className="p-2 border border-gray-500 rounded-lg"
         onClick={() => {
           router.push("/dashboard");
+          router.refresh();
         }}
       >{`Dashboard >`}</button>
     </div>
@@ -45,12 +46,10 @@ const UserComponent = ({ user, router }) => {
 
 const HomePageComponent = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-  const user = useSelector((state) => state.authentication.user);
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const { username } = useSelector((state) => state.authentication);
 
-  return isLoggedIn ? (
-    <UserComponent user={user} router={router} />
+  return username ? (
+    <UserComponent username={username} router={router} />
   ) : (
     <GuestComponent router={router} />
   );

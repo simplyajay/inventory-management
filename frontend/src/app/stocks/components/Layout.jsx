@@ -8,6 +8,7 @@ import { getProductValues } from "@/utils/stock/product.util";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getProducts } from "@/services/products";
 import { hasOrganization } from "@/services/authentication";
+import { useSelector } from "react-redux";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
 
@@ -15,7 +16,7 @@ const ProductPageLayout = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
-  const [ownerId, setOwnerId] = useState(null);
+  const { id, orgId } = useSelector((state) => state.authentication);
 
   const [pageInfoVisible, setPageInfoVisible] = useState(false);
 
@@ -60,10 +61,9 @@ const ProductPageLayout = () => {
   const fetchProducts = async () => {
     setLoading(true);
     const fetchOptions = getFetchOptions("GET", null, true, false);
-    const { id } = await hasOrganization(fetchOptions);
-    const fetchedProducts = await getProducts(fetchOptions, id);
+    const ownerId = orgId ? orgId : id;
+    const fetchedProducts = await getProducts(fetchOptions, ownerId);
     setProducts(fetchedProducts);
-    setOwnerId(id);
     setLoading(false);
   };
 
@@ -112,7 +112,7 @@ const ProductPageLayout = () => {
           collapseForm={handleCollapseForm}
           selectedProduct={selectedProduct}
           fetchProducts={() => fetchProducts()}
-          ownerId={ownerId}
+          ownerId={orgId ? orgId : id}
         />
       </ProductFormWrapper>
     </div>
