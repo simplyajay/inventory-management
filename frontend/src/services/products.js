@@ -37,3 +37,21 @@ export const updateProduct = async (fetchOptions, id) => {
     throw error;
   }
 };
+
+export const addProduct = async (fetchOptions) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/product`,
+      fetchOptions
+    );
+    if (!res.ok) {
+      throw new Error("Error adding product", res.status);
+    }
+
+    const newProduct = await res.json();
+    return newProduct;
+  } catch (error) {
+    console.error("Error adding product", error);
+    throw error;
+  }
+};

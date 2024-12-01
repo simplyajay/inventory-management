@@ -13,6 +13,7 @@ const LabeledInput = (props) => {
     onFocus,
     errors,
     type,
+    value,
   } = props;
 
   return (
@@ -24,7 +25,9 @@ const LabeledInput = (props) => {
           ? "OUM"
           : name.charAt(0).toUpperCase() + name.slice(1)}
       </label>
-      {type === "select" ? (
+      {type === "radio" ? (
+        ""
+      ) : type === "select" ? (
         <select
           {...register(name)}
           disabled={disabled}

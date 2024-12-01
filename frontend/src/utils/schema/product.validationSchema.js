@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const initialValues = {
+const initialValues = {
   sku: "",
   name: "",
   barcode: "",
@@ -8,6 +8,14 @@ export const initialValues = {
   price: 0,
   unitOfMeasurement: "PC",
   quantity: 0,
+};
+
+export const getInitialValues = (sku, value) => {
+  if (sku) {
+    initialValues[sku] = value;
+  }
+
+  return initialValues;
 };
 
 export const validationSchema = Yup.object({

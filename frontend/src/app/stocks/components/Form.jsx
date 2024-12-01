@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { updateProduct } from "@/services/products";
+import { updateProduct, addProduct } from "@/services/products";
 
 const ProductForm = ({
   updateForm,
@@ -13,7 +13,10 @@ const ProductForm = ({
   collapseForm,
   selectedProduct,
   fetchProducts,
+  ownerId,
 }) => {
+  const [updating, setUpdating] = useState(false);
+
   const { register, handleSubmit, formState, clearErrors, reset } = useForm({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
@@ -22,24 +25,30 @@ const ProductForm = ({
   });
   const { errors } = formState;
 
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     reset(initialValues);
   }, [initialValues]);
 
-  const handleUpdateOnSave = async (values) => {
-    const product = values;
-    const productToUpdate = { _id: selectedProduct._id, ...product };
-    const fetchOptions = getFetchOptions("PUT", productToUpdate, true, false);
-    setLoading(true);
-    await updateProduct(fetchOptions, selectedProduct._id);
+  const handleOnSubmit = async (values) => {
+    let fetchOptions = {};
+    setUpdating(true);
+
+    if (updateForm) {
+      const product = { _id: selectedProduct._id, ...values };
+      fetchOptions = getFetchOptions("PUT", product, true, false);
+      const updatedProduct = await updateProduct(fetchOptions, product._id);
+    } else {
+      const product = { _orgId: ownerId, ...values };
+      fetchOptions = getFetchOptions("POST", product, true, false);
+      const newProduct = await addProduct(fetchOptions);
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setLoading(false);
+    setUpdating;
   };
 
   const onSubmit = (values) => {
-    handleUpdateOnSave(values)
+    handleOnSubmit(values)
       .then(() => {
         fetchProducts();
       })
@@ -65,7 +74,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={loading ? true : false}
+            disabled={updating ? true : false}
             name="name"
             onFocus={() => () => clearErrors("name")}
             customClass={`${errors.name && `ring-2 ring-red-100`}`}
@@ -74,7 +83,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={loading ? true : false}
+            disabled={updating ? true : false}
             name="barcode"
             onFocus={() => () => clearErrors("barcode")}
             customClass={`${errors.name && `ring-2 ring-red-100`}`}
@@ -83,7 +92,7 @@ const ProductForm = ({
 
           <LabeledInput
             register={register}
-            disabled={loading ? true : false}
+            disabled={updating ? true : false}
             name="description"
             onFocus={() => () => clearErrors("description")}
             errors={errors.description}
@@ -93,7 +102,7 @@ const ProductForm = ({
           <div className="flex w-full justify-evenly h-full items-stretch gap-5">
             <LabeledInput
               register={register}
-              disabled={updateForm ? true : loading ? true : false}
+              disabled={updateForm ? true : updating ? true : false}
               name="quantity"
               onFocus={() => () => clearErrors("quantity")}
               customClass={`${
@@ -105,7 +114,7 @@ const ProductForm = ({
 
             <LabeledInput
               register={register}
-              disabled={loading ? true : false}
+              disabled={updating ? true : false}
               name="price"
               onFocus={() => () => clearErrors("price")}
               customClass={`${errors.quantity && `ring-2 ring-red-100 `}`}
@@ -114,7 +123,7 @@ const ProductForm = ({
 
             <LabeledInput
               register={register}
-              disabled={loading ? true : false}
+              disabled={updating ? true : false}
               name="unitOfMeasurement"
               onFocus={() => () => clearErrors("unitOfMeasurement")}
               type="select"
@@ -139,9 +148,15 @@ const ProductForm = ({
           <button
             type="submit"
             className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"
-            disabled={loading ? true : false}
+            disabled={updating ? true : false}
           >
-            {updateForm ? (loading ? "Saving..." : "Save") : "Create"}
+            {updateForm
+              ? updating
+                ? "Saving..."
+                : "Save"
+              : updating
+              ? "Creating..."
+              : "Create"}
           </button>
         </div>
       </form>

@@ -1,9 +1,7 @@
 "use client";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { overview, account } from "./links";
 import { usePathname } from "next/navigation";
-import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
 import { useRouter } from "next/navigation";
 import { logOutUser } from "@/services/validation";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
@@ -13,7 +11,7 @@ import Toggle from "./Toggle";
 
 const Sidebar = () => {
   //local states
-  const [selectedLink, setSelectedLink] = useState(null);
+  const [activeLink, setActiveLink] = useState(null);
   const [collapsed, setCollapsed] = useState(true);
   const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,7 +38,7 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    setSelectedLink(currentPath);
+    setActiveLink(currentPath);
   }, [currentPath]);
 
   useEffect(() => {
@@ -68,16 +66,16 @@ const Sidebar = () => {
             <Section
               name="overview"
               content={overview}
-              currentLink={selectedLink}
-              onLinkClick={setSelectedLink}
+              currentLink={activeLink}
+              onLinkClick={setActiveLink}
               collapsed={collapsed}
             />
 
             <Section
               name="account"
               content={account}
-              currentLink={selectedLink}
-              onLinkClick={setSelectedLink}
+              currentLink={activeLink}
+              onLinkClick={setActiveLink}
               customFunctions={[{ target: "logout", function: handleLogout }]}
               collapsed={collapsed}
               username={username}
