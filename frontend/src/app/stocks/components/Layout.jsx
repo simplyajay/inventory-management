@@ -9,7 +9,7 @@ import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getProducts } from "@/services/products";
 import { hasOrganization } from "@/services/authentication";
 
-const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "PRICE"];
+const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
 
 const ProductPageLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -44,6 +44,9 @@ const ProductPageLayout = () => {
 
   const handleRowClick = (prod) => {
     setSelectedProduct(prod);
+  };
+
+  const handleEdit = () => {
     setIsEditForm(true);
     if (!pageInfoVisible) {
       setPageInfoVisible(true);
@@ -87,7 +90,7 @@ const ProductPageLayout = () => {
       <div className="text-5xl self-center">loading</div>
     </div>
   ) : (
-    <div className="h-full w-full flex flex-col md:flex-row gap-5 md:gap-10 justify-between ">
+    <div className="h-full w-full flex flex-col md:flex-row gap-5 md:gap-5 justify-between ">
       <ProductTableWrapper title="PRODUCTS" handleAddProduct={handleAdd}>
         <ProductTableMemo
           onRowClick={handleRowClick}
@@ -96,6 +99,7 @@ const ProductPageLayout = () => {
           onProductUpdate={() => {
             setAreProductsUpdated((prev) => !prev);
           }}
+          handleEdit={handleEdit}
         />
       </ProductTableWrapper>
       <ProductFormWrapper

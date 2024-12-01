@@ -64,7 +64,7 @@ const ProductForm = ({
         onSubmit={handleSubmit(onSubmit)}
         className="h-full flex flex-col"
       >
-        <div className="flex-1 w-full overflow-auto flex flex-col items-center justify-around md:p-10 p-10 gap-2 md:gap-4 ">
+        <div className="flex-1 w-full flex flex-col items-center justify-around md:p-10 p-10 gap-2 md:gap-4 overflow-auto">
           <LabeledInput
             register={register}
             disabled
@@ -99,7 +99,7 @@ const ProductForm = ({
             type="textArea"
           />
 
-          <div className="flex w-full justify-evenly h-full items-stretch gap-5">
+          <div className="flex md:flex-col w-full justify-evenly h-full gap-5">
             <LabeledInput
               register={register}
               disabled={updateForm ? true : updating ? true : false}

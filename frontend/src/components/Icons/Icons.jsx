@@ -211,13 +211,62 @@ export const NextIcon = (props) => {
 };
 
 export const AnglesRight = (props) => {
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" {...props}>
-    <path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z" />
-  </svg>;
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" {...props}>
+      <path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z" />
+    </svg>
+  );
 };
 
 export const AnglesLeft = (props) => {
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props}>
-    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" />
-  </svg>;
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props}>
+      <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" />
+    </svg>
+  );
+};
+
+export const EditIcon = (props) => {
+  return (
+    <svg
+      class="w-6 h-6 text-blue-600 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="0.7em"
+      height="0.7em"
+      fill="none"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width={1}
+        d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+      />
+    </svg>
+  );
+};
+
+export const DeleteIcon = () => {
+  return (
+    <svg
+      class="w-6 h-6 text-red-600 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="0.7em"
+      height="0.7em"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1"
+        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+      />
+    </svg>
+  );
 };

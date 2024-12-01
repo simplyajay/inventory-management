@@ -5,9 +5,9 @@ import {
   DocumentIcon,
   PurchaseIcon,
   UserIcon,
-  SettingsIcon,
   LogoutIcon,
   SaleIcon,
+  Home2,
 } from "../Icons/Icons";
 
 export const overview = [

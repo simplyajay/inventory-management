@@ -27,7 +27,7 @@ const RootLayout = async ({ children }) => {
       <html lang="en">
         <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
           <Navbar />
-          <main className="flex flex-1 ">
+          <main className="flex flex-1 h-[90%]">
             {authenticated && !publicPaths.includes(currentPath) ? (
               <ProtectedLayout> {children}</ProtectedLayout>
             ) : (
