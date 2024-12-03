@@ -9,3 +9,17 @@ export const getProductValues = (product) => {
     price: product.price,
   };
 };
+
+export const getNextAvailableSku = (products) => {
+  const skus = products
+    .map((product) => parseInt(product.sku, 10))
+    .sort((a, b) => a - b);
+
+  for (let i = 0; i < skus.length; i++) {
+    if (skus[i] !== i + 1) {
+      return i + 1;
+    }
+  }
+
+  return skus.length + 1;
+};

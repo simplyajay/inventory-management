@@ -6,6 +6,7 @@ import { cookies, headers } from "next/headers";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getAuthenticatedUser } from "@/services/authentication";
 import ToastProvider from "@/components/Toast/ToastProvider";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 export const metadata = {
   title: "Inventory Management System",
@@ -39,22 +40,24 @@ const RootLayout = async ({ children }) => {
   }
 
   return (
-    <Providers initialState={initialState}>
-      <html lang="en">
-        <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
-          <Navbar />
-          <main className="flex flex-1 h-[90%]">
-            {isAuthenticated && !publicPaths.includes(currentPath) ? (
-              <ProtectedLayout> {children}</ProtectedLayout>
-            ) : (
-              <>{children}</>
-            )}
-          </main>
-          <ToastProvider />
-          <footer></footer>
-        </body>
-      </html>
-    </Providers>
+    <SkeletonTheme baseColor="#d1e0e0" highlightColor="#edf7f6">
+      <Providers initialState={initialState}>
+        <html lang="en">
+          <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
+            <Navbar />
+            <main className="flex flex-1 h-[90%]">
+              {isAuthenticated && !publicPaths.includes(currentPath) ? (
+                <ProtectedLayout> {children}</ProtectedLayout>
+              ) : (
+                <>{children}</>
+              )}
+            </main>
+            <ToastProvider />
+            <footer></footer>
+          </body>
+        </html>
+      </Providers>
+    </SkeletonTheme>
   );
 };
 

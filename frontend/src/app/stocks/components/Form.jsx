@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { updateProduct, addProduct } from "@/services/products";
+import { notify } from "@/components/Toast/ToastProvider";
 
 const ProductForm = ({
   updateForm,
@@ -32,18 +33,22 @@ const ProductForm = ({
   const handleOnSubmit = async (values) => {
     let fetchOptions = {};
     setUpdating(true);
+    let message = null;
 
     if (updateForm) {
       const product = { _id: selectedProduct._id, ...values };
       fetchOptions = getFetchOptions("PUT", product, true, false);
       const updatedProduct = await updateProduct(fetchOptions, product._id);
+      message = `Successfully Updated ${updatedProduct.name}`;
     } else {
       const product = { _orgId: ownerId, ...values };
       fetchOptions = getFetchOptions("POST", product, true, false);
       const newProduct = await addProduct(fetchOptions);
+      message = `Successfully Added new Product; ${newProduct.name}`;
     }
 
     await new Promise((resolve) => setTimeout(resolve, 500));
+    notify(message);
     setUpdating(false);
   };
 

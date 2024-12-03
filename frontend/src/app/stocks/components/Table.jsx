@@ -1,6 +1,7 @@
 import React from "react";
 import ActionButton from "./ActionButton";
 import { DeleteIcon, EditIcon } from "@/components/Icons/Icons";
+import Skeleton from "react-loading-skeleton";
 
 const ProductTable = ({
   onRowClick,
@@ -8,7 +9,15 @@ const ProductTable = ({
   tableHeads,
   onEditButtonClick,
   onDeleteButtonclick,
+  loading,
 }) => {
+  const widthMap = {
+    SKU: "md:w-[8%]",
+    NAME: "md:w-[40%] w-[20%]",
+    QTY: "md:w-[10%]",
+    OUM: "md:w-[8%]",
+    ACTIONS: "md:w-[8%]",
+  };
   return (
     <div className="w-full h-full overflow-auto">
       <table className="w-full table-auto">
@@ -19,20 +28,10 @@ const ProductTable = ({
                 <th
                   key={key}
                   className={`px-3 py-2 text-sm font-thin overflow-clip ${
-                    value === "SKU"
-                      ? "md:w-[8%]"
-                      : value === "NAME"
-                      ? "md:w-[40%] w-[20%]"
-                      : value === "QTY"
-                      ? "md:w-[10%]"
-                      : value === "OUM"
-                      ? "md:w-[8%]"
-                      : value === "ACTIONS"
-                      ? "md:w-[8%]"
-                      : ""
+                    loading ? "w-full" : widthMap[value] || ""
                   }`}
                 >
-                  {value}
+                  {loading ? <Skeleton count={1} height={20} /> : value}
                 </th>
               );
             })}

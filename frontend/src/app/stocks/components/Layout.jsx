@@ -2,33 +2,46 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ProductTable from "./Table";
 import ProductForm from "./Form";
+import ConfirmDialog from "@/components/Dialogs/ConfirmDialog";
 import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
 import { getInitialValues } from "../../../utils/schema/product.validationSchema";
-import { getProductValues } from "@/utils/stock/product.util";
+import {
+  getProductValues,
+  getNextAvailableSku,
+} from "@/utils/stock/product.util";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { deleteProduct, getProducts } from "@/services/products";
 import { useSelector } from "react-redux";
-import ConfirmDialog from "@/components/Dialogs/ConfirmDialog";
 import { notify } from "@/components/Toast/ToastProvider";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
 
 const ProductPageLayout = () => {
-  const [loading, setLoading] = useState(true);
-  const [deleting, setDeleting] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState({});
   const { id, orgId } = useSelector((state) => state.authentication);
+  const [state, setState] = useState({
+    loading: true,
+    deleting: false,
+    products: [],
+    selectedProduct: {},
+    pageInfoVisible: false,
+    showConfirmDialog: false,
+    isEditForm: false,
+    initialValues: {},
+  });
 
-  const [pageInfoVisible, setPageInfoVisible] = useState(false);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-
-  const [isEditForm, setIsEditForm] = useState(false);
-  const [initialValues, setInitialValues] = useState({});
+  const {
+    loading,
+    deleting,
+    products,
+    selectedProduct,
+    pageInfoVisible,
+    showConfirmDialog,
+    isEditForm,
+    initialValues,
+  } = state;
 
   const ProductTableMemo = React.memo(ProductTable);
   const ProductFormMemo = React.memo(ProductForm);
-
   const productValues = useMemo(() => {
     if (selectedProduct) {
       return getProductValues(selectedProduct);
@@ -37,93 +50,74 @@ const ProductPageLayout = () => {
     return {};
   }, [selectedProduct]);
 
+  const updateState = (updates) => {
+    setState((prevState) => ({ ...prevState, ...updates }));
+  };
+
   const handleOnAddProductClick = () => {
     const sku = getNextAvailableSku(products);
     const values = getInitialValues("sku", sku);
-    setInitialValues(values);
-    setIsEditForm(false);
-    if (!pageInfoVisible) {
-      setPageInfoVisible(true);
-    }
+    updateState({
+      initialValues: values,
+      isEditForm: false,
+      pageInfoVisible: true,
+    });
   };
 
   const handleRowClick = (prod) => {
-    setSelectedProduct(prod);
+    updateState({ selectedProduct: prod });
   };
 
   const handleEditClick = () => {
-    setIsEditForm(true);
-    if (!pageInfoVisible) {
-      setPageInfoVisible(true);
-    }
+    updateState({ isEditForm: true, pageInfoVisible: true });
   };
 
   const handleConfirmDeleteClick = async () => {
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
-    setDeleting(true);
+    updateState({ deleting: false });
     await deleteProduct(fetchOptions, selectedProduct._id);
     await new Promise((resolve) => setTimeout(resolve, 500));
-    if (pageInfoVisible) {
-      setPageInfoVisible(false);
-    }
-    setDeleting(false);
-    notify(`Successfully Deleted ${selectedProduct.name}`);
-    setShowConfirmDialog(false);
+    notify(`Successfully Deleted Product ${selectedProduct.name}`);
+    updateState({
+      pageInfoVisible: false,
+      deleting: false,
+      showConfirmDialog: false,
+    });
     fetchProducts();
   };
 
   const handleCollapseForm = () => {
-    setPageInfoVisible(false);
+    updateState({ pageInfoVisible: false });
   };
 
   const fetchProducts = async () => {
-    setLoading(true);
+    updateState({ loading: true });
     const fetchOptions = getFetchOptions("GET", null, true, false);
     const ownerId = orgId ? orgId : id;
     const fetchedProducts = await getProducts(fetchOptions, ownerId);
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setProducts(fetchedProducts);
-    setLoading(false);
-  };
-
-  const getNextAvailableSku = (products) => {
-    const skus = products
-      .map((product) => parseInt(product.sku, 10))
-      .sort((a, b) => a - b);
-
-    for (let i = 0; i < skus.length; i++) {
-      if (skus[i] !== i + 1) {
-        return i + 1;
-      }
-    }
-
-    return skus.length + 1;
+    updateState({ products: fetchedProducts, loading: false });
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  return loading ? (
-    <div className="h-full w-full flex bg-gray-500">
-      <div className="text-5xl self-center">loading</div>
-    </div>
-  ) : (
+  return (
     <div className="h-full w-full flex flex-col lg:flex-row md:flex-col gap-5 md:gap-5 justify-between ">
       <ProductTableWrapper
         title="PRODUCTS"
         onAddProductClick={handleOnAddProductClick}
+        loading={loading}
       >
         <ProductTableMemo
-          onRowClick={handleRowClick}
           products={products}
           tableHeads={tableHeads}
-          onProductUpdate={() => {
-            setAreProductsUpdated((prev) => !prev);
-          }}
+          loading={loading}
+          onRowClick={handleRowClick}
           onEditButtonClick={handleEditClick}
           onDeleteButtonclick={() => {
-            setShowConfirmDialog(true);
+            updateState({ showConfirmDialog: true });
           }}
         />
       </ProductTableWrapper>
@@ -150,7 +144,7 @@ const ProductPageLayout = () => {
           }
           cancelProps={{
             text: "Cancel",
-            onCancel: () => setShowConfirmDialog(false),
+            onCancel: () => updateState({ showConfirmDialog: true }),
             customClass: "bg-gray-600",
           }}
           confirmProps={{
