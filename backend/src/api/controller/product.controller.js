@@ -62,7 +62,9 @@ export const deleteProduct = async (req, res) => {
 
     const updatedProducts = await Product.find({});
 
-    return res.status(200).json(updatedProducts);
+    return res
+      .status(200)
+      .json({ message: "Delete Successful", updatedProducts });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

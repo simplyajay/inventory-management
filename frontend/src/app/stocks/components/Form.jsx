@@ -44,7 +44,7 @@ const ProductForm = ({
     }
 
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setUpdating;
+    setUpdating(false);
   };
 
   const onSubmit = (values) => {

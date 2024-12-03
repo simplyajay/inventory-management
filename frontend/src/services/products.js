@@ -63,13 +63,13 @@ export const deleteProduct = async (fetchOptions, id) => {
       fetchOptions
     );
     if (!res.ok) {
-      throw new Error("Error adding product", res.status);
+      throw new Error("Error deleting product", res.status);
     }
 
     const newProduct = await res.json();
     return newProduct;
   } catch (error) {
-    console.error("Error adding product", error);
+    console.error("Error deleting product", error);
     throw error;
   }
 };

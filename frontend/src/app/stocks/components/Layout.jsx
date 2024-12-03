@@ -6,14 +6,16 @@ import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
 import { getInitialValues } from "../../../utils/schema/product.validationSchema";
 import { getProductValues } from "@/utils/stock/product.util";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { getProducts } from "@/services/products";
+import { deleteProduct, getProducts } from "@/services/products";
 import { useSelector } from "react-redux";
 import ConfirmDialog from "@/components/Dialogs/ConfirmDialog";
+import { notify } from "@/components/Toast/ToastProvider";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
 
 const ProductPageLayout = () => {
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const { id, orgId } = useSelector((state) => state.authentication);
@@ -31,6 +33,7 @@ const ProductPageLayout = () => {
     if (selectedProduct) {
       return getProductValues(selectedProduct);
     }
+
     return {};
   }, [selectedProduct]);
 
@@ -55,8 +58,18 @@ const ProductPageLayout = () => {
     }
   };
 
-  const handleConfirmDeleteClick = () => {
+  const handleConfirmDeleteClick = async () => {
+    const fetchOptions = getFetchOptions("DELETE", null, true, false);
+    setDeleting(true);
+    await deleteProduct(fetchOptions, selectedProduct._id);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    if (pageInfoVisible) {
+      setPageInfoVisible(false);
+    }
+    setDeleting(false);
+    notify(`Successfully Deleted ${selectedProduct.name}`);
     setShowConfirmDialog(false);
+    fetchProducts();
   };
 
   const handleCollapseForm = () => {
@@ -68,6 +81,7 @@ const ProductPageLayout = () => {
     const fetchOptions = getFetchOptions("GET", null, true, false);
     const ownerId = orgId ? orgId : id;
     const fetchedProducts = await getProducts(fetchOptions, ownerId);
+    await new Promise((resolve) => setTimeout(resolve, 500));
     setProducts(fetchedProducts);
     setLoading(false);
   };
@@ -140,7 +154,7 @@ const ProductPageLayout = () => {
             customClass: "bg-gray-600",
           }}
           confirmProps={{
-            text: "Confirm",
+            text: deleting ? "Deleting..." : "Confirm",
             onConfirm: handleConfirmDeleteClick,
             customClass: "bg-red-500",
           }}

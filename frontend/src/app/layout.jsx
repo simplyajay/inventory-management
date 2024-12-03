@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { cookies, headers } from "next/headers";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { getAuthenticatedUser } from "@/services/authentication";
+import ToastProvider from "@/components/Toast/ToastProvider";
 
 export const metadata = {
   title: "Inventory Management System",
@@ -49,6 +50,7 @@ const RootLayout = async ({ children }) => {
               <>{children}</>
             )}
           </main>
+          <ToastProvider />
           <footer></footer>
         </body>
       </html>
