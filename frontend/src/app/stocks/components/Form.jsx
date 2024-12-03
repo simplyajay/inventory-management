@@ -7,6 +7,7 @@ import { validationSchema } from "../../../utils/schema/product.validationSchema
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { updateProduct, addProduct } from "@/services/products";
 import { notify } from "@/components/Toast/ToastProvider";
+import { ClipLoader } from "react-spinners";
 
 const ProductForm = ({
   updateForm,
@@ -155,13 +156,23 @@ const ProductForm = ({
             className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"
             disabled={updating ? true : false}
           >
-            {updateForm
-              ? updating
-                ? "Saving..."
-                : "Save"
-              : updating
-              ? "Creating..."
-              : "Create"}
+            {updateForm ? (
+              updating ? (
+                <div className="flex gap-1 items-center justify-evenly">
+                  <ClipLoader color="#007d96" size={15} loading={updating} />
+                  <span>Saving</span>
+                </div>
+              ) : (
+                <span>Save</span>
+              )
+            ) : updating ? (
+              <div className="flex gap-1 items-center justify-evenly">
+                <ClipLoader color="#007d96" size={15} loading={updating} />
+                <span>Creating</span>
+              </div>
+            ) : (
+              <span>Create</span>
+            )}
           </button>
         </div>
       </form>

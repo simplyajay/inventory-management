@@ -2,6 +2,7 @@ import React from "react";
 import ActionButton from "./ActionButton";
 import { DeleteIcon, EditIcon } from "@/components/Icons/Icons";
 import Skeleton from "react-loading-skeleton";
+import { MoonLoader } from "react-spinners";
 
 const ProductTable = ({
   onRowClick,
@@ -28,47 +29,60 @@ const ProductTable = ({
                 <th
                   key={key}
                   className={`px-3 py-2 text-sm font-thin overflow-clip ${
-                    loading ? "w-full" : widthMap[value] || ""
+                    widthMap[value] || ""
                   }`}
                 >
-                  {loading ? <Skeleton count={1} height={20} /> : value}
+                  {loading ? <Skeleton height={20} /> : value}
                 </th>
               );
             })}
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr
-              key={product._id}
-              className="text-center hover:bg-blue-50 hover:cursor-pointer"
-              onClick={() => onRowClick(product)}
-            >
-              <td className="p-2 ">{product.sku}</td>
-              <td className="p-2 max-w-xs whitespace-nowrap overflow-hidden text-ellipsis">
-                {product.name}
-              </td>
-              <td className="p-2 max-w-xs whitespace-nowrap overflow-hidden text-ellipsis">
-                {product.description}
-              </td>
-              <td className="p-2">{product.unitOfMeasurement}</td>
-              <td className="p-2">{product.quantity}</td>
-              <td className="p-2">
-                <div className="flex justify-around gap-1">
-                  <ActionButton
-                    customClass={`hover:bg-blue-100`}
-                    onClick={onEditButtonClick}
-                    icon={<EditIcon />}
-                  />
-                  <ActionButton
-                    customClass={`hover:bg-blue-100`}
-                    onClick={onDeleteButtonclick}
-                    icon={<DeleteIcon />}
-                  />
+          {loading ? (
+            <tr>
+              <td
+                colSpan={tableHeads.length}
+                className="h-full text-center p-4 "
+              >
+                <div className="flex items-center justify-center h-full">
+                  <MoonLoader color="#007d96" size={50} loading={loading} />
                 </div>
               </td>
             </tr>
-          ))}
+          ) : (
+            products.map((product) => (
+              <tr
+                key={product._id}
+                className="text-center hover:bg-blue-50 hover:cursor-pointer"
+                onClick={() => onRowClick(product)}
+              >
+                <td className="p-2 ">{product.sku}</td>
+                <td className="p-2 max-w-xs whitespace-nowrap overflow-hidden text-ellipsis">
+                  {product.name}
+                </td>
+                <td className="p-2 max-w-xs whitespace-nowrap overflow-hidden text-ellipsis">
+                  {product.description}
+                </td>
+                <td className="p-2">{product.unitOfMeasurement}</td>
+                <td className="p-2">{product.quantity}</td>
+                <td className="p-2">
+                  <div className="flex justify-around gap-1">
+                    <ActionButton
+                      customClass={`hover:bg-blue-100`}
+                      onClick={onEditButtonClick}
+                      icon={<EditIcon />}
+                    />
+                    <ActionButton
+                      customClass={`hover:bg-blue-100`}
+                      onClick={onDeleteButtonclick}
+                      icon={<DeleteIcon />}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

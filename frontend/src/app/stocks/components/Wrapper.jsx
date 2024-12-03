@@ -13,16 +13,18 @@ export const ProductTableWrapper = ({
     >
       <div className="w-full flex rounded-tl-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
         {loading ? (
-          <div className="w-[7%]">
+          <div className="w-[15%] md:w-[7%]">
             <Skeleton height={30} />
           </div>
         ) : (
           <h1 className="text-xl font-sans">{title}</h1>
         )}
 
-        <div className={`flex-1 flex justify-end ${loading ? "w-[7%]" : ""}`}>
+        <div
+          className={`flex-1 flex justify-end ${loading ? "md:w-[7%]" : ""}`}
+        >
           {loading ? (
-            <div className="w-[7%]">
+            <div className="w-[15%] md:w-[7%]">
               <Skeleton height={30} />
             </div>
           ) : (

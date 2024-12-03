@@ -144,7 +144,7 @@ const ProductPageLayout = () => {
           }
           cancelProps={{
             text: "Cancel",
-            onCancel: () => updateState({ showConfirmDialog: true }),
+            onCancel: () => updateState({ showConfirmDialog: false }),
             customClass: "bg-gray-600",
           }}
           confirmProps={{
