@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { PreviousIcon, NextIcon } from "@/components/Icons/Icons";
+import { PreviousIcon, NextIcon } from "@/components/icons/Icons";
 
 const Navigation = ({ handleNext, handlePrevious, step, loading }) => {
   return (

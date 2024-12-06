@@ -8,7 +8,7 @@ import {
   LogoutIcon,
   SaleIcon,
   Home2,
-} from "../Icons/Icons";
+} from "../../icons/Icons";
 
 export const overview = [
   {

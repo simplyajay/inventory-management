@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ProductTable from "./Table";
 import ProductForm from "./Form";
-import ConfirmDialog from "@/components/Dialogs/ConfirmDialog";
+import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
 import { getInitialValues } from "../../../utils/schema/product.validationSchema";
 import {
@@ -12,9 +12,11 @@ import {
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { deleteProduct, getProducts } from "@/services/products";
 import { useSelector } from "react-redux";
-import { notify } from "@/components/Toast/ToastProvider";
+import { notify } from "@/components/toast/ToastProvider";
+import Table from "@/components/table/Table";
 
 const tableHeads = ["SKU", "NAME", "DESCRIPTION", "OUM", "QTY", "ACTIONS"];
+const keys = ["sku", "name", "description", "unitOfMeasurement", "quantity"];
 
 const ProductPageLayout = () => {
   const { id, orgId } = useSelector((state) => state.authentication);
@@ -110,16 +112,19 @@ const ProductPageLayout = () => {
         onAddProductClick={handleOnAddProductClick}
         loading={loading}
       >
-        <ProductTableMemo
-          products={products}
-          tableHeads={tableHeads}
-          loading={loading}
-          onRowClick={handleRowClick}
-          onEditButtonClick={handleEditClick}
-          onDeleteButtonclick={() => {
-            updateState({ showConfirmDialog: true });
-          }}
-        />
+        {/*
+          <ProductTableMemo
+            products={products}
+            tableHeads={tableHeads}
+            loading={loading}
+            onRowClick={handleRowClick}
+            onEditButtonClick={handleEditClick}
+            onDeleteButtonclick={() => {
+              updateState({ showConfirmDialog: true });
+            }}
+          />
+      */}
+        {<Table content={products} keys={keys} cellType="input" />}
       </ProductTableWrapper>
       <ProductFormWrapper
         title="PRODUCT INFORMATION"

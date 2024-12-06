@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { updateProduct, addProduct } from "@/services/products";
-import { notify } from "@/components/Toast/ToastProvider";
+import { notify } from "@/components/toast/ToastProvider";
 import { ClipLoader } from "react-spinners";
 
 const ProductForm = ({

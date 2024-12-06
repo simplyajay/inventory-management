@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuFoldIcon, MenuUnfoldIcon } from "../Icons/Icons";
+import { MenuFoldIcon, MenuUnfoldIcon } from "../../icons/Icons";
 
 const Toggle = ({ collapsed, handleToggle }) => {
   return (

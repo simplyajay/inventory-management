@@ -1,6 +1,6 @@
 import React from "react";
 import ActionButton from "./ActionButton";
-import { DeleteIcon, EditIcon } from "@/components/Icons/Icons";
+import { DeleteIcon, EditIcon } from "@/components/icons/Icons";
 import Skeleton from "react-loading-skeleton";
 import { MoonLoader } from "react-spinners";
 
@@ -11,6 +11,7 @@ const ProductTable = ({
   onEditButtonClick,
   onDeleteButtonclick,
   loading,
+  z,
 }) => {
   const widthMap = {
     SKU: "md:w-[8%]",
