@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import ActionButton from "./ActionButton";
+import { EditIcon, DeleteIcon } from "@/components/icons/Icons";
 
 const getValues = (key, comparators) => {
   const getHeader = () => {
@@ -15,6 +17,7 @@ const getValues = (key, comparators) => {
 
   const getBody = (props, cellType) => {
     const body = props.getValue();
+
     try {
       switch (cellType) {
         case "text":
@@ -34,14 +37,14 @@ const getValues = (key, comparators) => {
           return null;
       }
     } catch (error) {
-      console.log("Error at useTable :", error);
+      console.log("Error at getBody :", error);
     }
   };
 
   return { getHeader, getWidth, getBody };
 };
 
-const getColumns = (keys, cellType, comparators) => {
+export const getColumns = (keys, cellType, comparators) => {
   const columns = keys.map((key) => {
     const values = getValues(key, comparators);
     return {
@@ -55,29 +58,43 @@ const getColumns = (keys, cellType, comparators) => {
   return columns;
 };
 
-const useTable = ({
-  initialData = [],
-  keys = [],
-  cellType = "text",
-  comparators = [],
-}) => {
-  const [data, setData] = useState(initialData);
-  const [columns, setColumns] = useState([]);
-
-  useEffect(() => {
-    const cols = getColumns(keys, cellType, comparators);
-    setColumns(cols);
-  }, [keys, , cellType]);
-
-  useEffect(() => {
-    setData(initialData);
-  }, [initialData]);
-
-  const addRow = (newRow) => {
-    setData((prev) => [...prev, newRow]);
-  };
-
-  return { columns, data, addRow };
+const getActionComponent = (type, handler, className) => {
+  try {
+    switch (type) {
+      case "edit":
+        return (
+          <ActionButton
+            customClass={className}
+            onClick={handler}
+            icon={<EditIcon />}
+          />
+        );
+      case "delete":
+        return (
+          <ActionButton
+            customClass={className}
+            onClick={handler}
+            icon={<DeleteIcon />}
+          />
+        );
+      default:
+        return;
+    }
+  } catch (error) {
+    console.error("Error at getActionComponent :", error);
+  }
 };
 
-export default useTable;
+export const getActions = (actions) => {
+  const acts = actions.map((action) => {
+    return {
+      component: getActionComponent(
+        action.type,
+        action.handler,
+        action.className
+      ),
+    };
+  });
+
+  return acts;
+};

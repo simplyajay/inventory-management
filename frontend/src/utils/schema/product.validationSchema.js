@@ -24,7 +24,7 @@ export const validationSchema = Yup.object({
   name: Yup.string().required("Product name is required"),
   description: Yup.string(),
   unitOfMeasurement: Yup.string()
-    .oneOf(["PC", "PKT", "CTN"], "Select a valid OUM")
+    .oneOf(["PCS", "PKT", "CTN", "OTR"], "Select a valid OUM")
     .required("OUM is required"),
   price: Yup.number("Price should be an integer")
     .required("Price is required")

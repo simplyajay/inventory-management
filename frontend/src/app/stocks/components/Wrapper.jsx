@@ -9,7 +9,7 @@ export const ProductTableWrapper = ({
 }) => {
   return (
     <div
-      className={`h-full lg:h-full w-full flex flex-col rounded-lg shadow-md bg-[white]`}
+      className={`lg:h-full h-[50%] w-full flex-1 flex flex-col rounded-lg shadow-md bg-[white]`}
     >
       <div className="w-full flex rounded-tl-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
         {loading ? (
@@ -46,7 +46,7 @@ export const ProductTableWrapper = ({
 export const ProductFormWrapper = ({ children, title, pageInfoVisible }) => {
   return (
     <div
-      className={`h-full w-full lg:w-[40%] flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
+      className={`lg:h-full lg:w-[25%] h-[40%] w-full flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
         pageInfoVisible ? "block" : "hidden"
       }`}
     >

@@ -1,18 +1,25 @@
 import React from "react";
-import useTable from "./hooks/useTable";
+import useTable from "./useTable";
 
-const comparators = [
-  { key: "sku", header: "SKU", width: 50 },
-  { key: "unitOfMeasurement", header: "OUM", width: 50 },
-  { key: "quantity", header: "QTY", width: 50 },
-];
-
-const Table = ({ content, keys, cellType }) => {
-  const { columns, data, addRow } = useTable({
+const Table = ({
+  content,
+  keys,
+  cellType,
+  onEdit,
+  onDelete,
+  onRowClick,
+  comparators,
+}) => {
+  const acts = [
+    { type: "edit", className: "hover:bg-blue-100", handler: onEdit },
+    { type: "delete", className: "hover:bg-blue-100", handler: onDelete },
+  ];
+  const { columns, data, addRow, actions } = useTable({
     initialData: content,
     keys,
     cellType,
     comparators,
+    tableActions: acts,
   });
 
   return (
@@ -37,19 +44,23 @@ const Table = ({ content, keys, cellType }) => {
             <tr
               key={rowIndex}
               className="text-center hover:bg-blue-50 hover:cursor-pointer"
+              onClick={() => onRowClick(row)}
             >
               {columns.map((column, colIndex) => (
                 <td
                   key={colIndex}
-                  className={`${cellType === "input" ? "p-1" : p - 2}`}
+                  className={`${cellType === "input" ? "p-1" : "p-2"}`}
                 >
-                  {column.body({ getValue: () => row[column.accessor] })}
+                  {column.body
+                    ? column.body({ getValue: () => row[column.accessor] })
+                    : actions.map((action) => action.component)}
                 </td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
+      <div></div>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import LabeledInput from "./LabeledInput";
+import React, { Children, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
@@ -8,8 +7,9 @@ import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { updateProduct, addProduct } from "@/services/products";
 import { notify } from "@/components/toast/ToastProvider";
 import { ClipLoader } from "react-spinners";
+import useInputGroup from "../../../components/forms/useInputGroup";
 
-const ProductForm = ({
+const Form = ({
   updateForm,
   initialValues,
   collapseForm,
@@ -31,37 +31,86 @@ const ProductForm = ({
     reset(initialValues);
   }, [initialValues]);
 
-  const handleOnSubmit = async (values) => {
-    let fetchOptions = {};
+  const onSubmit = async (values) => {
     setUpdating(true);
     let message = null;
 
-    if (updateForm) {
-      const product = { _id: selectedProduct._id, ...values };
-      fetchOptions = getFetchOptions("PUT", product, true, false);
-      const updatedProduct = await updateProduct(fetchOptions, product._id);
-      message = `Successfully Updated ${updatedProduct.name}`;
-    } else {
-      const product = { _orgId: ownerId, ...values };
-      fetchOptions = getFetchOptions("POST", product, true, false);
-      const newProduct = await addProduct(fetchOptions);
-      message = `Successfully Added new Product; ${newProduct.name}`;
+    try {
+      if (updateForm) {
+        const product = { _id: selectedProduct._id, ...values };
+        const fetchOptions = getFetchOptions("PUT", product, true, false);
+        const updatedProduct = await updateProduct(fetchOptions, product._id);
+        message = `Successfully Updated ${updatedProduct.name}`;
+      } else {
+        const product = { _orgId: ownerId, ...values };
+        const fetchOptions = getFetchOptions("POST", product, true, false);
+        const newProduct = await addProduct(fetchOptions);
+        message = `Successfully Added new Product; ${newProduct.name}`;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      notify(message);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error on form submission ", error);
+    } finally {
+      setUpdating(false);
+      collapseForm();
     }
-
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    notify(message);
-    setUpdating(false);
   };
 
-  const onSubmit = (values) => {
-    handleOnSubmit(values)
-      .then(() => {
-        fetchProducts();
-      })
-      .finally(() => {
-        collapseForm();
-      });
-  };
+  const meta1 = [
+    {
+      name: "sku",
+      disabled: true,
+      customClass: "disabled: cursor-not-allowed",
+    },
+    {
+      name: "name",
+      disabled: updating,
+    },
+    {
+      name: "barcode",
+      disabled: updating,
+    },
+    {
+      name: "description",
+      disabled: updating,
+      type: "textarea",
+    },
+  ];
+
+  const meta2 = [
+    {
+      name: "quantity",
+      disabled: updateForm ? true : updating,
+      customClass: "disabled:cursor-not-allowed",
+    },
+    {
+      name: "price",
+      disabled: updating,
+    },
+    {
+      name: "unitOfMeasurement",
+      disabled: updating,
+      type: "select",
+      children: ["PCS", "PKT", "CTN", "OTR"],
+    },
+  ];
+
+  const metas = [...meta1, meta2];
+  const handlers = metas.map((meta) => ({
+    accessor: meta.name,
+    key: "onFocus",
+    func: () => clearErrors(meta.name),
+  }));
+
+  const { renderInputs } = useInputGroup({
+    register,
+    handlers,
+    errors,
+    wrapperClassName: "flex flex-col gap-1 w-full",
+  });
 
   return (
     <div className="h-full">
@@ -71,73 +120,10 @@ const ProductForm = ({
         className="h-full flex flex-col"
       >
         <div className="flex-1 w-full flex flex-col items-center justify-around lg:p-10 p-10 gap-2 lg:gap-4 overflow-auto">
-          <LabeledInput
-            register={register}
-            disabled
-            name="sku"
-            customClass="disabled:cursor-not-allowed"
-          />
-
-          <LabeledInput
-            register={register}
-            disabled={updating ? true : false}
-            name="name"
-            onFocus={() => () => clearErrors("name")}
-            customClass={`${errors.name && `ring-2 ring-red-100`}`}
-            errors={errors.name}
-          />
-
-          <LabeledInput
-            register={register}
-            disabled={updating ? true : false}
-            name="barcode"
-            onFocus={() => () => clearErrors("barcode")}
-            customClass={`${errors.name && `ring-2 ring-red-100`}`}
-            errors={errors.barcode}
-          />
-
-          <LabeledInput
-            register={register}
-            disabled={updating ? true : false}
-            name="description"
-            onFocus={() => () => clearErrors("description")}
-            errors={errors.description}
-            type="textArea"
-          />
+          {renderInputs(meta1)}
 
           <div className="flex lg:flex-col w-full md:justify-evenly lg:justify-normal h-full gap-5">
-            <LabeledInput
-              register={register}
-              disabled={updateForm ? true : updating ? true : false}
-              name="quantity"
-              onFocus={() => () => clearErrors("quantity")}
-              customClass={`${
-                errors.quantity &&
-                `ring-2 ring-red-100 disabled:cursor-not-allowed`
-              }`}
-              errors={errors.quantity}
-            />
-
-            <LabeledInput
-              register={register}
-              disabled={updating ? true : false}
-              name="price"
-              onFocus={() => () => clearErrors("price")}
-              customClass={`${errors.quantity && `ring-2 ring-red-100 `}`}
-              errors={errors.price}
-            />
-
-            <LabeledInput
-              register={register}
-              disabled={updating ? true : false}
-              name="unitOfMeasurement"
-              onFocus={() => () => clearErrors("unitOfMeasurement")}
-              type="select"
-            >
-              <option>PC</option>
-              <option>PKT</option>
-              <option>CTN</option>
-            </LabeledInput>
+            {renderInputs(meta2)}
           </div>
         </div>
         <div className="flex lg:justify-end md:justify-end justify-center p-3 gap-2 bg-background">
@@ -180,4 +166,4 @@ const ProductForm = ({
   );
 };
 
-export default ProductForm;
+export default Form;
