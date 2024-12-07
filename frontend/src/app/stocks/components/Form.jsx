@@ -1,5 +1,5 @@
 "use client";
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
@@ -15,7 +15,6 @@ const Form = ({
   collapseForm,
   selectedProduct,
   fetchProducts,
-  ownerId,
 }) => {
   const [updating, setUpdating] = useState(false);
 
@@ -42,8 +41,7 @@ const Form = ({
         const updatedProduct = await updateProduct(fetchOptions, product._id);
         message = `Successfully Updated ${updatedProduct.name}`;
       } else {
-        const product = { _orgId: ownerId, ...values };
-        const fetchOptions = getFetchOptions("POST", product, true, false);
+        const fetchOptions = getFetchOptions("POST", values, true, false);
         const newProduct = await addProduct(fetchOptions);
         message = `Successfully Added new Product; ${newProduct.name}`;
       }

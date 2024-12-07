@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import ProductForm from "@/app/stocks/components/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
@@ -22,7 +21,6 @@ const comparators = [
 ];
 
 const ProductPageLayout = () => {
-  const { id, orgId } = useSelector((state) => state.authentication);
   const [state, setState] = useState({
     loading: true,
     deleting: false,
@@ -70,7 +68,7 @@ const ProductPageLayout = () => {
 
   const handleConfirmDeleteClick = async () => {
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
-    updateState({ deleting: false });
+    updateState({ deleting: true });
     await deleteProduct(fetchOptions, selectedProduct._id);
     await new Promise((resolve) => setTimeout(resolve, 500));
     notify(`Successfully Deleted Product ${selectedProduct.name}`);
@@ -85,8 +83,7 @@ const ProductPageLayout = () => {
   const fetchProducts = async () => {
     updateState({ loading: true });
     const fetchOptions = getFetchOptions("GET", null, true, false);
-    const ownerId = orgId ? orgId : id;
-    const fetchedProducts = await getProducts(fetchOptions, ownerId);
+    const fetchedProducts = await getProducts(fetchOptions);
     await new Promise((resolve) => setTimeout(resolve, 500));
     updateState({ products: fetchedProducts, loading: false });
   };
@@ -127,7 +124,6 @@ const ProductPageLayout = () => {
           collapseForm={() => updateState({ pageInfoVisible: false })}
           selectedProduct={selectedProduct}
           fetchProducts={() => fetchProducts()}
-          ownerId={orgId ? orgId : id}
         />
       </ProductFormWrapper>
       {showConfirmDialog && (
@@ -146,7 +142,8 @@ const ProductPageLayout = () => {
           confirmProps={{
             text: deleting ? "Deleting..." : "Confirm",
             onConfirm: handleConfirmDeleteClick,
-            customClass: "bg-red-500",
+            customClass: `${deleting ? `hover:cursor-` : ``} bg-red-500`,
+            loading: deleting,
           }}
         />
       )}

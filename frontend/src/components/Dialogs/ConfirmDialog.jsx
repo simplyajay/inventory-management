@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmDialog = ({ message, cancelProps, confirmProps }) => {
+const ConfirmDialog = ({ message, cancelProps, confirmProps, loading }) => {
   return (
     <div className="fixed z-10 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-5 rounded shadow-lg">
@@ -17,6 +17,7 @@ const ConfirmDialog = ({ message, cancelProps, confirmProps }) => {
             {cancelProps.text && <span>{cancelProps.text}</span>}
           </button>
           <button
+            disabled={loading}
             onClick={confirmProps.onConfirm}
             className={`px-4 py-2 bg-blue-400 text-white rounded ${confirmProps.customClass}`}
           >
