@@ -1,6 +1,12 @@
 export const getProducts = async (fetchOptions) => {
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks`);
+
+    fetchOptions.params &&
+      Object.keys(fetchOptions.params).forEach((key) =>
+        url.searchParams.append(key, fetchOptions.params[key])
+      );
+
     const res = await fetch(url, fetchOptions);
 
     const data = await res.json();

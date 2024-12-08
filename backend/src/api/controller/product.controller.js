@@ -30,8 +30,30 @@ export const findProduct = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   try {
     const orgId = await getOrgId(req.user._id);
-    const products = await Product.find({ _orgId: orgId });
-    return res.status(200).json(products);
+
+    const { page, limit, sortBy } = req.query;
+
+    if (isNaN(page) || isNaN(limit)) {
+      return res.status(400).json({ message: "Invalid page or limit number" });
+    }
+    const filter = { _orgId: orgId };
+    if (sortBy) {
+      filter[sortBy] = { $exists: true };
+    }
+
+    const startIndex = page && limit && (page - 1) * limit;
+
+    const products = await Product.find(filter)
+      .limit(Number(limit))
+      .skip(startIndex);
+
+    const totalProducts = await Product.countDocuments(filter);
+
+    return res.status(200).json({
+      products,
+      totalPages: Math.ceil(totalProducts / limit),
+      totalProducts,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

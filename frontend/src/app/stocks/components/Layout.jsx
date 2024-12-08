@@ -30,6 +30,10 @@ const ProductPageLayout = () => {
     showConfirmDialog: false,
     isEditForm: false,
     initialValues: {},
+    page: 1,
+    limit: 15,
+    sortBy: "sku",
+    totalPages: 0,
   });
 
   const {
@@ -41,6 +45,10 @@ const ProductPageLayout = () => {
     showConfirmDialog,
     isEditForm,
     initialValues,
+    page,
+    limit,
+    sortBy,
+    totalPages,
   } = state;
 
   const ProductFormMemo = React.memo(ProductForm);
@@ -80,17 +88,45 @@ const ProductPageLayout = () => {
     fetchProducts();
   };
 
+  const handlePageChange = (action) => {
+    switch (action) {
+      case "prev":
+        if (page > 1) {
+          updateState({ page: page - 1 });
+        }
+        break;
+      case "next":
+        if (page < totalPages) {
+          updateState({ page: page + 1 });
+          console.log("next");
+        }
+        break;
+      default:
+        return;
+    }
+  };
+
   const fetchProducts = async () => {
-    updateState({ loading: true });
-    const fetchOptions = getFetchOptions("GET", null, true, false);
-    const fetchedProducts = await getProducts(fetchOptions);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    updateState({ products: fetchedProducts, loading: false });
+    try {
+      updateState({ loading: true });
+      const fetchOptions = getFetchOptions("GET", null, true, false);
+      fetchOptions.params = { page, limit, sortBy };
+      const data = await getProducts(fetchOptions);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      updateState({
+        products: data.products,
+        totalPages: data.totalPages,
+        loading: false,
+      });
+    } catch (error) {
+      console.error("Error on fetchProducts at Layout ", error);
+      updateState({ loading: true });
+    }
   };
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between ">
@@ -110,7 +146,12 @@ const ProductPageLayout = () => {
           onDelete={() => {
             updateState({ showConfirmDialog: true });
           }}
+          onPrevPage={() => handlePageChange("prev")}
+          onNextPage={() => handlePageChange("next")}
           comparators={comparators}
+          page={page}
+          totalPages={totalPages}
+          loading={loading}
         />
       </ProductTableWrapper>
 

@@ -6,7 +6,7 @@ const initialValues = {
   barcode: "",
   description: "",
   price: 0,
-  unitOfMeasurement: "PC",
+  unitOfMeasurement: "PCS",
   quantity: 0,
 };
 

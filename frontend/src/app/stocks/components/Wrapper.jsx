@@ -11,7 +11,7 @@ export const ProductTableWrapper = ({
     <div
       className={`lg:h-full h-[50%] w-full flex-1 flex flex-col rounded-lg shadow-md bg-[white]`}
     >
-      <div className="w-full flex rounded-tl-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
+      <div className="w-full flex rounded-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
         {loading ? (
           <div className="w-[15%] md:w-[7%]">
             <Skeleton height={30} />
@@ -38,7 +38,7 @@ export const ProductTableWrapper = ({
           )}
         </div>
       </div>
-      <div className="overflow-hidden">{children}</div>
+      <div className="overflow-hidden h-full">{children}</div>
     </div>
   );
 };
