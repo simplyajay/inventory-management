@@ -5,14 +5,14 @@ export const ProductTableWrapper = ({
   children,
   title,
   onAddProductClick,
-  loading,
+  initializing,
 }) => {
   return (
     <div
       className={`lg:h-full h-[50%] w-full flex-1 flex flex-col rounded-lg shadow-md bg-[white]`}
     >
-      <div className="w-full flex rounded-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
-        {loading ? (
+      <div className="w-full flex rounded-t-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
+        {initializing ? (
           <div className="w-[15%] md:w-[7%]">
             <Skeleton height={30} />
           </div>
@@ -21,9 +21,11 @@ export const ProductTableWrapper = ({
         )}
 
         <div
-          className={`flex-1 flex justify-end ${loading ? "md:w-[7%]" : ""}`}
+          className={`flex-1 flex justify-end ${
+            initializing ? "md:w-[7%]" : ""
+          }`}
         >
-          {loading ? (
+          {initializing ? (
             <div className="w-[15%] md:w-[7%]">
               <Skeleton height={30} />
             </div>

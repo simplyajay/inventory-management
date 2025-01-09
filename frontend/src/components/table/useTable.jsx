@@ -1,19 +1,86 @@
 import { useEffect, useState } from "react";
-import { getActions, getColumns } from "./table.helpers";
+import ActionButton from "./ActionButton";
+import { DeleteIcon, EditIcon } from "../icons/Icons";
 
-const useTable = ({
-  initialData = [],
-  keys = [],
-  cellType = "text",
-  comparators = [],
-  tableActions = [],
-}) => {
-  const [data, setData] = useState(initialData);
+const comparators = [
+  { key: "sku", header: "SKU", width: 50 },
+  { key: "unitOfMeasurement", header: "OUM", width: 50 },
+  { key: "quantity", header: "QTY", width: 50 },
+];
+
+const getValues = (key, comparators) => {
+  const comparator = comparators.find((comparator) => comparator.key === key);
+
+  if (comparator && comparator[key]) {
+    return comparator[key];
+  }
+  return comparator && comparator[key] ? comparator[key] : key.toUpperCase();
+};
+
+export const getColumns = (keys, comparators) => {
+  const columns = keys.map((key) => {
+    return {
+      accessor: key,
+      header: getValues(key, comparators),
+      width: getValues(key, comparators),
+      body: ({ getValue }) => getValue(),
+    };
+  });
+
+  return columns;
+};
+
+const getActionComponent = (key, type, handler, className) => {
+  try {
+    switch (type) {
+      case "edit":
+        return (
+          <ActionButton
+            key={key}
+            customClass={className}
+            onClick={handler}
+            icon={<EditIcon />}
+          />
+        );
+      case "delete":
+        return (
+          <ActionButton
+            key={key}
+            customClass={className}
+            onClick={handler}
+            icon={<DeleteIcon />}
+          />
+        );
+      default:
+        return;
+    }
+  } catch (error) {
+    console.error("Error at getActionComponent :", error);
+  }
+};
+
+export const getActions = (actions) => {
+  const acts = actions.map((action, index) => {
+    return {
+      component: getActionComponent(
+        index,
+        action.type,
+        action.handler,
+        action.className
+      ),
+    };
+  });
+
+  return acts;
+};
+
+const useTable = ({ keys = [], tableActions = [], initialData = [] }) => {
   const [columns, setColumns] = useState([]);
   const [actions, setActions] = useState(tableActions);
+  const [data, setData] = useState(initialData);
 
   useEffect(() => {
-    let cols = getColumns(keys, cellType, comparators);
+    let cols = getColumns(keys, comparators);
 
     if (actions.length > 0) {
       cols = [...cols, { accessor: "actions", header: "ACTIONS", width: 100 }];
@@ -22,17 +89,15 @@ const useTable = ({
     }
 
     setColumns(cols);
-  }, [keys, cellType]);
+  }, [keys]);
 
   useEffect(() => {
-    setData(initialData);
+    if (initialData) {
+      setData(initialData);
+    }
   }, [initialData]);
 
-  const addRow = (newRow) => {
-    setData((prev) => [...prev, newRow]);
-  };
-
-  return { columns, data, addRow, actions };
+  return { columns, actions, data };
 };
 
 export default useTable;

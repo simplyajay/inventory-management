@@ -61,7 +61,7 @@ const Form = ({
     {
       name: "sku",
       disabled: true,
-      customClass: "disabled: cursor-not-allowed",
+      customclass: "disabled: cursor-not-allowed",
     },
     {
       name: "name",
@@ -82,7 +82,7 @@ const Form = ({
     {
       name: "quantity",
       disabled: updateForm ? true : updating,
-      customClass: "disabled:cursor-not-allowed",
+      customclass: "disabled:cursor-not-allowed",
     },
     {
       name: "price",

@@ -11,7 +11,7 @@ const ConfirmDialog = ({ message, cancelProps, confirmProps, loading }) => {
         <div className="flex justify-end space-x-2">
           <button
             onClick={cancelProps.onCancel}
-            className={`px-4 py-2 bg-blue-400 text-white rounded ${cancelProps.customClass}`}
+            className={`px-4 py-2 bg-blue-400 text-white rounded ${cancelProps.customclass}`}
           >
             {cancelProps.icon && <span>{cancelProps.icon}</span>}
             {cancelProps.text && <span>{cancelProps.text}</span>}
@@ -19,7 +19,7 @@ const ConfirmDialog = ({ message, cancelProps, confirmProps, loading }) => {
           <button
             disabled={loading}
             onClick={confirmProps.onConfirm}
-            className={`px-4 py-2 bg-blue-400 text-white rounded ${confirmProps.customClass}`}
+            className={`px-4 py-2 bg-blue-400 text-white rounded ${confirmProps.customclass}`}
           >
             {confirmProps.icon && <span>{confirmProps.icon}</span>}
             {confirmProps.text && <span>{confirmProps.text}</span>}

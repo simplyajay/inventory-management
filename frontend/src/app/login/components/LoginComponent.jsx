@@ -44,7 +44,6 @@ const LoginForm = () => {
     );
     const data = await validateLogin(fetchOptions);
     await new Promise((resolve) => setTimeout(resolve, 500));
-    setLoading(false);
     if (data) {
       router.push("/dashboard");
       router.refresh();
@@ -53,6 +52,7 @@ const LoginForm = () => {
         type: "manual",
         message: "Username or password is incorrect",
       });
+      setLoading(false);
     }
   };
 

@@ -53,6 +53,7 @@ export const getAllProducts = async (req, res) => {
       products,
       totalPages: Math.ceil(totalProducts / limit),
       totalProducts,
+      page,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

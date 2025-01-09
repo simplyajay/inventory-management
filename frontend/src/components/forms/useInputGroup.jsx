@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const defaultClass =
   "p-2 text-sm rounded-lg focus:outline-none w-full focus:ring-2 focus:ring-blue-100 border border-gray-300";
@@ -18,10 +17,10 @@ const useInputGroup = ({
       const props = {
         ...register(input.name),
         ...input,
-        key: index,
+        id: input.name,
         className: `${defaultClass} ${
           errors[input.name] && `ring-2 ring-red-100`
-        } ${input.customClass} `,
+        } ${input?.customclass} `,
       };
 
       const handler = getEventHandlers(input.name);
@@ -34,7 +33,7 @@ const useInputGroup = ({
       switch (input.type) {
         case "select":
           component = (
-            <select {...props} key={index} type="text" autoComplete="off">
+            <select {...props} type="text" autoComplete="off">
               {input.children.map((child, childIndex) => (
                 <option key={childIndex} value={child}>
                   {child}
@@ -53,7 +52,7 @@ const useInputGroup = ({
       }
 
       return (
-        <div className={wrapperClassName}>
+        <div key={index} className={wrapperClassName}>
           <label className="text-sm" htmlFor={input.name}>
             {input.name === "sku"
               ? "SKU"
