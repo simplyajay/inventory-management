@@ -18,12 +18,13 @@ const Form = ({
 }) => {
   const [updating, setUpdating] = useState(false);
 
-  const { register, handleSubmit, formState, clearErrors, reset } = useForm({
-    mode: "onBlur",
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValues,
-    shouldFocusError: false,
-  });
+  const { register, handleSubmit, formState, clearErrors, reset, setValue } =
+    useForm({
+      mode: "onBlur",
+      resolver: yupResolver(validationSchema),
+      defaultValues: initialValues,
+      shouldFocusError: false,
+    });
   const { errors } = formState;
 
   useEffect(() => {
@@ -60,8 +61,7 @@ const Form = ({
   const meta1 = [
     {
       name: "sku",
-      disabled: true,
-      customclass: "disabled: cursor-not-allowed",
+      disabled: updating,
     },
     {
       name: "name",
@@ -108,6 +108,7 @@ const Form = ({
     handlers,
     errors,
     wrapperClassName: "flex flex-col gap-1 w-full",
+    setValue,
   });
 
   return (

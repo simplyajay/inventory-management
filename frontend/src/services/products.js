@@ -1,3 +1,27 @@
+export const getNextSku = async (fetchOptions) => {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks/next-sku`);
+
+    const res = await fetch(url, fetchOptions);
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (!res.ok) {
+        if (res.status === 401) {
+          return { status: res.status, message: "Unauthorized" };
+        }
+        return { error: data.message };
+      }
+
+      return data;
+    }
+  } catch (error) {
+    console.error("Error fetching sku", error);
+    throw error;
+  }
+};
+
 export const getProducts = async (fetchOptions) => {
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks`);

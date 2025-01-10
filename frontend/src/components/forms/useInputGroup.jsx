@@ -8,14 +8,24 @@ const useInputGroup = ({
   handlers = [],
   errors,
   wrapperClassName,
+  setValue,
 }) => {
   const getEventHandlers = (target) => {
     return handlers.find((handler) => handler.accessor === target);
   };
   const renderInputs = (inputs) => {
     return inputs.map((input, index) => {
+      const handlers =
+        input.name === "sku"
+          ? {
+              onChange: (e) => {
+                const value = e.target.value.toUpperCase(); // Example: Capitalize input for 'sku'
+                setValue(input.name, value, { shouldValidate: true }); // Update value in the form
+              },
+            }
+          : {};
       const props = {
-        ...register(input.name),
+        ...register(input.name, handlers),
         ...input,
         id: input.name,
         className: `${defaultClass} ${

@@ -10,16 +10,8 @@ const initialValues = {
   quantity: 0,
 };
 
-export const getInitialValues = (sku, value) => {
-  if (sku) {
-    initialValues[sku] = value;
-  }
-
-  return initialValues;
-};
-
 export const validationSchema = Yup.object({
-  sku: Yup.string(),
+  sku: Yup.string().required("SKU is required"),
   barcode: Yup.string().required("Barcode is required"),
   name: Yup.string().required("Product name is required"),
   description: Yup.string(),

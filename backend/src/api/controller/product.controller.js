@@ -3,8 +3,8 @@ import { getOrgId } from "../service/user.service.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const orgId = await getOrgId(req.user._id);
-    const prod = { ...req.body, _orgId: orgId };
+    const _orgId = await getOrgId(req.user._id);
+    const prod = { ...req.body, _orgId };
     const product = await Product.create(prod);
     res.status(200).json(product);
   } catch (error) {
@@ -14,8 +14,8 @@ export const createProduct = async (req, res) => {
 
 export const findProduct = async (req, res) => {
   try {
-    const orgId = await getOrgId(req.body._id);
-    const product = await Product.find({ _orgId: orgId });
+    const _orgId = await getOrgId(req.body._id);
+    const product = await Product.find({ _orgId });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -29,14 +29,14 @@ export const findProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-    const orgId = await getOrgId(req.user._id);
+    const _orgId = await getOrgId(req.user._id);
 
     const { page, limit, sortBy } = req.query;
 
     if (isNaN(page) || isNaN(limit)) {
       return res.status(400).json({ message: "Invalid page or limit number" });
     }
-    const filter = { _orgId: orgId };
+    const filter = { _orgId };
     if (sortBy) {
       filter[sortBy] = { $exists: true };
     }

@@ -5,11 +5,7 @@ import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
 import { notify } from "@/components/toast/ToastProvider";
 import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
-import { getInitialValues } from "../../../utils/schema/product.validationSchema";
-import {
-  getProductValues,
-  getNextAvailableSku,
-} from "@/utils/stock/product.util";
+import { getProductValues } from "@/utils/stock/product.util";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { deleteProduct, getProducts } from "@/services/products";
 
@@ -64,10 +60,8 @@ const ProductPageLayout = () => {
   };
 
   const handleOnAddProductClick = () => {
-    const sku = getNextAvailableSku(products);
-    const values = getInitialValues("sku", sku);
     updateState({
-      initialValues: values,
+      initialValues,
       isEditForm: false,
       pageInfoVisible: true,
     });
