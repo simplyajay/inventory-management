@@ -1,23 +1,16 @@
-export const getNextSku = async (fetchOptions) => {
+export const validateSku = async (fetchOptions) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks/next-sku`);
+    const url = new URL(
+      `${process.env.NEXT_PUBLIC_URL}/api/stocks/validate-sku`
+    );
+    console.log("from fetch: wew");
 
     const res = await fetch(url, fetchOptions);
 
     const data = await res.json();
-
-    if (!res.ok) {
-      if (!res.ok) {
-        if (res.status === 401) {
-          return { status: res.status, message: "Unauthorized" };
-        }
-        return { error: data.message };
-      }
-
-      return data;
-    }
+    return data;
   } catch (error) {
-    console.error("Error fetching sku", error);
+    console.error("Validation error", error);
     throw error;
   }
 };

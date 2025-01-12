@@ -13,7 +13,7 @@ const verifyToken = async (req, res, next) => {
     if (!decoded) {
       return res.status(401).json({ message: "Unauthorized, Invalid token" });
     }
-    req.user = decoded;
+    req.user = decoded; // creates user object to be sent with the response
     return next();
   } catch (error) {
     console.error("Error", error);

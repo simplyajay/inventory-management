@@ -10,16 +10,46 @@ export const getProductValues = (product) => {
   };
 };
 
-export const getNextAvailableSku = (products) => {
-  const skus = products
-    .map((product) => parseInt(product.sku, 10))
-    .sort((a, b) => a - b);
+export const getProductMetaData = (updating, updateForm) => {
+  const metaData1 = [
+    {
+      name: "sku",
+      disabled: updating,
+    },
+    {
+      name: "name",
+      disabled: updating,
+    },
+    {
+      name: "barcode",
+      disabled: updating,
+    },
+    {
+      name: "description",
+      disabled: updating,
+      type: "textarea",
+    },
+  ];
 
-  for (let i = 0; i < skus.length; i++) {
-    if (skus[i] !== i + 1) {
-      return i + 1;
-    }
-  }
+  const metaData2 = [
+    {
+      name: "quantity",
+      disabled: updateForm ? true : updating,
+      customclass: "disabled:cursor-not-allowed",
+    },
+    {
+      name: "price",
+      disabled: updating,
+    },
+    {
+      name: "unitOfMeasurement",
+      disabled: updating,
+      type: "select",
+      children: ["PCS", "PKT", "CTN", "OTR"],
+    },
+  ];
 
-  return skus.length + 1;
+  const combinedMetaDatas = [...metaData1, ...metaData2];
+
+  return { metaData1, metaData2, combinedMetaDatas };
 };

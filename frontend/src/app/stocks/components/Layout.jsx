@@ -70,9 +70,9 @@ const ProductPageLayout = () => {
   const handleConfirmDeleteClick = async () => {
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
     updateState({ deleting: true });
-    await deleteProduct(fetchOptions, selectedProduct._id);
+    const data = await deleteProduct(fetchOptions, selectedProduct._id);
     await new Promise((resolve) => setTimeout(resolve, 500));
-    notify(`Successfully Deleted Product ${selectedProduct.name}`);
+    notify(data.message);
     updateState({
       pageInfoVisible: false,
       deleting: false,

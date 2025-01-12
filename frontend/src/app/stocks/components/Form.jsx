@@ -6,8 +6,10 @@ import { validationSchema } from "../../../utils/schema/product.validationSchema
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { updateProduct, addProduct } from "@/services/products";
 import { notify } from "@/components/toast/ToastProvider";
+import { validateSku } from "@/services/products";
 import { ClipLoader } from "react-spinners";
 import useInputGroup from "../../../components/forms/useInputGroup";
+import { getProductMetaData } from "@/utils/stock/product.util";
 
 const Form = ({
   updateForm,
@@ -18,37 +20,70 @@ const Form = ({
 }) => {
   const [updating, setUpdating] = useState(false);
 
-  const { register, handleSubmit, formState, clearErrors, reset, setValue } =
-    useForm({
-      mode: "onBlur",
-      resolver: yupResolver(validationSchema),
-      defaultValues: initialValues,
-      shouldFocusError: false,
-    });
+  const {
+    register,
+    handleSubmit,
+    formState,
+    clearErrors,
+    reset,
+    setValue,
+    setError,
+  } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues,
+    shouldFocusError: false,
+  });
   const { errors } = formState;
 
   useEffect(() => {
     reset(initialValues);
   }, [initialValues]);
 
+  const validate = async (sku) => {
+    try {
+      const fetchOptions = getFetchOptions(
+        "POST",
+        { sku, targetId: selectedProduct._id },
+        true,
+        false
+      );
+      const data = await validateSku(fetchOptions);
+
+      return data;
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
   const onSubmit = async (values) => {
     setUpdating(true);
-    let message = null;
+    const targetSku = await validate(values.sku);
+
+    if (!targetSku.isValid) {
+      setError("sku", {
+        type: "manual",
+        message: targetSku.message,
+      });
+      setUpdating(false);
+      return;
+    }
+
+    clearErrors("sku");
 
     try {
+      let data = null;
       if (updateForm) {
         const product = { _id: selectedProduct._id, ...values };
         const fetchOptions = getFetchOptions("PUT", product, true, false);
-        const updatedProduct = await updateProduct(fetchOptions, product._id);
-        message = `Successfully Updated ${updatedProduct.name}`;
+        data = await updateProduct(fetchOptions, product._id);
       } else {
         const fetchOptions = getFetchOptions("POST", values, true, false);
-        const newProduct = await addProduct(fetchOptions);
-        message = `Successfully Added new Product; ${newProduct.name}`;
+        data = await addProduct(fetchOptions);
       }
 
       await new Promise((resolve) => setTimeout(resolve, 500));
-      notify(message);
+      notify(data.message);
       fetchProducts();
     } catch (error) {
       console.error("Error on form submission ", error);
@@ -58,46 +93,11 @@ const Form = ({
     }
   };
 
-  const meta1 = [
-    {
-      name: "sku",
-      disabled: updating,
-    },
-    {
-      name: "name",
-      disabled: updating,
-    },
-    {
-      name: "barcode",
-      disabled: updating,
-    },
-    {
-      name: "description",
-      disabled: updating,
-      type: "textarea",
-    },
-  ];
-
-  const meta2 = [
-    {
-      name: "quantity",
-      disabled: updateForm ? true : updating,
-      customclass: "disabled:cursor-not-allowed",
-    },
-    {
-      name: "price",
-      disabled: updating,
-    },
-    {
-      name: "unitOfMeasurement",
-      disabled: updating,
-      type: "select",
-      children: ["PCS", "PKT", "CTN", "OTR"],
-    },
-  ];
-
-  const metas = [...meta1, meta2];
-  const handlers = metas.map((meta) => ({
+  const { metaData1, metaData2, combinedMetaDatas } = getProductMetaData(
+    updating,
+    updateForm
+  );
+  const handlers = combinedMetaDatas.map((meta) => ({
     accessor: meta.name,
     key: "onFocus",
     func: () => clearErrors(meta.name),
@@ -119,10 +119,10 @@ const Form = ({
         className="h-full flex flex-col"
       >
         <div className="flex-1 w-full flex flex-col items-center justify-around lg:p-10 p-10 gap-2 lg:gap-4 overflow-auto">
-          {renderInputs(meta1)}
+          {renderInputs(metaData1)}
 
           <div className="flex lg:flex-col w-full md:justify-evenly lg:justify-normal h-full gap-5">
-            {renderInputs(meta2)}
+            {renderInputs(metaData2)}
           </div>
         </div>
         <div className="flex lg:justify-end md:justify-end justify-center p-3 gap-2 bg-background">
