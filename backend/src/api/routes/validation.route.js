@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  validateOnRegister,
+  validateIdentifierOnRegister,
   authenticateLogin,
   logOut,
 } from "../controller/validation.controller.js";
@@ -10,7 +10,7 @@ const validationRouter = express.Router();
 
 validationRouter.post("/api/validate-registration", (req, res) => {
   const { target } = req.body;
-  validateOnRegister(target, res);
+  validateIdentifierOnRegister(target, res);
 });
 
 validationRouter.post("/api/login", (req, res) => {

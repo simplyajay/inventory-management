@@ -1,3 +1,4 @@
+import SearchBox from "@/components/searchbox/SearchBox";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
@@ -5,39 +6,51 @@ export const ProductTableWrapper = ({
   children,
   title,
   onAddProductClick,
+  onSearch,
   initializing,
 }) => {
   return (
     <div
       className={`lg:h-full h-[50%] w-full flex-1 flex flex-col rounded-lg shadow-md bg-[white]`}
     >
-      <div className="w-full flex rounded-t-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
-        {initializing ? (
-          <div className="w-[15%] md:w-[7%]">
-            <Skeleton height={30} />
-          </div>
-        ) : (
-          <h1 className="text-xl font-sans">{title}</h1>
-        )}
-
-        <div
-          className={`flex-1 flex justify-end ${
-            initializing ? "md:w-[7%]" : ""
-          }`}
-        >
+      <div className="w-full flex md:flex-row flex-col rounded-t-lg items-center p-3 border-b border-gray-300 shadow-sm bg-background">
+        <div>
           {initializing ? (
-            <div className="w-[15%] md:w-[7%]">
+            <div className="w-[15%] lg:w-[7%]">
               <Skeleton height={30} />
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={onAddProductClick}
-              className="border border-gray-500 rounded-lg py-1 px-2"
-            >
-              Add Product
-            </button>
+            <h1 className="text-xl font-sans">{title}</h1>
           )}
+        </div>
+
+        <div className="flex-1 md:gap-5 w-full flex md:justify-end justify-between ">
+          <div className="w-[35%] md:w-[20%]">
+            {initializing ? (
+              <div className="w-full">
+                <Skeleton height={30} />
+              </div>
+            ) : (
+              <div className="flex md:justify-end justify-start w-full">
+                <SearchBox onSearch={onSearch} />
+              </div>
+            )}
+          </div>
+
+          <div className="w-auto">
+            {initializing ? (
+              <Skeleton height={30} width={100} />
+            ) : (
+              <button
+                id="addButton"
+                type="button"
+                onClick={onAddProductClick}
+                className="w-full border border-gray-500 rounded-lg p-2"
+              >
+                Add Product
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <div className="overflow-hidden h-full">{children}</div>

@@ -9,9 +9,9 @@ import {
 } from "../../../utils/schema/register.validationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addNewOrg, addNewUser } from "@/utils/register/register.util";
 import { validateOnRegister } from "@/services/validation";
 import { getFetchOptions } from "@/utils/api-request/fetchOptions";
+import { createOrganization, createUser } from "@/services/registration";
 
 const Form = () => {
   const [step, setStep] = useState(1);
@@ -99,11 +99,12 @@ const Form = () => {
     if (values.accountType === "Individual") {
       userData = filteredValues;
     } else {
-      const orgID = await addNewOrg({ name: organization, image: "" });
-      userData = { ...filteredValues, _orgId: orgID };
+      const data = await createOrganization({ name: organization, image: "" });
+      userData = { ...filteredValues, _orgId: data._orgId };
     }
-    const newUser = await addNewUser(userData);
-    if (newUser) {
+
+    const data = await createUser(userData);
+    if (data) {
       router.push("/register/complete");
     }
     setLoading(false);

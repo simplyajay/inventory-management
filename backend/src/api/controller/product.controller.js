@@ -33,12 +33,21 @@ export const getAllProducts = async (req, res) => {
   try {
     const _orgId = await getOrgId(req.user._id);
 
-    const { page, limit, sortBy } = req.query;
+    const filter = { _orgId };
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 15;
+    const sortBy = req.query.sortBy || "sku";
+    const { searchKeyword } = req.query;
 
     if (isNaN(page) || isNaN(limit)) {
       return res.status(400).json({ message: "Invalid page or limit number" });
     }
-    const filter = { _orgId };
+
+    if (searchKeyword) {
+      filter.name = { $regex: keyword, $options: "i" };
+    }
+
     if (sortBy) {
       filter[sortBy] = { $exists: true };
     }

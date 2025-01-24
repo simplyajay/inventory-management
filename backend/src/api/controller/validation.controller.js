@@ -3,7 +3,7 @@ import { comparePassword } from "../service/hash.service.js";
 
 import jwt from "jsonwebtoken";
 
-export const validateOnRegister = async (data, res) => {
+export const validateIdentifierOnRegister = async (data, res) => {
   if (!data) {
     return res.status(400).json({ message: `Username or Email is required` });
   }
@@ -35,7 +35,7 @@ export const authenticateLogin = async (identifier, pw, res) => {
 
     if (targetUser) {
       const userObj = targetUser.toObject();
-      const { password, ...user } = userObj;
+      const { password } = userObj;
       const isMatch = await comparePassword(pw, password);
       if (isMatch) {
         const token = jwt.sign({ _id: targetUser._id }, process.env.JWT_SECRET);
@@ -45,7 +45,7 @@ export const authenticateLogin = async (identifier, pw, res) => {
           secure: process.env.NODE_ENV === "production", // Set to true in production
           sameSite: "lax",
         });
-        return res.status(200).json({ user, token });
+        return res.status(200).json({ token });
       }
       return res.status(404).json({ message: "Invalid Credentials." });
     }

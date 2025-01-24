@@ -4,17 +4,16 @@ import { DeleteIcon, EditIcon } from "../icons/Icons";
 
 const comparators = [
   { key: "sku", header: "SKU", width: 50 },
-  { key: "unitOfMeasurement", header: "OUM", width: 50 },
+  { key: "unitOfMeasurement", header: "UNIT", width: 50 },
   { key: "quantity", header: "QTY", width: 50 },
 ];
 
 const getValues = (key, comparators) => {
   const comparator = comparators.find((comparator) => comparator.key === key);
 
-  if (comparator && comparator[key]) {
-    return comparator[key];
-  }
-  return comparator && comparator[key] ? comparator[key] : key.toUpperCase();
+  return comparator && comparator["key"] === key
+    ? comparator["header"]
+    : key.toUpperCase();
 };
 
 export const getColumns = (keys, comparators) => {

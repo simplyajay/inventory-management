@@ -25,7 +25,6 @@ const ProductPageLayout = () => {
     isEditForm: false,
     initialValues: {},
     page: 1,
-    limit: 15,
     sortBy: "sku",
     totalPages: 0,
   });
@@ -40,7 +39,6 @@ const ProductPageLayout = () => {
     isEditForm,
     initialValues,
     page,
-    limit,
     sortBy,
     totalPages,
     initializing,
@@ -100,11 +98,17 @@ const ProductPageLayout = () => {
     }
   };
 
+  const handleSearch = (keyword) => {
+    //updateState({ loading: true });
+    const fetchOptions = getFetchOptions("GET", null, true, false);
+    fetchOptions.params = { page, sortBy };
+  };
+
   const fetchProducts = async (page = 1) => {
     try {
       updateState({ loading: true });
       const fetchOptions = getFetchOptions("GET", null, true, false);
-      fetchOptions.params = { page, limit, sortBy };
+      fetchOptions.params = { page, sortBy };
       const data = await getProducts(fetchOptions);
       await new Promise((resolve) => setTimeout(resolve, 500));
       updateState({
@@ -129,6 +133,7 @@ const ProductPageLayout = () => {
       <ProductTableWrapper
         title="PRODUCTS"
         onAddProductClick={handleOnAddProductClick}
+        onSearch={handleSearch}
         initializing={initializing}
       >
         <div className="h-full w-full flex flex-col">
