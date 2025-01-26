@@ -3,8 +3,8 @@ import Providers from "./providers";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import Navbar from "@/components/navigation/navbar/Navbar";
 import { cookies, headers } from "next/headers";
-import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { getAuthenticatedUser } from "@/services/authentication";
+import { getFetchOptions } from "@/services/options";
+import { getAuthenticatedUser } from "@/services/api/authentication";
 import ToastProvider from "@/components/toast/ToastProvider";
 import { SkeletonTheme } from "react-loading-skeleton";
 

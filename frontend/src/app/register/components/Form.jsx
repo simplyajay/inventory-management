@@ -9,9 +9,9 @@ import {
 } from "../../../utils/schema/register.validationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validateOnRegister } from "@/services/validation";
-import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { createOrganization, createUser } from "@/services/registration";
+import { validateOnRegister } from "@/services/api/validation";
+import { getFetchOptions } from "@/services/options";
+import { createOrganization, createUser } from "@/services/api/registration";
 
 const Form = () => {
   const [step, setStep] = useState(1);

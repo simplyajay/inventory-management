@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { validateLogin } from "@/services/validation";
-import { getFetchOptions } from "@/utils/api-request/fetchOptions";
+import { validateLogin } from "@/services/api/validation";
+import { getFetchOptions } from "@/services/options";
 import { ClipLoader } from "react-spinners";
 
 const initialValues = {

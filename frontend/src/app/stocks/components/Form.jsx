@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "../../../utils/schema/product.validationSchema";
-import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { updateProduct, addProduct } from "@/services/products";
+import { getFetchOptions } from "@/services/options";
+import { updateProduct, addProduct } from "@/services/api/products";
 import { notify } from "@/components/toast/ToastProvider";
-import { validateSku } from "@/services/products";
+import { validateSku } from "@/services/api/products";
 import { ClipLoader } from "react-spinners";
 import useInputGroup from "../../../components/forms/useInputGroup";
-import { getProductMetaData } from "@/utils/stock/product.util";
+import { getProductMetaData } from "@/utils/stock/stock.util";
 
 const Form = ({
   updateForm,

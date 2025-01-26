@@ -3,11 +3,12 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { Close } from "@/components/icons/Icons";
 
-export const ProductTableWrapper = ({
+export const ProductTableLayout = ({
   children,
   title,
   onAddProductClick,
-  onSearch,
+  handleSearch,
+  handleSearchClear,
   searchKeyword,
   initializing,
   loading,
@@ -18,8 +19,8 @@ export const ProductTableWrapper = ({
       className={`lg:h-full h-[50%] w-full flex-1 flex flex-col rounded-lg shadow-md bg-[white]`}
     >
       <div className="w-full flex flex-col gap-1 rounded-t-lg p-3 border-b border-gray-300 shadow-sm bg-background">
-        <div className="w-full flex md:flex-row flex-col items-endcenter ">
-          <div>
+        <div className="w-full gap-4 flex md:flex-row flex-col items-endcenter ">
+          <div className="flex justify-center items-center">
             {initializing ? (
               <div className="w-[15%] lg:w-[7%]">
                 <Skeleton height={30} />
@@ -37,7 +38,7 @@ export const ProductTableWrapper = ({
                 </div>
               ) : (
                 <div className="flex md:justify-end justify-start w-full">
-                  <SearchBox ref={searchRef} onSearch={onSearch} />
+                  <SearchBox ref={searchRef} onSearch={handleSearch} />
                 </div>
               )}
             </div>
@@ -70,7 +71,7 @@ export const ProductTableWrapper = ({
             >
               <span className="flex gap-4">
                 <p>{`Showing results for keyword '${searchKeyword}'`}</p>
-                <button onClick={() => onSearch().clear()}>
+                <button onClick={() => handleSearchClear(searchRef)}>
                   <Close />
                 </button>
               </span>
@@ -83,7 +84,7 @@ export const ProductTableWrapper = ({
   );
 };
 
-export const ProductFormWrapper = ({ children, title, pageInfoVisible }) => {
+export const ProductFormLayout = ({ children, title, pageInfoVisible }) => {
   return (
     <div
       className={`lg:h-full lg:w-[25%] h-[40%] w-full flex flex-col rounded-lg shadow-md transition-all duration-300 overflow-hidden ${

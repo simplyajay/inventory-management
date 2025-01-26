@@ -303,8 +303,6 @@ export const Close = (props) => {
     >
       <path
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
         stroke-width="1.5"
         d="M6 18 17.94 6M18 18 6.06 6"
       />

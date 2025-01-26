@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { overview, account } from "./links";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { logOutUser } from "@/services/validation";
-import { getFetchOptions } from "@/utils/api-request/fetchOptions";
-import { getAuthenticatedUser } from "@/services/authentication";
+import { logOutUser } from "@/services/api/validation";
+import { getFetchOptions } from "@/services/options";
+import { getAuthenticatedUser } from "@/services/api/authentication";
 import Section from "./SidebarSection";
 import Toggle from "./Toggle";
 
