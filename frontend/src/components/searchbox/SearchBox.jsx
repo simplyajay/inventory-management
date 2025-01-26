@@ -1,20 +1,30 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { Magnifying } from "../icons/Icons";
 
-const SearchBox = ({ onSearch }) => {
+const SearchBox = forwardRef(({ onSearch }, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [inputVisible, setInputVisible] = useState(true);
 
   const inputRef = useRef(null);
 
+  useImperativeHandle(ref, () => ({
+    clearInput() {
+      setInputValue("");
+    },
+  }));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputRef.current) {
       inputRef.current.blur();
     }
-
     onSearch(inputValue);
   };
 
@@ -58,6 +68,6 @@ const SearchBox = ({ onSearch }) => {
       <button type="submit" className="hidden"></button>
     </form>
   );
-};
+});
 
 export default SearchBox;

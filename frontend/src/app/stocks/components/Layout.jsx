@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import ProductForm from "@/app/stocks/components/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
+import Pagination from "@/components/table/Pagination";
 import { notify } from "@/components/toast/ToastProvider";
 import { ProductTableWrapper, ProductFormWrapper } from "./Wrapper";
 import { getProductValues } from "@/utils/stock/product.util";
@@ -10,8 +11,6 @@ import { getFetchOptions } from "@/utils/api-request/fetchOptions";
 import { deleteProduct, getProducts } from "@/services/products";
 
 const keys = ["sku", "name", "description", "unitOfMeasurement", "quantity"];
-
-import Pagination from "@/components/table/Pagination";
 
 const ProductPageLayout = () => {
   const [state, setState] = useState({
@@ -27,6 +26,8 @@ const ProductPageLayout = () => {
     page: 1,
     sortBy: "sku",
     totalPages: 0,
+    searchKeyword: "",
+    showSearch: false,
   });
 
   const {
@@ -41,6 +42,8 @@ const ProductPageLayout = () => {
     page,
     sortBy,
     totalPages,
+    searchKeyword,
+    showSearch,
     initializing,
   } = state;
 
@@ -52,6 +55,8 @@ const ProductPageLayout = () => {
 
     return {};
   }, [selectedProduct]);
+
+  const searchRef = useRef(null);
 
   const updateState = (updates) => {
     setState((prevState) => ({ ...prevState, ...updates }));
@@ -84,13 +89,13 @@ const ProductPageLayout = () => {
       case "prev":
         if (page > 1) {
           const newPage = Number(page) - 1;
-          fetchProducts(newPage);
+          fetchProducts({ page: newPage });
         }
         break;
       case "next":
         if (page < totalPages) {
           const newPage = Number(page) + 1;
-          fetchProducts(newPage);
+          fetchProducts({ page: newPage });
         }
         break;
       default:
@@ -98,17 +103,28 @@ const ProductPageLayout = () => {
     }
   };
 
-  const handleSearch = (keyword) => {
-    //updateState({ loading: true });
-    const fetchOptions = getFetchOptions("GET", null, true, false);
-    fetchOptions.params = { page, sortBy };
+  const handleSearch = (keyword = "") => {
+    if (keyword) {
+      updateState({ searchKeyword: keyword, showSearch: true });
+      fetchProducts({ searchKeyword: keyword });
+    }
+
+    return {
+      clear: () => {
+        if (searchRef.current) {
+          searchRef.current.clearInput();
+        }
+        updateState({ searchKeyword: "" });
+        fetchProducts({ searchKeyword: keyword });
+      },
+    };
   };
 
-  const fetchProducts = async (page = 1) => {
+  const fetchProducts = async ({ page = 1, searchKeyword = "" } = {}) => {
     try {
       updateState({ loading: true });
       const fetchOptions = getFetchOptions("GET", null, true, false);
-      fetchOptions.params = { page, sortBy };
+      fetchOptions.params = { page, sortBy, searchKeyword };
       const data = await getProducts(fetchOptions);
       await new Promise((resolve) => setTimeout(resolve, 500));
       updateState({
@@ -134,7 +150,10 @@ const ProductPageLayout = () => {
         title="PRODUCTS"
         onAddProductClick={handleOnAddProductClick}
         onSearch={handleSearch}
+        searchKeyword={searchKeyword}
+        loading={loading}
         initializing={initializing}
+        searchRef={searchRef}
       >
         <div className="h-full w-full flex flex-col">
           <Table

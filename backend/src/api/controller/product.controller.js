@@ -45,7 +45,7 @@ export const getAllProducts = async (req, res) => {
     }
 
     if (searchKeyword) {
-      filter.name = { $regex: keyword, $options: "i" };
+      filter.name = { $regex: searchKeyword, $options: "i" };
     }
 
     if (sortBy) {
@@ -62,7 +62,7 @@ export const getAllProducts = async (req, res) => {
 
     return res.status(200).json({
       products,
-      totalPages: Math.ceil(totalProducts / limit),
+      totalPages: Math.max(1, Math.ceil(totalProducts / limit)),
       totalProducts,
       page,
     });

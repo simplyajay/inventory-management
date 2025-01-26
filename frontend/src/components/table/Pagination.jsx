@@ -42,7 +42,7 @@ const Pagination = ({
         disabled={initializing ? initializing : loading}
         className={`${
           initializing ? "p-1" : "p-2"
-        } rounded-full hover:bg-slate-200 disabled:cursor-default`}
+        } rounded-full disabled:cursor-default hover:bg-slate-200  `}
       >
         <span>
           {initializing ? (
