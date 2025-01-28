@@ -1,10 +1,14 @@
 import React from "react";
 
-const ActionButton = ({ text, icon, onClick, customClass }) => {
+const ActionButton = ({ text, icon, onClick, target, customClass }) => {
+  if (!onClick || !target) throw new Error("Missing handler");
+
   return (
-    <button className={`p-1 rounded-lg  ${customClass}`} onClick={onClick}>
-      {icon && <span>{icon}</span>}
-      {text && <span>{text}</span>}
+    <button className={`p-1 rounded-lg  ${customClass}`} onClick={() => onClick(target)}>
+      <span className="flex gap-1">
+        <i>{icon}</i>
+        <p>{text}</p>
+      </span>
     </button>
   );
 };

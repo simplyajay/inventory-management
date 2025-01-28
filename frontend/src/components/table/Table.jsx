@@ -1,17 +1,11 @@
 import React from "react";
-import useTable from "./useTable";
 import { MoonLoader } from "react-spinners";
 
-const Table = ({ body, keys, onEdit, onDelete, onRowClick, loading }) => {
-  const acts = [
-    { type: "edit", className: "hover:bg-blue-100", handler: onEdit },
-    { type: "delete", className: "hover:bg-blue-100", handler: onDelete },
-  ];
-  const { columns, actions } = useTable({
-    keys,
-    tableActions: acts,
-    initialData: body,
-  });
+const Table = ({ headers, bodies, actions, loading, messageWhenEmpty }) => {
+  if (!headers || !bodies) throw new Error("Headers or bodies not found");
+
+  if (!Array.isArray(headers) || !Array.isArray(bodies))
+    throw new Error("Invalid Headers or bodies");
 
   return (
     <div className="w-full h-full overflow-auto">
@@ -21,49 +15,56 @@ const Table = ({ body, keys, onEdit, onDelete, onRowClick, loading }) => {
         </div>
       ) : (
         <table
-          className={`${body.length === 0 ? "h-full" : ""} w-full table-auto`}
+          className={`${bodies.length === 0 ? "h-full" : ""} w-full table-auto`}
         >
           <thead className="top-0 sticky z-10 bg-background">
-            <tr className="border-gray-500">
-              {columns.map((column, key) => {
-                return (
-                  <th
-                    key={key}
-                    className={`px-3 py-2 text-sm font-thin overflow-clip`}
-                  >
-                    {column.header}
-                  </th>
-                );
-              })}
+            <tr className="shadow-sm">
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className="px-3 py-2 text-md font-thin overflow-clip"
+                >
+                  {header.name}
+                </th>
+              ))}
+              {actions?.header && (
+                <th className="px-3 py-2 text-md font-thin overflow-clip">
+                  {actions.header}
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="w-full">
-            {body.length >= 1 ? (
+            {bodies.length >= 1 ? (
               <>
-                {body.map((row, rowIndex) => (
+                {bodies.map((body, rowIndex) => (
                   <tr
                     key={rowIndex}
                     className="text-center hover:bg-blue-50 border-b-2 px-2"
-                    onClick={() => onRowClick(row)}
                   >
-                    {columns.map((column, colIndex) => (
+                    {headers.map((header, colIndex) => (
                       <td key={colIndex} className="py-2">
-                        {column.body
-                          ? column.body({
-                              getValue: () => row[column.accessor],
-                            })
-                          : actions.map((action) => action.component)}
+                        {body[header.key]}
                       </td>
                     ))}
+                    {actions?.components && (
+                      <td>
+                        {actions.components.map((component, index) => (
+                          <span key={index} className="py-2">
+                            {React.cloneElement(component, { target: body })}
+                          </span>
+                        ))}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </>
             ) : (
               <tr>
-                <td colSpan={columns.length}>
+                <td colSpan={headers.length}>
                   <div className="flex justify-center items-center h-full italic text-2xl">
                     <p className="text-gray-500 select-none">
-                      No product found
+                      {messageWhenEmpty}
                     </p>
                   </div>
                 </td>

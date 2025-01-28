@@ -2,15 +2,11 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import ProductForm from "@/app/stocks/components/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
-import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
+import Table from "@/components/table/Table";
 import { ProductTableLayout, ProductFormLayout } from "./Wrapper";
-import {
-  createStockPageHandler,
-  getProductValues,
-} from "@/utils/stock/stock.util";
-
-const keys = ["sku", "name", "description", "unitOfMeasurement", "quantity"];
+import { createPageHandler, getTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
+import { getProductValues } from "@/utils/stock/stockForm.util";
 
 const ProductPageLayout = () => {
   const [state, setState] = useState({
@@ -45,7 +41,6 @@ const ProductPageLayout = () => {
   } = state;
 
   const FormMemo = React.memo(ProductForm);
-
   const productValues = useMemo(() => {
     if (selectedProduct) {
       return getProductValues(selectedProduct);
@@ -54,29 +49,24 @@ const ProductPageLayout = () => {
     return {};
   }, [selectedProduct]);
 
-  const searchRef = useRef(null);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const updateState = (updates) => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const {
-    fetchProducts,
-    deleteItem,
-    searchItem,
-    clearSearch,
-    pageNext,
-    pagePrev,
-  } = createStockPageHandler({
-    page,
-    totalPages,
-    state,
-    updateState,
-  });
+  const { fetchProducts, deleteItem, searchItem, clearSearch, pageNext, pagePrev } =
+    createPageHandler({
+      page,
+      totalPages,
+      state,
+      updateState,
+    });
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const tableActions = getTableActions(updateState);
+  const searchRef = useRef(null);
 
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between ">
@@ -98,18 +88,12 @@ const ProductPageLayout = () => {
       >
         <div className="h-full w-full flex flex-col">
           <Table
-            body={products}
-            keys={keys}
             loading={loading}
-            onRowClick={(prod) => updateState({ selectedProduct: prod })}
-            onEdit={() =>
-              updateState({ isEditForm: true, pageInfoVisible: true })
-            }
-            onDelete={() => {
-              updateState({ showConfirmDialog: true });
-            }}
+            headers={tableHeaders}
+            bodies={products}
+            actions={tableActions}
+            messageWhenEmpty="No Products Available"
           />
-
           <Pagination
             onPrevPage={pagePrev}
             onNextPage={pageNext}
@@ -121,10 +105,7 @@ const ProductPageLayout = () => {
         </div>
       </ProductTableLayout>
 
-      <ProductFormLayout
-        title="PRODUCT INFORMATION"
-        pageInfoVisible={pageInfoVisible}
-      >
+      <ProductFormLayout title="PRODUCT INFORMATION" pageInfoVisible={pageInfoVisible}>
         <FormMemo
           updateForm={isEditForm}
           initialValues={isEditForm ? productValues : initialValues}
@@ -141,12 +122,12 @@ const ProductPageLayout = () => {
               {selectedProduct.name}
             </p>
           }
-          cancelProps={{
+          optionCancel={{
             text: "Cancel",
             onCancel: () => updateState({ showConfirmDialog: false }),
             customclass: "bg-gray-600",
           }}
-          confirmProps={{
+          optionConfirm={{
             text: deleting ? "Deleting..." : "Confirm",
             onConfirm: () => deleteItem(selectedProduct),
             customclass: `${deleting ? `hover:cursor-default` : ``} bg-red-500`,

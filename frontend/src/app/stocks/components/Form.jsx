@@ -9,7 +9,7 @@ import { notify } from "@/components/toast/ToastProvider";
 import { validateSku } from "@/services/api/products";
 import { ClipLoader } from "react-spinners";
 import useInputGroup from "../../../components/forms/useInputGroup";
-import { getProductMetaData } from "@/utils/stock/stock.util";
+import { getProductMetaData } from "@/utils/stock/stockForm.util";
 
 const Form = ({
   updateForm,
