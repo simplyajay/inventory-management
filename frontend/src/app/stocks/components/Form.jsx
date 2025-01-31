@@ -11,24 +11,10 @@ import { ClipLoader } from "react-spinners";
 import useInputGroup from "../../../components/forms/useInputGroup";
 import { getProductMetaData } from "@/utils/stock/stockForm.util";
 
-const Form = ({
-  updateForm,
-  initialValues,
-  collapseForm,
-  selectedProduct,
-  fetchProducts,
-}) => {
+const Form = ({ updateForm, initialValues, collapseForm, selectedProduct, fetchProducts }) => {
   const [updating, setUpdating] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-    clearErrors,
-    reset,
-    setValue,
-    setError,
-  } = useForm({
+  const { register, handleSubmit, formState, clearErrors, reset, setValue, setError } = useForm({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: initialValues,
@@ -82,7 +68,7 @@ const Form = ({
         data = await addProduct(fetchOptions);
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      //  await new Promise((resolve) => setTimeout(resolve, 500));
       notify(data.message);
       fetchProducts();
     } catch (error) {
@@ -93,10 +79,7 @@ const Form = ({
     }
   };
 
-  const { metaData1, metaData2, combinedMetaDatas } = getProductMetaData(
-    updating,
-    updateForm
-  );
+  const { metaData1, metaData2, combinedMetaDatas } = getProductMetaData(updating, updateForm);
   const handlers = combinedMetaDatas.map((meta) => ({
     accessor: meta.name,
     key: "onFocus",

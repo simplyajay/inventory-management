@@ -20,7 +20,7 @@ const ProductPageLayout = () => {
     isEditForm: false,
     initialValues: {},
     page: 1,
-    sortBy: "sku",
+    sortBy: { key: "name", type: "asc" },
     totalPages: 0,
     searchKeyword: "",
   });
@@ -38,6 +38,7 @@ const ProductPageLayout = () => {
     totalPages,
     searchKeyword,
     initializing,
+    sortBy,
   } = state;
 
   const FormMemo = React.memo(ProductForm);
@@ -57,9 +58,8 @@ const ProductPageLayout = () => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const { fetchProducts, deleteItem, searchItem, clearSearch, pageNext, pagePrev } =
+  const { fetchProducts, deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
     createPageHandler({
-      page,
       totalPages,
       state,
       updateState,
@@ -93,10 +93,12 @@ const ProductPageLayout = () => {
             bodies={products}
             actions={tableActions}
             messageWhenEmpty="No Products Available"
+            sortSetting={{ ...sortBy, searchKeyword }}
+            handleSort={handleSort}
           />
           <Pagination
-            onPrevPage={pagePrev}
-            onNextPage={pageNext}
+            onPrevPage={() => pagePrev(searchKeyword)}
+            onNextPage={() => pageNext(searchKeyword)}
             loading={loading}
             initializing={initializing}
             currentPage={page}

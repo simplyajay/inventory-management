@@ -2,13 +2,7 @@ import React from "react";
 
 export const HomeIcon = (props) => {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg viewBox="0 0 24 24" fill="currentColor" height="0.7em" width="0.7em" {...props}>
       <path
         fillRule="evenodd"
         d="M11.03 2.59a1.5 1.5 0 011.94 0l7.5 6.363a1.5 1.5 0 01.53 1.144V19.5a1.5 1.5 0 01-1.5 1.5h-5.75a.75.75 0 01-.75-.75V14h-2v6.25a.75.75 0 01-.75.75H4.5A1.5 1.5 0 013 19.5v-9.403c0-.44.194-.859.53-1.144l7.5-6.363zM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v6.25h5v-9.403L12 3.734z"
@@ -19,13 +13,7 @@ export const HomeIcon = (props) => {
 
 export const ProductIcon = (props) => {
   return (
-    <svg
-      fill="currentColor"
-      viewBox="0 0 16 17"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg fill="currentColor" viewBox="0 0 16 17" height="0.7em" width="0.7em" {...props}>
       <path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z" />
     </svg>
   );
@@ -54,13 +42,7 @@ export const SupplierIcon = (props) => {
 
 export const DocumentIcon = (props) => {
   return (
-    <svg
-      viewBox="0 0 512 512"
-      fill="currentColor"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg viewBox="0 0 512 512" fill="currentColor" height="0.7em" width="0.7em" {...props}>
       <path
         fill="none"
         stroke="currentColor"
@@ -153,13 +135,7 @@ export const LogoutIcon = (props) => {
 
 export const SaleIcon = (props) => {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg viewBox="0 0 24 24" fill="currentColor" height="0.7em" width="0.7em" {...props}>
       <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8z" />
       <path d="M12 11c-2 0-2-.63-2-1s.7-1 2-1 1.39.64 1.4 1h2A3 3 0 0013 7.12V6h-2v1.09C9 7.42 8 8.71 8 10c0 1.12.52 3 4 3 2 0 2 .68 2 1s-.62 1-2 1c-1.84 0-2-.86-2-1H8c0 .92.66 2.55 3 2.92V18h2v-1.08c2-.34 3-1.63 3-2.92 0-1.12-.52-3-4-3z" />
     </svg>
@@ -168,13 +144,7 @@ export const SaleIcon = (props) => {
 
 export const MenuFoldIcon = (props) => {
   return (
-    <svg
-      viewBox="0 0 1024 1024"
-      fill="currentColor"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg viewBox="0 0 1024 1024" fill="currentColor" height="0.7em" width="0.7em" {...props}>
       <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 000-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0014.4 7z" />
     </svg>
   );
@@ -182,13 +152,7 @@ export const MenuFoldIcon = (props) => {
 
 export const MenuUnfoldIcon = (props) => {
   return (
-    <svg
-      viewBox="0 0 1024 1024"
-      fill="currentColor"
-      height="0.7em"
-      width="0.7em"
-      {...props}
-    >
+    <svg viewBox="0 0 1024 1024" fill="currentColor" height="0.7em" width="0.7em" {...props}>
       <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 000 13.8z" />
     </svg>
   );
@@ -301,11 +265,37 @@ export const Close = (props) => {
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
-        stroke="currentColor"
-        stroke-width="1.5"
-        d="M6 18 17.94 6M18 18 6.06 6"
-      />
+      <path stroke="currentColor" stroke-width="1.5" d="M6 18 17.94 6M18 18 6.06 6" />
+    </svg>
+  );
+};
+
+export const CaretDown = (props) => {
+  return (
+    <svg
+      fill="#000000"
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <path d="M24 11.305l-7.997 11.39L8 11.305z"></path>
+    </svg>
+  );
+};
+
+export const CaretUp = (props) => {
+  return (
+    <svg
+      fill="#000000"
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <path d="M8 20.695l7.997-11.39L24 20.695z"></path>
     </svg>
   );
 };
