@@ -45,7 +45,12 @@ export const getAllProducts = async (req, res) => {
     }
 
     if (searchKeyword) {
-      filter.name = { $regex: searchKeyword, $options: "i" };
+      filter.$or = [
+        { name: { $regex: searchKeyword, $options: "i" } },
+        { sku: { $regex: searchKeyword, $options: "i" } },
+        // Add other fields if necessary, for example:
+        // { description: { $regex: searchKeyword, $options: "i" } },
+      ];
     }
 
     if (sortBy && sortBy.key && sortBy.type) {

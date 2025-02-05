@@ -38,6 +38,7 @@ export const createPageHandler = ({ totalPages, state, updateState }) => {
       pageInfoVisible: false,
       deleting: false,
       showConfirmDialog: false,
+      searchKeyword: "",
     });
     fetchProducts();
   };
