@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import { CaretDown, CaretUp } from "../icons/Icons";
 
@@ -22,67 +22,6 @@ const Table = ({
 
   const bodyClass = "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
 
-  useEffect(() => {
-    const resizableColumns = document.querySelectorAll("th");
-
-    let startX;
-    let startWidth;
-    let isResizing = false;
-
-    resizableColumns.forEach((column) => {
-      const offset = 5;
-      column.addEventListener("mousemove", function (event) {
-        const rect = this.getBoundingClientRect();
-
-        if (event.pageX > rect.right - offset) {
-          this.style.cursor = "col-resize";
-
-          //check if mouse is inside the element
-        } else if (
-          event.pageX >= rect.left &&
-          event.pageX <= rect.right &&
-          event.pageY >= rect.top &&
-          event.pageY <= rect.bottom
-        ) {
-          this.style.cursor = "pointer";
-        } else {
-          this.style.cursor = "auto";
-        }
-      });
-
-      column.addEventListener("mousedown", function (event) {
-        const rect = this.getBoundingClientRect();
-
-        if (event.pageX > rect.right - offset) {
-          isResizing = true;
-          startX = event.pageX;
-          startWidth = this.offsetWidth;
-          const columnToResize = this;
-
-          function cellResize(event) {
-            const width = startWidth + (event.pageX - startX);
-            columnToResize.style.width = width + "px";
-          }
-
-          document.addEventListener("mousemove", cellResize);
-
-          document.addEventListener("mouseup", function removeEventListener() {
-            document.removeEventListener("mousemove", cellResize);
-            document.removeEventListener("mouseup", removeEventListener);
-
-            setTimeout(() => (isResizing = false), 50);
-          });
-
-          column.addEventListener("click", (e) => {
-            if (isResizing) {
-              e.stopImmediatePropagation();
-            }
-          });
-        }
-      });
-    });
-  });
-
   return (
     <div className="w-full h-full overflow-auto">
       {loading ? (
@@ -100,7 +39,7 @@ const Table = ({
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className={`${headingClass} cursor-pointer`}
+                  className={`${headingClass} cursor-pointer absolute resizer`}
                   onClick={() => {
                     if (handleSort && sortSetting) {
                       const type =
@@ -140,7 +79,7 @@ const Table = ({
                         key={colIndex}
                         className={`${
                           isNaN(body[header.key]) ? "text-start" : "text-end"
-                        } ${bodyClass} select-text`}
+                        } ${bodyClass}select-text`}
                       >
                         {body[header.key]}
                       </td>
