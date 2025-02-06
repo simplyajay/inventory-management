@@ -18,12 +18,12 @@ const Table = ({
     throw new Error("Invalid Headers or bodies");
 
   const headingClass =
-    "px-3 py-2 text-md font-extralight border border-dotted border-gray-300 sticky top-0 bg-background shadow-sm";
+    "px-3 py-2 text-md font-extralight border border-dotted border-gray-300 sticky top-0 bg-background shadow-sm select-none";
 
   const bodyClass = "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full overflow-auto select-none">
       {loading ? (
         <div className="w-full h-full flex justify-center items-center">
           <MoonLoader color="#29b8ea" size={60} />
@@ -32,7 +32,7 @@ const Table = ({
         <table
           className={`${
             bodies.length === 0 ? "h-full" : ""
-          } w-full table-auto border-collapse border-spacing-0 scroll-smooth`}
+          } w-full table-auto border-collapse border-spacing-0 scroll-smooth `}
         >
           <thead>
             <tr>
