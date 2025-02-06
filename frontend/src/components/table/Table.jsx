@@ -22,80 +22,7 @@ const Table = ({
 
   const bodyClass = "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
 
-  const tableRef = useRef(null);
-  const headerRefs = useRef([]);
-  const resizeRef = useRef(false);
-  const [columnWidths, setColumnWidths] = useState({});
-
-  let startX, startWidth;
-  const offset = 10;
-
-  const handleMouseMove = useCallback((e) => {
-    headerRefs.current.forEach((header) => {
-      const rect = header.getBoundingClientRect();
-
-      if (e.pageX > rect.right - offset) {
-        header.style.cursor = "col-resize";
-      } else {
-        header.style.cursor = "pointer";
-      }
-    });
-  });
-
-  const handleMouseDown = useCallback((e) => {
-    const header = e.currentTarget;
-    const rect = header.getBoundingClientRect();
-    const index = headerRefs.current.indexOf(header);
-
-    if (e.pageX > rect.right - offset) {
-      resizeRef.current = true;
-      startX = e.pageX;
-      startWidth = header.offsetWidth;
-      let newWidth;
-
-      const handleResize = (x) => {
-        if (!resizeRef.current) return;
-
-        const tableRect = tableRef.current.getBoundingClientRect();
-        const clampedX = Math.min(x.pageX, tableRect.right);
-        newWidth = Math.max(50, startWidth + (clampedX - startX));
-      };
-
-      const stopResize = () => {
-        setColumnWidths((prev) => ({ ...prev, [index]: newWidth }));
-        setTimeout(() => {
-          resizeRef.current = false; // Delay to allow click event to process
-        }, 50);
-        document.removeEventListener("mousemove", handleResize);
-        document.removeEventListener("mouseup", stopResize);
-      };
-
-      document.addEventListener("mousemove", handleResize);
-      document.addEventListener("mouseup", stopResize);
-    }
-  });
-
-  useEffect(() => {
-    headerRefs.current.forEach((headerRef) => {
-      if (!headerRef) return;
-
-      headerRef.addEventListener("mousemove", handleMouseMove);
-      headerRef.addEventListener("mousedown", handleMouseDown);
-    });
-
-    return () => {
-      headerRefs.current.forEach((headerRef) => {
-        if (!headerRef) return;
-
-        headerRef.removeEventListener("mousemove", handleMouseMove);
-        headerRef.removeEventListener("mousedown", handleMouseDown);
-      });
-    };
-  }, [handleMouseDown, handleMouseMove]);
-
   const handleHeaderclick = (header) => {
-    if (resizeRef.current) return;
-
     if (handleSort && sortSetting) {
       const type =
         sortSetting.key === header.key ? (sortSetting.type === "asc" ? "desc" : "asc") : "asc";
@@ -115,7 +42,6 @@ const Table = ({
         </div>
       ) : (
         <table
-          ref={tableRef}
           className={`${
             bodies.length === 0 ? "h-full" : ""
           } w-full table-auto border-collapse border-spacing-0 scroll-smooth`}
@@ -124,7 +50,6 @@ const Table = ({
             <tr>
               {headers.map((header, index) => (
                 <th
-                  ref={(el) => (headerRefs.current[index] = el)}
                   key={index}
                   style={{ width: columnWidths[index] ? `${columnWidths[index]}px` : "auto" }}
                   className={`${headingClass}`}
