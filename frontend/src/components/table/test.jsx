@@ -41,18 +41,18 @@ const Table = ({
           <MoonLoader color="#29b8ea" size={60} />
         </div>
       ) : (
-        <div
-          id="wrapper"
+        <table
           className={`${
             bodies.length === 0 ? "h-full" : ""
-          } flex flex-col w-full h-full scroll-smooth`}
+          } w-full table-auto border-collapse border-spacing-0 scroll-smooth`}
         >
-          <div className="flex flex-col border border-pink-500">
-            <div id="head" className="w-full h-[10%] flex justify-evenly border border-green-500">
+          <thead>
+            <tr>
               {headers.map((header, index) => (
-                <div
+                <th
                   key={index}
-                  className={`${headingClass} border border-pink-500 w-[${header.defaultWidth}px]`}
+                  style={{ width: columnWidths[index] ? `${columnWidths[index]}px` : "auto" }}
+                  className={`${headingClass}`}
                   onClick={() => handleHeaderclick(header)}
                 >
                   <div className="flex gap-2 items-center">
@@ -63,47 +63,47 @@ const Table = ({
                       <></>
                     )}
                   </div>
-                </div>
+                </th>
               ))}
               {actions?.header && <th className={headingClass}>{actions.header}</th>}
-            </div>
-            <div id="body" className="w-full">
-              {bodies.length >= 1 ? (
-                <>
-                  {bodies.map((body, rowIndex) => (
-                    <div key={rowIndex} className="border border-gray-500 flex">
-                      {headers.map((header, colIndex) => (
-                        <div
-                          key={colIndex}
-                          className={`${
-                            isNaN(body[header.key]) ? "text-start" : "text-end"
-                          } ${bodyClass}select-text w-full`}
-                        >
-                          {body[header.key]}
-                        </div>
-                      ))}
-                      {actions?.components && (
-                        <div className={`${bodyClass} flex gap-1 justify-center`}>
-                          {actions.components.map((component, index) => (
-                            <div key={index}>{React.cloneElement(component, { target: body })}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <div>
-                  <div colSpan={actions ? headers.length + 1 : headers.length}>
-                    <div className="flex justify-center items-center h-full italic text-2xl">
-                      <p className="text-gray-500 select-none">{messageWhenEmpty}</p>
-                    </div>
+            </tr>
+          </thead>
+          <tbody className="w-full">
+            {bodies.length >= 1 ? (
+              <>
+                {bodies.map((body, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {headers.map((header, colIndex) => (
+                      <td
+                        key={colIndex}
+                        className={`${
+                          isNaN(body[header.key]) ? "text-start" : "text-end"
+                        } ${bodyClass}select-text`}
+                      >
+                        {body[header.key]}
+                      </td>
+                    ))}
+                    {actions?.components && (
+                      <td className={`${bodyClass} flex gap-1 justify-center`}>
+                        {actions.components.map((component, index) => (
+                          <div key={index}>{React.cloneElement(component, { target: body })}</div>
+                        ))}
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <tr>
+                <td colSpan={actions ? headers.length + 1 : headers.length}>
+                  <div className="flex justify-center items-center h-full italic text-2xl">
+                    <p className="text-gray-500 select-none">{messageWhenEmpty}</p>
                   </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       )}
     </div>
   );

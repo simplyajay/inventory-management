@@ -105,11 +105,11 @@ export const createPageHandler = ({ totalPages, state, updateState }) => {
 };
 
 export const tableHeaders = [
-  { name: "SKU", key: "sku" },
-  { name: "NAME", key: "name" },
-  { name: "DESCRIPTION", key: "description" },
-  { name: "UNIT", key: "unitOfMeasurement" },
-  { name: "QTY", key: "quantity" },
+  { name: "SKU", key: "sku", defaultWidth: 200 },
+  { name: "NAME", key: "name", defaultWidth: 300 },
+  { name: "DESCRIPTION", key: "description", defaultWidth: 100 },
+  { name: "UNIT", key: "unitOfMeasurement", defaultWidth: 30 },
+  { name: "QTY", key: "quantity", defaultWidth: 30 },
 ];
 
 export const getTableActions = (handler) => {
