@@ -26,7 +26,7 @@ export const ProductTableLayout = ({
                 <Skeleton height={30} />
               </div>
             ) : (
-              <h1 className="text-xl font-sans">{title}</h1>
+              <h1 className="text-xl font-sans select-none">{title}</h1>
             )}
           </div>
 
@@ -51,7 +51,7 @@ export const ProductTableLayout = ({
                   id="addButton"
                   type="button"
                   onClick={onAddProductClick}
-                  className="w-full border border-gray-500 rounded-lg p-2"
+                  className="w-full border border-gray-500 rounded-lg p-2 select-none"
                 >
                   Add Product
                 </button>

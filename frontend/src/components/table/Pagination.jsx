@@ -11,7 +11,7 @@ const Pagination = ({
   totalPages,
 }) => {
   return (
-    <div className="flex-1 flex justify-center items-center p-2 w-full border-t-1 rounded-b-lg bg-background gap-10">
+    <div className="flex-1 flex justify-center items-center p-2 w-full border-t-1 rounded-b-lg bg-background gap-10 select-none">
       <button
         onClick={onPrevPage}
         disabled={initializing ? initializing : loading}

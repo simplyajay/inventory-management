@@ -32,14 +32,14 @@ const Table = ({
         <table
           className={`${
             bodies.length === 0 ? "h-full" : ""
-          } w-full table-auto border-separate border-spacing-0 antialiased scroll-smooth select-none`}
+          } w-full table-auto border-collapse border-spacing-0 scroll-smooth`}
         >
           <thead>
             <tr>
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className={`${headingClass} cursor-pointer absolute resizer`}
+                  className={`${headingClass} cursor-pointer`}
                   onClick={() => {
                     if (handleSort && sortSetting) {
                       const type =

@@ -40,7 +40,7 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex rounded-lg p-1 focus:outline-none h-full transition-all duration-150 ${
+      className={`flex rounded-lg p-1 focus:outline-none h-full transition-all duration-150 select-none ${
         isFocused ? "ring-1 focus:ring-blue-100" : ""
       } border border-gray-500 ${inputVisible ? "w-full" : "w-[45px]"}`}
     >
