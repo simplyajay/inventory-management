@@ -18,9 +18,10 @@ const Table = ({
     throw new Error("Invalid Headers or bodies");
 
   const headingClass =
-    "px-3 py-2 text-md font-extralight border border-dotted border-gray-300 sticky top-0 bg-background shadow-sm select-none";
+    "px-3 py-2 text-md font-extralight border border-dotted border-gray-300 sticky top-0 bg-background shadow-sm";
 
-  const bodyClass = "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
+  const bodyClass =
+    "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
 
   return (
     <div className="w-full h-full overflow-auto select-none">
@@ -32,7 +33,7 @@ const Table = ({
         <table
           className={`${
             bodies.length === 0 ? "h-full" : ""
-          } w-full table-auto border-collapse border-spacing-0 scroll-smooth `}
+          } w-full table-auto border-collapse border-spacing-0 scroll-smooth`}
         >
           <thead>
             <tr>
@@ -59,14 +60,22 @@ const Table = ({
                   <div className="flex gap-2 items-center">
                     <span>{header.name}</span>
                     {sortSetting && sortSetting.key === header.key ? (
-                      <span>{sortSetting.type === "asc" ? <CaretUp /> : <CaretDown />}</span>
+                      <span>
+                        {sortSetting.type === "asc" ? (
+                          <CaretUp />
+                        ) : (
+                          <CaretDown />
+                        )}
+                      </span>
                     ) : (
                       <></>
                     )}
                   </div>
                 </th>
               ))}
-              {actions?.header && <th className={headingClass}>{actions.header}</th>}
+              {actions?.header && (
+                <th className={headingClass}>{actions.header}</th>
+              )}
             </tr>
           </thead>
           <tbody className="w-full">
@@ -87,7 +96,9 @@ const Table = ({
                     {actions?.components && (
                       <td className={`${bodyClass} flex gap-1 justify-center`}>
                         {actions.components.map((component, index) => (
-                          <div key={index}>{React.cloneElement(component, { target: body })}</div>
+                          <div key={index}>
+                            {React.cloneElement(component, { target: body })}
+                          </div>
                         ))}
                       </td>
                     )}
@@ -98,7 +109,9 @@ const Table = ({
               <tr>
                 <td colSpan={actions ? headers.length + 1 : headers.length}>
                   <div className="flex justify-center items-center h-full italic text-2xl">
-                    <p className="text-gray-500 select-none">{messageWhenEmpty}</p>
+                    <p className="text-gray-500 select-none">
+                      {messageWhenEmpty}
+                    </p>
                   </div>
                 </td>
               </tr>
