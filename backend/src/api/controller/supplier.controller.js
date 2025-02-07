@@ -1,43 +1,37 @@
-import Supplier from '../../models/supplier.model.js'
-import { getOrgId } from '../service/user.service.js';
-
+import Supplier from "../../models/supplier.model.js";
+import { getOrgId } from "../service/user.service.js";
 
 export const createSupplier = async (req, res) => {
-    try {
+  try {
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const findSupplier = async (req, res) => {
-    try {
+export const findSupplier = async (req, res) => {
+  try {
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const getAllSuppliers = async (req, res) => {
-    try {
+export const getAllSuppliers = async (req, res) => {
+  try {
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const updateSuppler = async (req, res) => {
-    try {
+export const updateSuppler = async (req, res) => {
+  try {
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
-  export const deleteSupplier = async (req, res) => {
-    try {
-
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
+export const deleteSupplier = async (req, res) => {
+  try {
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

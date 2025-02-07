@@ -1,4 +1,4 @@
-import Product from "../../models/product.model.js";
+import { Product } from "../../models/models.js";
 import { getOrgId } from "../service/user.service.js";
 
 export const createProduct = async (req, res) => {

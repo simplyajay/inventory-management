@@ -1,4 +1,4 @@
-import User from "../../models/user.model.js";
+import { User } from "../../models/models.js";
 import { hashPassword } from "../service/hash.service.js";
 import { getToken } from "../service/token.service.js";
 import jwt from "jsonwebtoken";
