@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const SupplierSchema = mongoose.Schema(
   {
@@ -6,7 +6,7 @@ const SupplierSchema = mongoose.Schema(
     name: { type: String, required: true },
     address: { type: String, default: "" },
     image: { type: String, required: false },
-    documents: { type: String },
+    documents: { type: [Schema.Types.Mixed], default: [] },
   },
   { timestamps: true }
 );

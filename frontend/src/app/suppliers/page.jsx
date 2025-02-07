@@ -1,7 +1,8 @@
 import React from "react";
+import Layout from "./components/Layout";
 
 const Suppliers = () => {
-  return <div>Suppliers</div>;
+  return <Layout></Layout>;
 };
 
 export default Suppliers;
