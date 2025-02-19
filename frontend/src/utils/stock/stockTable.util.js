@@ -3,7 +3,7 @@ import { deleteProduct } from "@/services/api/products";
 import { getProducts } from "@/services/api/products";
 import { notify } from "@/components/toast/ToastProvider";
 import { EditIcon, DeleteIcon } from "@/components/icons/Icons";
-import ActionButton from "@/components/table/ActionButton";
+import ActionButton from "@/components/table/TableAction";
 
 export const createPageHandler = ({ totalPages, state, updateState }) => {
   const { page, sortBy } = state;
