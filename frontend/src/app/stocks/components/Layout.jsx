@@ -80,9 +80,10 @@ const ProductPageLayout = () => {
   const searchRef = useRef(null);
 
   return (
-    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between ">
+    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
       <TableLayout
         title="PRODUCTS"
+        buttonText="Add Product"
         onButtonClick={() =>
           updateState({
             initialValues,

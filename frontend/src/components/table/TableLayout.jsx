@@ -6,6 +6,8 @@ import { Close } from "@/components/icons/Icons";
 const TableLayout = ({
   children,
   title,
+  buttonIcon,
+  buttonText,
   onButtonClick,
   handleSearch,
   handleSearchClear,
@@ -53,7 +55,9 @@ const TableLayout = ({
                   onClick={onButtonClick}
                   className="w-full border border-gray-500 rounded-lg p-2 select-none"
                 >
-                  Add Product
+                  <span className="flex items-center gap-2 justify-center">
+                    {buttonIcon && <i>{buttonIcon}</i>} <p>{buttonText}</p>
+                  </span>
                 </button>
               )}
             </div>

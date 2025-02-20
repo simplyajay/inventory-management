@@ -31,9 +31,9 @@ const Pagination = ({
         <Skeleton width={60} height={20} />
       ) : (
         <div className="flex items-center text-center gap-4">
-          <strong>{currentPage}</strong>
+          <strong>{currentPage ? currentPage : 1}</strong>
           <p>of</p>
-          <strong>{totalPages}</strong>
+          <strong>{totalPages ? totalPages : 1}</strong>
         </div>
       )}
 

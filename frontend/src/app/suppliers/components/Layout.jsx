@@ -1,49 +1,42 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Table from "@/components/table/Table";
+import TableLayout from "@/components/table/TableLayout";
+import { tableHeaders } from "@/utils/supplier/supplierTable.util";
 
-const tableHeaders = [];
 const tableBodies = [];
 const tableActions = [];
 
 const Layout = () => {
   const [state, setState] = useState({
     loading: false,
+    initializing: false,
     searchKeyword: "",
     sortBy: { key: "name", type: "asc" },
   });
 
-  const { loading, sortBy, searchKeyword } = state;
+  const { loading, initializing, sortBy, searchKeyword } = state;
 
-  const handleSort = () => {};
+  const searchRef = useRef(null);
 
   return (
-    <div className="w-full h-full p-4">
-      <div className="w-full h-full flex flex-col shadow-md p-2">
-        <div className="w-full p-2 flex justify-between">
-          <div className="flex items-center justify-center">Suppliers</div>
-          <div className="flex h-full flex-row-reverse items-end">
-            <button
-              id="addButton"
-              type="button"
-              className="w-full border border-gray-500 rounded-lg p-2 select-none"
-            >
-              Add Supplier
-            </button>
-          </div>
-        </div>
-        <div className="w-full h-full overflow-hidden">
-          <Table
-            loading={loading}
-            headers={tableHeaders}
-            bodies={tableBodies}
-            actions={tableActions}
-            messageWhenEmpty="You don't have any suppliers"
-            sortSetting={{ ...sortBy, searchKeyword }}
-            handleSort={handleSort}
-          />
-        </div>
-      </div>
+    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
+      <TableLayout
+        title="SUPPLIERS"
+        buttonText="New Supplier"
+        searchKeyword={searchKeyword}
+        searchRef={searchRef}
+        handleSearch={() => console.log("etst")}
+      >
+        <Table
+          initializing={initializing}
+          loading={loading}
+          sortSetting={{ ...sortBy, searchKeyword }}
+          headers={tableHeaders}
+          bodies={tableBodies}
+          messageWhenEmpty={"There are no Suppliers"}
+        />
+      </TableLayout>
     </div>
   );
 };
