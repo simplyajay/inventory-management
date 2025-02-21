@@ -1,6 +1,7 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import SearchBox from "../searchbox/SearchBox";
+import { ButtonConfirmBlue } from "../buttons/buttons";
 
 const TableHead = ({
   initializing,
@@ -12,7 +13,7 @@ const TableHead = ({
   buttonText,
 }) => {
   return (
-    <div className="w-full gap-4 flex md:flex-row flex-col items-endcenter ">
+    <div className="w-full gap-4 flex md:flex-row flex-col items-endcenter border-b p-3">
       <div className="flex justify-center items-center">
         {initializing ? (
           <div className="w-[15%] lg:w-[7%]">
@@ -40,16 +41,11 @@ const TableHead = ({
           {initializing ? (
             <Skeleton height={30} width={100} />
           ) : (
-            <button
-              id="addButton"
-              type="button"
+            <ButtonConfirmBlue
               onClick={onButtonClick}
-              className="w-full border border-gray-500 rounded-lg p-2 select-none"
-            >
-              <span className="flex items-center gap-2 justify-center">
-                {buttonIcon && <i>{buttonIcon}</i>} <p>{buttonText}</p>
-              </span>
-            </button>
+              className="w-full bg-blue-50 hover:bg-blue-100 rounded-sm p-2 select-none text-gray-800"
+              text={buttonText}
+            />
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { ClipLoader } from "react-spinners";
+import { ButtonCancelGrayDark, ButtonConfirmRed } from "../buttons/buttons";
 
 const ConfirmDialog = ({ message, optionCancel, optionConfirm, loading }) => {
   return (
@@ -10,26 +11,19 @@ const ConfirmDialog = ({ message, optionCancel, optionConfirm, loading }) => {
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button
+          <ButtonCancelGrayDark
             onClick={optionCancel.onCancel}
-            className={`px-4 py-2 bg-blue-400 text-white rounded ${optionCancel.customclass}`}
-          >
-            <p>{optionCancel.text}</p>
-          </button>
-          <button
+            className={optionCancel.customclass}
+            text={optionCancel.text}
+          />
+
+          <ButtonConfirmRed
             disabled={loading}
             onClick={optionConfirm.onConfirm}
-            className={`px-4 py-2 bg-blue-400 text-white rounded ${optionConfirm.customclass}`}
-          >
-            <span className="flex gap-2 justify-around items-center">
-              {loading && (
-                <i className="flex justify-center items-center">
-                  <ClipLoader color="#ffffff" size={15} loading={loading} />
-                </i>
-              )}
-              <p>{optionConfirm.text}</p>
-            </span>
-          </button>
+            className={optionConfirm.customclass}
+            icon={loading && <ClipLoader color="#ffffff" size={15} loading={loading} />}
+            text={optionConfirm.text}
+          />
         </div>
       </div>
     </div>

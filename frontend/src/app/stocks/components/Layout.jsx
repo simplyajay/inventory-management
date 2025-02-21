@@ -6,11 +6,7 @@ import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
 import { ProductFormLayout } from "./Wrapper";
-import {
-  createPageHandler,
-  getTableActions,
-  tableHeaders,
-} from "@/utils/stock/stockTable.util";
+import { createPageHandler, getTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
 import { getProductValues } from "@/utils/stock/stockForm.util";
 
 const ProductPageLayout = () => {
@@ -63,25 +59,18 @@ const ProductPageLayout = () => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const {
-    fetchProducts,
-    deleteItem,
-    searchItem,
-    clearSearch,
-    handleSort,
-    pageNext,
-    pagePrev,
-  } = createPageHandler({
-    totalPages,
-    state,
-    updateState,
-  });
+  const { fetchProducts, deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
+    createPageHandler({
+      totalPages,
+      state,
+      updateState,
+    });
 
   const tableActions = getTableActions(updateState);
   const searchRef = useRef(null);
 
   return (
-    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
+    <div className="h-full w-full flex flex-col lg:flex-row gap-4 md:gap-4 justify-between">
       <TableLayout
         searchKeyword={searchKeyword}
         loading={loading}
@@ -120,7 +109,7 @@ const ProductPageLayout = () => {
       </TableLayout>
 
       <ProductFormLayout
-        title="PRODUCT INFORMATION"
+        title={isEditForm ? "PRODUCT INFORMATION" : "NEW PRODUCT"}
         pageInfoVisible={pageInfoVisible}
       >
         <FormMemo
@@ -142,12 +131,11 @@ const ProductPageLayout = () => {
           optionCancel={{
             text: "Cancel",
             onCancel: () => updateState({ showConfirmDialog: false }),
-            customclass: "bg-gray-600",
           }}
           optionConfirm={{
             text: deleting ? "Deleting..." : "Confirm",
             onConfirm: () => deleteItem(selectedProduct),
-            customclass: `${deleting ? `hover:cursor-default` : ``} bg-red-500`,
+            customclass: `${deleting ? `hover:cursor-default` : ``}`,
           }}
           loading={deleting}
         />

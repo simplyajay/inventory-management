@@ -6,8 +6,9 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #faf9ff;
   font-family: Arial, Helvetica, sans-serif;
+  @apply text-gray-700;
 }
 
 @layer utilities {
