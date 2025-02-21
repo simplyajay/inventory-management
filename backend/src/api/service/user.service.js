@@ -1,4 +1,4 @@
-import User from "../../models/user.model.js";
+import { User } from "../../models/models.js";
 
 export const getOrgId = async (id) => {
   try {

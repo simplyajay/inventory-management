@@ -2,10 +2,15 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import ProductForm from "@/app/stocks/components/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
-import Pagination from "@/components/table/Pagination";
 import Table from "@/components/table/Table";
-import { ProductTableLayout, ProductFormLayout } from "./Wrapper";
-import { createPageHandler, getTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
+import TableHead from "@/components/table/TableHead";
+import TableLayout from "@/components/table/TableLayout";
+import { ProductFormLayout } from "./Wrapper";
+import {
+  createPageHandler,
+  getTableActions,
+  tableHeaders,
+} from "@/utils/stock/stockTable.util";
 import { getProductValues } from "@/utils/stock/stockForm.util";
 
 const ProductPageLayout = () => {
@@ -58,56 +63,66 @@ const ProductPageLayout = () => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const { fetchProducts, deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
-    createPageHandler({
-      totalPages,
-      state,
-      updateState,
-    });
+  const {
+    fetchProducts,
+    deleteItem,
+    searchItem,
+    clearSearch,
+    handleSort,
+    pageNext,
+    pagePrev,
+  } = createPageHandler({
+    totalPages,
+    state,
+    updateState,
+  });
 
   const tableActions = getTableActions(updateState);
   const searchRef = useRef(null);
 
   return (
-    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between ">
-      <ProductTableLayout
-        title="PRODUCTS"
-        onAddProductClick={() =>
-          updateState({
-            initialValues,
-            isEditForm: false,
-            pageInfoVisible: true,
-          })
-        }
+    <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
+      <TableLayout
         searchKeyword={searchKeyword}
         loading={loading}
-        initializing={initializing}
-        handleSearch={searchItem}
         handleSearchClear={clearSearch}
         searchRef={searchRef}
       >
-        <div className="h-full w-full flex flex-col">
-          <Table
-            loading={loading}
-            headers={tableHeaders}
-            bodies={products}
-            actions={tableActions}
-            messageWhenEmpty="No Products Available"
-            sortSetting={{ ...sortBy, searchKeyword }}
-            handleSort={handleSort}
-          />
-          <Pagination
-            onPrevPage={() => pagePrev(searchKeyword)}
-            onNextPage={() => pageNext(searchKeyword)}
-            loading={loading}
-            initializing={initializing}
-            currentPage={page}
-            totalPages={totalPages}
-          />
-        </div>
-      </ProductTableLayout>
+        <TableHead
+          initializing={initializing}
+          title={"PRODUCTS"}
+          buttonText={"Add Product"}
+          onButtonClick={() =>
+            updateState({
+              initialValues,
+              isEditForm: false,
+              pageInfoVisible: true,
+            })
+          }
+          searchRef={searchRef}
+          handleSearch={searchItem}
+        />
 
-      <ProductFormLayout title="PRODUCT INFORMATION" pageInfoVisible={pageInfoVisible}>
+        <Table
+          initializing={initializing}
+          loading={loading}
+          headers={tableHeaders}
+          bodies={products}
+          actions={tableActions}
+          messageWhenEmpty="No Products Available"
+          sortSetting={{ ...sortBy, searchKeyword }}
+          handleSort={handleSort}
+          onPrevPage={() => pagePrev(searchKeyword)}
+          onNextPage={() => pageNext(searchKeyword)}
+          currentPage={page}
+          totalPages={totalPages}
+        />
+      </TableLayout>
+
+      <ProductFormLayout
+        title="PRODUCT INFORMATION"
+        pageInfoVisible={pageInfoVisible}
+      >
         <FormMemo
           updateForm={isEditForm}
           initialValues={isEditForm ? productValues : initialValues}

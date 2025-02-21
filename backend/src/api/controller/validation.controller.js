@@ -1,4 +1,4 @@
-import User from "../../models/user.model.js";
+import { User } from "../../models/models.js";
 import { comparePassword } from "../service/hash.service.js";
 
 import jwt from "jsonwebtoken";
@@ -14,9 +14,7 @@ export const validateIdentifierOnRegister = async (data, res) => {
 
     if (existingUser) {
       let takenField = existingUser.username === data ? "Username" : "Email";
-      return res
-        .status(409)
-        .json({ message: `${takenField} is already taken`, isValid: false });
+      return res.status(409).json({ message: `${takenField} is already taken`, isValid: false });
     }
     return res.status(200).json({ isValid: true });
   } catch (error) {
