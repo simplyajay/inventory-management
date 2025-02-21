@@ -17,6 +17,7 @@ const Table = ({
   onNextPage,
   currentPage,
   totalPages,
+  handleRowClick,
 }) => {
   if (!headers || !bodies) throw new Error("Headers or bodies not found");
 
@@ -171,7 +172,10 @@ const Table = ({
               {bodies.length >= 1 ? (
                 <>
                   {bodies.map((body, rowIndex) => (
-                    <tr key={rowIndex}>
+                    <tr
+                      key={rowIndex}
+                      onClick={() => handleRowClick && handleRowClick(body)}
+                    >
                       {headers.map((header, colIndex) => (
                         <td
                           key={colIndex}
