@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Table from "@/components/table/Table";
+import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
 import { tableHeaders } from "@/utils/supplier/supplierTable.util";
 
@@ -54,13 +55,14 @@ const Layout = () => {
 
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
-      <TableLayout
-        title="SUPPLIERS"
-        buttonText="New Supplier"
-        searchKeyword={searchKeyword}
-        searchRef={searchRef}
-        handleSearch={handleSearch}
-      >
+      <TableLayout searchKeyword={searchKeyword}>
+        <TableHead
+          title="SUPPLIERS"
+          buttonText="New Supplier"
+          searchRef={searchRef}
+          handleSearch={handleSearch}
+        />
+
         <Table
           initializing={initializing}
           loading={loading}

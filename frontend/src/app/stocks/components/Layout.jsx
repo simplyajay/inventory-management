@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import ProductForm from "@/app/stocks/components/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
+import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
 import { ProductFormLayout } from "./Wrapper";
 import {
@@ -82,22 +83,26 @@ const ProductPageLayout = () => {
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
       <TableLayout
-        title="PRODUCTS"
-        buttonText="Add Product"
-        onButtonClick={() =>
-          updateState({
-            initialValues,
-            isEditForm: false,
-            pageInfoVisible: true,
-          })
-        }
         searchKeyword={searchKeyword}
         loading={loading}
-        initializing={initializing}
-        handleSearch={searchItem}
         handleSearchClear={clearSearch}
         searchRef={searchRef}
       >
+        <TableHead
+          initializing={initializing}
+          title={"PRODUCTS"}
+          buttonText={"Add Product"}
+          onButtonClick={() =>
+            updateState({
+              initialValues,
+              isEditForm: false,
+              pageInfoVisible: true,
+            })
+          }
+          searchRef={searchRef}
+          handleSearch={searchItem}
+        />
+
         <Table
           initializing={initializing}
           loading={loading}
