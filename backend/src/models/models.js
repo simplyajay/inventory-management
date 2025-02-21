@@ -51,8 +51,25 @@ const SupplierSchema = new Schema(
   {
     _orgId: { type: String, required: true },
     name: { type: String, required: true },
+    trn: {type: String, required: true},
+    phone: {type: String},
+    email: {type:String},
     address: { type: String, default: "" },
-    image: { type: String, required: false },
+    displayImage: { type: String, required: false },
+    documents: { type: [Schema.Types.Mixed], default: [] },
+  },
+  { timestamps: true }
+);
+
+const CustomerSchema = new Schema(
+  {
+    _orgId: { type: String, required: true },
+    name: { type: String, required: true },
+    trn: {type: String, required: true},
+    phone: {type: String},
+    email: {type:String},
+    address: { type: String, default: "" },
+    displayImage: { type: String, required: false },
     documents: { type: [Schema.Types.Mixed], default: [] },
   },
   { timestamps: true }
@@ -78,4 +95,5 @@ export const User = mongoose.model("User", UserSchema);
 export const Organization = mongoose.model("Organization", organizationSchema);
 export const Product = mongoose.model("Product", ProductSchema);
 export const Supplier = mongoose.model("Supplier", SupplierSchema);
+export const Customer = mongoose.model("Customer", CustomerSchema);
 export const Document = mongoose.model("Document", DocumentSchema);
