@@ -8,8 +8,9 @@ import { updateProduct, addProduct } from "@/services/api/products";
 import { notify } from "@/components/toast/ToastProvider";
 import { validateSku } from "@/services/api/products";
 import { ClipLoader } from "react-spinners";
-import useInputGroup from "../../../components/forms/useInputGroup";
 import { getProductMetaData } from "@/utils/stock/stockForm.util";
+import { ButtonConfirmBlue, ButtonCancelGrayLight } from "@/components/buttons/buttons";
+import useInputGroup from "../../../components/forms/useInputGroup";
 
 const Form = ({ updateForm, initialValues, collapseForm, selectedProduct, fetchProducts }) => {
   const [updating, setUpdating] = useState(false);
@@ -108,40 +109,22 @@ const Form = ({ updateForm, initialValues, collapseForm, selectedProduct, fetchP
             {renderInputs(metaData2)}
           </div>
         </div>
-        <div className="flex lg:justify-end md:justify-end justify-center p-3 gap-2 bg-background">
-          <button
+        <div className="flex lg:justify-end md:justify-end justify-center p-3 gap-2 border-t border-gray-200">
+          <ButtonCancelGrayLight
             type="button"
             onClick={() => {
               collapseForm();
               reset();
             }}
-            className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"
-          >
-            Cancel
-          </button>
-          <button
+            text="Cancel"
+          />
+
+          <ButtonConfirmBlue
             type="submit"
-            className="border border-gray-500 rounded-lg py-1 px-2 min-w-[5em]"
             disabled={updating ? true : false}
-          >
-            {updateForm ? (
-              updating ? (
-                <div className="flex gap-1 items-center justify-evenly">
-                  <ClipLoader color="#007d96" size={15} loading={updating} />
-                  <span>Saving</span>
-                </div>
-              ) : (
-                <span>Save</span>
-              )
-            ) : updating ? (
-              <div className="flex gap-1 items-center justify-evenly">
-                <ClipLoader color="#007d96" size={15} loading={updating} />
-                <span>Creating</span>
-              </div>
-            ) : (
-              <span>Create</span>
-            )}
-          </button>
+            text={updateForm ? (updating ? "Saving" : "Save") : updating ? "Creating" : "Create"}
+            icon={updating && <ClipLoader color="#007d96" size={15} loading={updating} />}
+          />
         </div>
       </form>
     </div>

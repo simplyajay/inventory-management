@@ -25,10 +25,9 @@ const Table = ({
     throw new Error("Invalid Headers or bodies");
 
   const headingClass =
-    "px-3 py-2 text-md font-extralight border border-dotted border-gray-300 sticky top-0 bg-background shadow-sm";
+    "px-3 py-2 text-md font-extralight sticky top-0 bg-white shadow-sm border-x border-dotted";
 
-  const bodyClass =
-    "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
+  const bodyClass = "p-2 border border-dotted border-gray-300 whitespace-nowrap ";
 
   const tableRef = useRef(null);
   const headerRefs = useRef([]);
@@ -106,11 +105,7 @@ const Table = ({
 
     if (handleSort && sortSetting) {
       const type =
-        sortSetting.key === header.key
-          ? sortSetting.type === "asc"
-            ? "desc"
-            : "asc"
-          : "asc";
+        sortSetting.key === header.key ? (sortSetting.type === "asc" ? "desc" : "asc") : "asc";
       handleSort({
         key: header.key,
         type,
@@ -140,9 +135,7 @@ const Table = ({
                     ref={(el) => (headerRefs.current[index] = el)}
                     key={index}
                     style={{
-                      width: columnWidths[index]
-                        ? `${columnWidths[index]}px`
-                        : "auto",
+                      width: columnWidths[index] ? `${columnWidths[index]}px` : "auto",
                     }}
                     className={`${headingClass}`}
                     onClick={() => handleHeaderclick(header)}
@@ -150,32 +143,21 @@ const Table = ({
                     <div className="flex gap-2 items-center">
                       <span>{header.name}</span>
                       {sortSetting && sortSetting.key === header.key ? (
-                        <span>
-                          {sortSetting.type === "asc" ? (
-                            <CaretUp />
-                          ) : (
-                            <CaretDown />
-                          )}
-                        </span>
+                        <span>{sortSetting.type === "asc" ? <CaretUp /> : <CaretDown />}</span>
                       ) : (
                         <></>
                       )}
                     </div>
                   </th>
                 ))}
-                {actions?.header && (
-                  <th className={headingClass}>{actions.header}</th>
-                )}
+                {actions?.header && <th className={headingClass}>{actions.header}</th>}
               </tr>
             </thead>
             <tbody className="w-full">
               {bodies.length >= 1 ? (
                 <>
                   {bodies.map((body, rowIndex) => (
-                    <tr
-                      key={rowIndex}
-                      onClick={() => handleRowClick && handleRowClick(body)}
-                    >
+                    <tr key={rowIndex} onClick={() => handleRowClick && handleRowClick(body)}>
                       {headers.map((header, colIndex) => (
                         <td
                           key={colIndex}
@@ -187,13 +169,9 @@ const Table = ({
                         </td>
                       ))}
                       {actions?.components && (
-                        <td
-                          className={`${bodyClass} flex gap-1 justify-center`}
-                        >
+                        <td className={`${bodyClass} flex gap-1 justify-center`}>
                           {actions.components.map((component, index) => (
-                            <div key={index}>
-                              {React.cloneElement(component, { target: body })}
-                            </div>
+                            <div key={index}>{React.cloneElement(component, { target: body })}</div>
                           ))}
                         </td>
                       )}
@@ -204,9 +182,7 @@ const Table = ({
                 <tr>
                   <td colSpan={actions ? headers.length + 1 : headers.length}>
                     <div className="flex justify-center items-center h-full italic text-2xl">
-                      <p className="text-gray-500 select-none">
-                        {messageWhenEmpty}
-                      </p>
+                      <p className="text-gray-500 select-none">{messageWhenEmpty}</p>
                     </div>
                   </td>
                 </tr>

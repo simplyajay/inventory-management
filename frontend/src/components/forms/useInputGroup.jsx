@@ -1,15 +1,9 @@
 import React from "react";
 
 const defaultClass =
-  "p-2 text-sm rounded-lg focus:outline-none w-full focus:ring-2 focus:ring-blue-100 border border-gray-300";
+  "p-2 text-md focus:outline-none min-h-[2.5rem] w-full focus:ring-2 focus:ring-blue-100 border border-gray-200";
 
-const useInputGroup = ({
-  register,
-  handlers = [],
-  errors,
-  wrapperClassName,
-  setValue,
-}) => {
+const useInputGroup = ({ register, handlers = [], errors, wrapperClassName, setValue }) => {
   const getEventHandlers = (target) => {
     return handlers.find((handler) => handler.accessor === target);
   };
@@ -28,9 +22,9 @@ const useInputGroup = ({
         ...register(input.name, handlers),
         ...input,
         id: input.name,
-        className: `${defaultClass} ${
-          errors[input.name] && `ring-2 ring-red-100`
-        } ${input?.customclass} `,
+        className: `${defaultClass} ${errors[input.name] && `ring-2 ring-red-100`} ${
+          input?.customclass
+        } `,
       };
 
       const handler = getEventHandlers(input.name);
@@ -45,7 +39,7 @@ const useInputGroup = ({
           component = (
             <select {...props} type="text" autoComplete="off">
               {input.children.map((child, childIndex) => (
-                <option key={childIndex} value={child}>
+                <option key={childIndex} value={child} className="p-5">
                   {child}
                 </option>
               ))}
@@ -72,9 +66,7 @@ const useInputGroup = ({
           </label>
           {component}
           {errors && errors[input.name] && (
-            <p className="text-red-500 text-sm">
-              {errors[input.name]?.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors[input.name]?.message}</p>
           )}
         </div>
       );
