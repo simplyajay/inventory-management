@@ -1,17 +1,27 @@
 "use client";
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import ProductForm from "@/app/stocks/components/Form";
+import { getFetchOptions } from "@/services/options";
+import { getProducts } from "@/services/api/products";
+import Form from "@/components/form/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
-import { ProductFormLayout } from "./Wrapper";
-import { createPageHandler, getTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
-import { getProductValues } from "@/utils/stock/stockForm.util";
+import { FormLayout } from "../../../components/form/FormLayout";
+import {
+  createStockTableHandler,
+  getTableActions,
+  tableHeaders,
+} from "@/utils/stock/stockTable.util";
+import { createStockFormHandler, getProductFormValues } from "@/utils/stock/stockForm.util";
+import { ClipLoader } from "react-spinners";
+import { getProductFormInputs } from "@/utils/stock/stockForm.util";
+import StockFormLayout from "./StockForm";
 
-const ProductPageLayout = () => {
+const Stocks = () => {
   const [state, setState] = useState({
     loading: true,
+    updating: false,
     initializing: true,
     deleting: false,
     products: [],
@@ -28,6 +38,7 @@ const ProductPageLayout = () => {
 
   const {
     loading,
+    updating,
     deleting,
     products,
     selectedProduct,
@@ -42,10 +53,9 @@ const ProductPageLayout = () => {
     sortBy,
   } = state;
 
-  const FormMemo = React.memo(ProductForm);
   const productValues = useMemo(() => {
     if (selectedProduct) {
-      return getProductValues(selectedProduct);
+      return getProductFormValues(selectedProduct);
     }
 
     return {};
@@ -59,12 +69,53 @@ const ProductPageLayout = () => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const { fetchProducts, deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
-    createPageHandler({
+  const fetchProducts = async ({ page = 1, searchKeyword = "", sortBy = {} } = {}) => {
+    try {
+      updateState({ loading: true, searchKeyword });
+      const fetchOptions = getFetchOptions("GET", null, true, false);
+      fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
+      const data = await getProducts(fetchOptions);
+      await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
+      updateState({
+        products: data.products,
+        totalPages: data.totalPages,
+        loading: false,
+        page: data.page,
+        initializing: false,
+      });
+    } catch (error) {
+      console.error("Error on fetchProducts at Layout ", error);
+      updateState({ loading: true });
+    }
+  };
+
+  const { deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
+    createStockTableHandler({
       totalPages,
       state,
       updateState,
+      fetchProducts,
     });
+
+  const { onFormSubmit } = createStockFormHandler({ state, fetchProducts });
+
+  const hideForm = () => {
+    updateState({ pageInfoVisible: false });
+  };
+  const formCancelProps = {
+    text: "Cancel",
+    onClick: () => {
+      updateState({ pageInfoVisible: false });
+    },
+  };
+
+  const formSubmitProps = {
+    disabled: updating ? true : false,
+    text: isEditForm ? (updating ? "Saving" : "Save") : updating ? "Creating" : "Create",
+    icon: updating && <ClipLoader color="#007d96" size={15} loading={updating} />,
+  };
+
+  const formInputs = getProductFormInputs(updating, isEditForm);
 
   const tableActions = getTableActions(updateState);
   const searchRef = useRef(null);
@@ -107,19 +158,16 @@ const ProductPageLayout = () => {
           totalPages={totalPages}
         />
       </TableLayout>
-
-      <ProductFormLayout
-        title={isEditForm ? "PRODUCT INFORMATION" : "NEW PRODUCT"}
-        pageInfoVisible={pageInfoVisible}
-      >
-        <FormMemo
-          updateForm={isEditForm}
-          initialValues={isEditForm ? productValues : initialValues}
-          collapseForm={() => updateState({ pageInfoVisible: false })}
+      {
+        <StockFormLayout
+          fetchProducts={fetchProducts}
+          pageInfoVisible={pageInfoVisible}
+          hideForm={hideForm}
           selectedProduct={selectedProduct}
-          fetchProducts={() => fetchProducts()}
+          isEditForm={isEditForm}
         />
-      </ProductFormLayout>
+      }
+
       {showConfirmDialog && (
         <ConfirmDialog
           message={
@@ -144,4 +192,4 @@ const ProductPageLayout = () => {
   );
 };
 
-export default ProductPageLayout;
+export default Stocks;

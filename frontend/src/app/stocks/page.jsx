@@ -1,11 +1,16 @@
 import React from "react";
-import ProductPageLayout from "./components/Layout";
+import Stocks from "./components/Stocks";
+
+export const metadata = {
+  robots: "noindex, nofollow", // Prevent search engines from indexing this page
+  title: "Stocks",
+};
 
 const Products = () => {
-  const ProductPageLayoutMemo = React.memo(ProductPageLayout);
+  const StocksMemo = React.memo(Stocks);
   return (
     <div className="h-full p-4">
-      <ProductPageLayoutMemo />
+      <StocksMemo />
     </div>
   );
 };

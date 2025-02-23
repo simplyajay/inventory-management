@@ -1,7 +1,7 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import SearchBox from "../searchbox/SearchBox";
-import { ButtonConfirmBlue } from "../buttons/buttons";
+import { ButtonConfirmBlue } from "../buttons/Buttons";
 
 const TableHead = ({
   initializing,

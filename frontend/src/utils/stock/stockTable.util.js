@@ -5,28 +5,8 @@ import { notify } from "@/components/toast/ToastProvider";
 import { EditIcon, DeleteIcon } from "@/components/icons/Icons";
 import ActionButton from "@/components/table/TableAction";
 
-export const createPageHandler = ({ totalPages, state, updateState }) => {
+export const createStockTableHandler = ({ totalPages, state, updateState, fetchProducts }) => {
   const { page, sortBy } = state;
-
-  const fetchProducts = async ({ page = 1, searchKeyword = "", sortBy = {} } = {}) => {
-    try {
-      updateState({ loading: true });
-      const fetchOptions = getFetchOptions("GET", null, true, false);
-      fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
-      const data = await getProducts(fetchOptions);
-      //  await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
-      updateState({
-        products: data.products,
-        totalPages: data.totalPages,
-        loading: false,
-        page: data.page,
-        initializing: false,
-      });
-    } catch (error) {
-      console.error("Error on fetchProducts at Layout ", error);
-      updateState({ loading: true });
-    }
-  };
 
   const deleteItem = async (selectedProduct) => {
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
@@ -38,14 +18,12 @@ export const createPageHandler = ({ totalPages, state, updateState }) => {
       pageInfoVisible: false,
       deleting: false,
       showConfirmDialog: false,
-      searchKeyword: "",
     });
     fetchProducts();
   };
 
   const searchItem = (keyword = "") => {
     if (keyword) {
-      updateState({ searchKeyword: keyword });
       fetchProducts({ searchKeyword: keyword });
     }
   };
@@ -54,7 +32,6 @@ export const createPageHandler = ({ totalPages, state, updateState }) => {
     if (searchRef.current) {
       //clearInput is a function inside useImperativeHandle in searchBox Component
       searchRef.current.clearInput();
-      updateState({ searchKeyword: "" });
       fetchProducts();
     }
   };
@@ -119,19 +96,24 @@ export const getTableActions = (handler) => {
     components: [
       <ActionButton
         key={"edit"}
-        onClick={(prod) =>
+        onClick={(prod) => {
           handler({
             isEditForm: true,
             pageInfoVisible: true,
             selectedProduct: prod,
-          })
-        }
+          });
+        }}
         icon={<EditIcon />}
       />,
       <ActionButton
         key={"delete"}
         onClick={(prod) => {
-          handler({ showConfirmDialog: true, selectedProduct: prod });
+          handler({
+            showConfirmDialog: true,
+            selectedProduct: prod,
+            isEditForm: false,
+            pageInfoVisible: false,
+          });
         }}
         icon={<DeleteIcon />}
       />,
