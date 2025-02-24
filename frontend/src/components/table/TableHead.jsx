@@ -43,7 +43,7 @@ const TableHead = ({
           ) : (
             <ButtonConfirmBlue
               onClick={onButtonClick}
-              className="w-full bg-blue-50 hover:bg-blue-100 rounded-sm p-2 select-none text-gray-800"
+              className="w-full select-none"
               text={buttonText}
             />
           )}
