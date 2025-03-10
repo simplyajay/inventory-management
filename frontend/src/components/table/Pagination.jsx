@@ -29,7 +29,7 @@ const Pagination = ({ onPrevPage, onNextPage, loading, initializing, currentPage
         disabled={initializing ? initializing : loading}
         className={`${
           initializing ? "p-1" : "p-2"
-        } rounded-full disabled:cursor-default hover:bg-slate-100  `}
+        } rounded-full disabled:cursor-default disabled:bg-transparent disabled:hover:bg-transparent hover:bg-slate-100  `}
       >
         <span>{initializing ? <Skeleton circle width={20} height={20} /> : <ChevronRight />}</span>
       </button>

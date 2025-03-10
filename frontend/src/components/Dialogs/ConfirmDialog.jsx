@@ -1,6 +1,6 @@
 import React from "react";
 import { ClipLoader } from "react-spinners";
-import { ButtonCancelGrayDark, ButtonConfirmRed } from "../buttons/buttons";
+import { ButtonCancelGrayDark, ButtonConfirmRed } from "../buttons/Buttons";
 
 const ConfirmDialog = ({ message, optionCancel, optionConfirm, loading }) => {
   return (

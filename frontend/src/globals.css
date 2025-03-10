@@ -21,3 +21,13 @@ body {
   stroke-width: 1; /* Adjust stroke width for outlines */
   fill: none; /* Ensures the fill does not affect the weight */
 }
+
+@media (max-width: 650px) {
+  .table-data {
+    display: block;
+  }
+
+  .table-header {
+    display: none;
+  }
+}
