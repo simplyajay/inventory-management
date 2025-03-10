@@ -1,6 +1,12 @@
 import React from "react";
 
-export const ButtonCancelGrayLight = ({ icon, text, onClick, className, ...rest }) => {
+export const ButtonCancelGrayLight = ({
+  icon,
+  text,
+  onClick,
+  className,
+  ...rest
+}) => {
   return (
     <button
       onClick={onClick}
@@ -15,7 +21,13 @@ export const ButtonCancelGrayLight = ({ icon, text, onClick, className, ...rest 
   );
 };
 
-export const ButtonCancelGrayDark = ({ icon, text, onClick, className, ...rest }) => {
+export const ButtonCancelGrayDark = ({
+  icon,
+  text,
+  onClick,
+  className,
+  ...rest
+}) => {
   return (
     <button
       onClick={onClick}
@@ -30,7 +42,13 @@ export const ButtonCancelGrayDark = ({ icon, text, onClick, className, ...rest }
   );
 };
 
-export const ButtonConfirmRed = ({ icon, text, onClick, className, ...rest }) => {
+export const ButtonConfirmRed = ({
+  icon,
+  text,
+  onClick,
+  className,
+  ...rest
+}) => {
   return (
     <button
       onClick={onClick}
@@ -45,7 +63,13 @@ export const ButtonConfirmRed = ({ icon, text, onClick, className, ...rest }) =>
   );
 };
 
-export const ButtonConfirmBlue = ({ icon, text, onClick, className, ...rest }) => {
+export const ButtonConfirmBlue = ({
+  icon,
+  text,
+  onClick,
+  className,
+  ...rest
+}) => {
   return (
     <button
       onClick={onClick}

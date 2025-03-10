@@ -38,11 +38,23 @@ const TableHead = ({
           </div>
         )}
         <div className="w-auto">
+<<<<<<< HEAD
           <ButtonConfirmBlue
             onClick={onButtonClick}
             className="w-full bg-blue-50 hover:bg-blue-100 rounded-sm p-2 select-none text-gray-800"
             text={buttonText}
           />
+=======
+          {initializing ? (
+            <Skeleton height={30} width={100} />
+          ) : (
+            <ButtonConfirmBlue
+              onClick={onButtonClick}
+              className="w-full select-none"
+              text={buttonText}
+            />
+          )}
+>>>>>>> f3c485f5dd607559da7b18f1c2a8f891aa86cc75
         </div>
       </div>
     </div>
