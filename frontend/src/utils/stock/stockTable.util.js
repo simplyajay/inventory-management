@@ -81,9 +81,10 @@ export const createStockTableHandler = ({ totalPages, state, updateState, fetchP
   };
 };
 
+//widths in percentage; can be optional
 export const tableHeaders = [
   { name: "SKU", key: "sku" },
-  { name: "NAME", key: "name" },
+  { name: "NAME", key: "name", width: 50 },
   { name: "DESCRIPTION", key: "description" },
   { name: "UNIT", key: "unitOfMeasurement" },
   { name: "QTY", key: "quantity" },
@@ -92,7 +93,8 @@ export const tableHeaders = [
 export const getTableActions = (handler) => {
   if (!handler) throw new Error("Missing handler");
   const tableActions = {
-    header: "ACTIONS",
+    name: "ACTIONS",
+    key: "actions",
     components: [
       <ActionButton
         key={"edit"}

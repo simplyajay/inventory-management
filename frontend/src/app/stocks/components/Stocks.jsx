@@ -2,12 +2,11 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { getFetchOptions } from "@/services/options";
 import { getProducts } from "@/services/api/products";
-import Form from "@/components/form/Form";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
 import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
-import { FormLayout } from "../../../components/form/FormLayout";
+import Pagination from "@/components/table/Pagination";
 import {
   createStockTableHandler,
   getTableActions,
@@ -22,7 +21,6 @@ const Stocks = () => {
   const [state, setState] = useState({
     loading: true,
     updating: false,
-    initializing: true,
     deleting: false,
     products: [],
     selectedProduct: {},
@@ -49,7 +47,6 @@ const Stocks = () => {
     page,
     totalPages,
     searchKeyword,
-    initializing,
     sortBy,
   } = state;
 
@@ -71,17 +68,17 @@ const Stocks = () => {
 
   const fetchProducts = async ({ page = 1, searchKeyword = "", sortBy = {} } = {}) => {
     try {
-      updateState({ loading: true, searchKeyword });
+      updateState({ loading: true });
       const fetchOptions = getFetchOptions("GET", null, true, false);
       fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
       const data = await getProducts(fetchOptions);
       await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
       updateState({
+        searchKeyword,
         products: data.products,
         totalPages: data.totalPages,
         loading: false,
         page: data.page,
-        initializing: false,
       });
     } catch (error) {
       console.error("Error on fetchProducts at Layout ", error);
@@ -122,14 +119,8 @@ const Stocks = () => {
 
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-4 md:gap-4 justify-between">
-      <TableLayout
-        searchKeyword={searchKeyword}
-        loading={loading}
-        handleSearchClear={clearSearch}
-        searchRef={searchRef}
-      >
+      <TableLayout loading={loading}>
         <TableHead
-          initializing={initializing}
           title={"PRODUCTS"}
           buttonText={"Add Product"}
           onButtonClick={() =>
@@ -141,10 +132,11 @@ const Stocks = () => {
           }
           searchRef={searchRef}
           handleSearch={searchItem}
+          handleSearchClear={clearSearch}
+          searchKeyword={searchKeyword}
         />
 
         <Table
-          initializing={initializing}
           loading={loading}
           headers={tableHeaders}
           bodies={products}
@@ -152,21 +144,23 @@ const Stocks = () => {
           messageWhenEmpty="No Products Available"
           sortSetting={{ ...sortBy, searchKeyword }}
           handleSort={handleSort}
+        />
+
+        <Pagination
           onPrevPage={() => pagePrev(searchKeyword)}
           onNextPage={() => pageNext(searchKeyword)}
           currentPage={page}
           totalPages={totalPages}
         />
       </TableLayout>
-      {
-        <StockFormLayout
-          fetchProducts={fetchProducts}
-          pageInfoVisible={pageInfoVisible}
-          hideForm={hideForm}
-          selectedProduct={selectedProduct}
-          isEditForm={isEditForm}
-        />
-      }
+
+      <StockFormLayout
+        fetchProducts={fetchProducts}
+        pageInfoVisible={pageInfoVisible}
+        hideForm={hideForm}
+        selectedProduct={selectedProduct}
+        isEditForm={isEditForm}
+      />
 
       {showConfirmDialog && (
         <ConfirmDialog
