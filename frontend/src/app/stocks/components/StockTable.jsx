@@ -5,7 +5,7 @@ import TableHead from "@/components/table/TableHead";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
-import { getTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
+import { getStockTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
 import { createStockTableHandler } from "@/utils/stock/stockTable.util";
 
 const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, updateState }) => {
@@ -21,7 +21,7 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
   } = state;
 
   const searchRef = useRef(null);
-  const tableActions = getTableActions(updateState);
+  const tableActions = getStockTableActions(updateState);
 
   const { deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
     createStockTableHandler({

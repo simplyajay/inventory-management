@@ -90,7 +90,7 @@ export const tableHeaders = [
   { name: "QTY", key: "quantity" },
 ];
 
-export const getTableActions = (handler) => {
+export const getStockTableActions = (handler) => {
   if (!handler) throw new Error("Missing handler");
   const tableActions = {
     name: "ACTIONS",
