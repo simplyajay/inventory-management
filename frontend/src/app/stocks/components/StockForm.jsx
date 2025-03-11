@@ -6,14 +6,9 @@ import Form from "@/components/form/Form";
 import { FormLayout } from "@/components/form/FormLayout";
 import { ClipLoader } from "react-spinners";
 
-const StockFormLayout = ({
-  fetchProducts,
-  pageInfoVisible,
-  hideForm,
-  selectedProduct,
-  isEditForm,
-}) => {
+const StockForm = ({ state, fetchProducts, hideForm }) => {
   const [updating, setUpdating] = useState(false);
+  const { pageInfoVisible, selectedProduct, isEditForm } = state;
 
   const formValues = useMemo(() => {
     if (isEditForm) {
@@ -66,4 +61,4 @@ const StockFormLayout = ({
   );
 };
 
-export default StockFormLayout;
+export default StockForm;
