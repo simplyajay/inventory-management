@@ -5,8 +5,8 @@ import { notify } from "@/components/toast/ToastProvider";
 import { EditIcon, DeleteIcon } from "@/components/icons/Icons";
 import ActionButton from "@/components/table/TableAction";
 
-export const createStockTableHandler = ({ totalPages, state, updateState, fetchProducts }) => {
-  const { page, sortBy } = state;
+export const createStockTableHandler = ({ state, updateState, fetchProducts }) => {
+  const { page, sortBy, totalPages } = state;
 
   const deleteItem = async (selectedProduct) => {
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
