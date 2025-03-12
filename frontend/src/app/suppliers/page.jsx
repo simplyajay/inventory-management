@@ -1,12 +1,17 @@
 import React from "react";
-import Layout from "./components/Layout";
+import Suppliers from "./components/Suppliers";
 
-const Suppliers = () => {
+export const metadata = {
+  robots: "noindex, nofollow", // Prevent search engines from indexing this page
+  title: "Suppliers",
+};
+
+const SuppliersPage = () => {
   return (
     <div className="h-full p-4">
-      <Layout />
+      <Suppliers />
     </div>
   );
 };
 
-export default Suppliers;
+export default SuppliersPage;

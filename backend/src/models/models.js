@@ -56,6 +56,7 @@ const SupplierSchema = new Schema(
     email: { type: String },
     address: { type: String, default: "" },
     displayImage: { type: String, required: false },
+    status: { type: String, enum: ["inactive", "active"], required: true },
   },
   { timestamps: true }
 );
@@ -69,6 +70,7 @@ const CustomerSchema = new Schema(
     email: { type: String },
     address: { type: String, default: "" },
     displayImage: { type: String, required: false },
+    status: { type: String, enum: ["inactive", "active"], required: true },
   },
   { timestamps: true }
 );

@@ -22,7 +22,7 @@ export const getSuppliers = async (fetchOptions) => {
   }
 };
 
-export const updateSupplier = async (fetchOptions) => {
+export const updateSupplier = async (fetchOptions, id) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/suppliers/update/${id}`,
@@ -54,6 +54,20 @@ export const addSupplier = async (fetchOptions) => {
     return newSupplier;
   } catch (error) {
     console.error("Error adding product", error);
+    throw error;
+  }
+};
+
+export const getSupplier = async (fetchOptions, id) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/suppliers/${id}`, fetchOptions);
+    const data = await res.json();
+    if (!res.ok) {
+      return { status: res.status, message: data.message };
+    }
+    return data;
+  } catch (error) {
+    console.error("Error updating supplier", error);
     throw error;
   }
 };

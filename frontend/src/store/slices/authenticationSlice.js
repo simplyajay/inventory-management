@@ -6,10 +6,14 @@ const authentication = createSlice({
     id: null,
     orgId: null,
     username: null,
+    token: null,
   },
   reducers: {
     setUser: (state, action) => {
-      state = action.payload;
+      return { ...state, ...action.payload };
+    },
+    clearUser: () => {
+      return { id: null, orgId: null, username: null, token: null };
     },
   },
 });

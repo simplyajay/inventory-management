@@ -18,14 +18,20 @@ export const createSupplier = async (req, res) => {
 
 export const findSupplier = async (req, res) => {
   try {
-    const _orgId = await getOrgId(req.body._id);
-    const supplier = await Supplier.find({ _orgId });
+    const { id } = req.params;
+    const _orgId = await getOrgId(req.user._id);
 
-    if (!supplier) {
-      return res.status(404).json({ message: "Supplier not found" });
+    if (id && _orgId) {
+      const supplier = await Supplier.findOne({ _orgId, _id: id });
+
+      if (!supplier) {
+        return res.status(404).json({ message: "Supplier not found" });
+      }
+
+      return res.status(200).json(supplier);
+    } else {
+      return res.status(400).json({ message: "Id or orgId is missing" });
     }
-
-    return res.status(200).json(supplier);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

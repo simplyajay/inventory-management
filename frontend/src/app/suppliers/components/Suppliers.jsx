@@ -4,13 +4,14 @@ import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
 import Pagination from "@/components/table/Pagination";
+import ActionButton from "@/components/table/TableAction";
+import { useRouter } from "next/navigation";
 import { getFetchOptions } from "@/services/options";
 import { getSuppliers } from "@/services/api/supplier";
-import ActionButton from "@/components/table/TableAction";
 import { EditIcon } from "@/components/icons/Icons";
 import { createTableHandler } from "@/components/table/table.util";
 
-const Layout = () => {
+const Suppliers = () => {
   const [state, setState] = useState({
     suppliers: [],
     loading: false,
@@ -24,6 +25,8 @@ const Layout = () => {
   const { suppliers, loading, page, totalPages, sortBy, searchKeyword } = state;
 
   const searchRef = useRef(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchSuppliers();
@@ -76,7 +79,7 @@ const Layout = () => {
     components: [
       <ActionButton
         key={"goto"}
-        onClick={(target) => console.log(target)}
+        onClick={(target) => router.push(`/suppliers/${target._id}`)}
         icon={<EditIcon />}
         text={"View"}
         customClass={"text-blue-500"}
@@ -118,4 +121,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default Suppliers;
