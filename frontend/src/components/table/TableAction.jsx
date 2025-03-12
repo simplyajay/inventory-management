@@ -6,7 +6,7 @@ const ActionButton = ({ text, icon, onClick, target, customClass }) => {
   //target prop is passed from the table component during render
   return (
     <button className={`p-1 rounded-lg  ${customClass}`} onClick={() => onClick(target)}>
-      <span className="flex gap-1">
+      <span className="flex gap-2">
         <i>{icon}</i>
         <p>{text}</p>
       </span>

@@ -14,8 +14,8 @@ export const createProduct = async (req, res) => {
 
 export const findProduct = async (req, res) => {
   try {
-    const _orgId = await getOrgId(req.body._id);
-    const product = await Product.find({ _orgId });
+    const _orgId = await getOrgId(req.user._id);
+    const product = await Product.findOne({ _orgId });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });

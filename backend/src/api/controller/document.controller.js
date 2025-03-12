@@ -18,7 +18,7 @@ export const findDocument = async (req, res) => {
       return res.status(404).json({ message: "Document not found" });
     }
 
-    return res.status(200).json(user);
+    return res.status(200).json(doc);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

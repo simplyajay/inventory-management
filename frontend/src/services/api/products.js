@@ -1,12 +1,7 @@
 export const validateSku = async (fetchOptions) => {
   try {
-    const url = new URL(
-      `${process.env.NEXT_PUBLIC_URL}/api/stocks/validate-sku`
-    );
-    console.log("from fetch: wew");
-
+    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/stocks/validate-sku`);
     const res = await fetch(url, fetchOptions);
-
     const data = await res.json();
     return data;
   } catch (error) {
@@ -29,10 +24,7 @@ export const getProducts = async (fetchOptions) => {
     const data = await res.json();
 
     if (!res.ok) {
-      if (res.status === 401) {
-        return { status: res.status, message: "Unauthorized" };
-      }
-      return { error: data.message };
+      return { status: res.status, message: data.message };
     }
 
     return data;
@@ -44,12 +36,10 @@ export const getProducts = async (fetchOptions) => {
 
 export const updateProduct = async (fetchOptions, id) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/stocks/update/${id}`,
-      fetchOptions
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stocks/update/${id}`, fetchOptions);
+
     if (!res.ok) {
-      throw new Error("Error updating product");
+      return { status: res.status, message: data.message };
     }
 
     const updatedProduct = await res.json();
@@ -62,12 +52,10 @@ export const updateProduct = async (fetchOptions, id) => {
 
 export const addProduct = async (fetchOptions) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/stocks/add`,
-      fetchOptions
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stocks/add`, fetchOptions);
+
     if (!res.ok) {
-      throw new Error("Error adding product", res.status);
+      return { status: res.status, message: data.message };
     }
 
     const newProduct = await res.json();
@@ -80,12 +68,10 @@ export const addProduct = async (fetchOptions) => {
 
 export const deleteProduct = async (fetchOptions, id) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/stocks/delete/${id}`,
-      fetchOptions
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stocks/delete/${id}`, fetchOptions);
+
     if (!res.ok) {
-      throw new Error("Error deleting product", res.status);
+      return { status: res.status, message: data.message };
     }
 
     const newProduct = await res.json();

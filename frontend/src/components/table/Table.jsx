@@ -32,7 +32,11 @@ const Table = ({
     const newColumns = [...headers];
 
     if (actions) {
-      newColumns.push({ name: actions.name, key: actions.key });
+      newColumns.push({
+        name: actions.name,
+        key: actions.key,
+        width: 10,
+      });
     }
 
     let totalWidth = 0;

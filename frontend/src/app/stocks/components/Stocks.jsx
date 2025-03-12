@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { getFetchOptions } from "@/services/options";
 import { getProducts } from "@/services/api/products";
-import { getTableActions } from "@/utils/stock/stockTable.util";
 import StockForm from "./StockForm";
 import StockTable from "./StockTable";
 
@@ -33,7 +32,11 @@ const Stocks = () => {
     setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const fetchProducts = async ({ page = 1, searchKeyword = "", sortBy = {} } = {}) => {
+  const fetchProducts = async ({
+    page = 1,
+    searchKeyword = "",
+    sortBy = { key: "name", type: "asc" },
+  } = {}) => {
     try {
       updateState({ loading: true });
       const fetchOptions = getFetchOptions("GET", null, true, false);
@@ -42,6 +45,7 @@ const Stocks = () => {
       await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
       updateState({
         searchKeyword,
+        sortBy,
         products: data.products,
         totalPages: data.totalPages,
         loading: false,
