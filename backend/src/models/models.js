@@ -51,12 +51,11 @@ const SupplierSchema = new Schema(
   {
     _orgId: { type: String, required: true },
     name: { type: String, required: true },
-    trn: {type: String, required: true},
-    phone: {type: String},
-    email: {type:String},
+    trn: { type: String },
+    phone: { type: String },
+    email: { type: String },
     address: { type: String, default: "" },
     displayImage: { type: String, required: false },
-    documents: { type: [Schema.Types.Mixed], default: [] },
   },
   { timestamps: true }
 );
@@ -65,12 +64,11 @@ const CustomerSchema = new Schema(
   {
     _orgId: { type: String, required: true },
     name: { type: String, required: true },
-    trn: {type: String, required: true},
-    phone: {type: String},
-    email: {type:String},
+    trn: { type: String, required: true },
+    phone: { type: String },
+    email: { type: String },
     address: { type: String, default: "" },
     displayImage: { type: String, required: false },
-    documents: { type: [Schema.Types.Mixed], default: [] },
   },
   { timestamps: true }
 );
@@ -78,15 +76,49 @@ const CustomerSchema = new Schema(
 const DocumentSchema = new Schema(
   {
     _orgId: { type: Schema.Types.ObjectId, required: true },
-    documentId: { type: String, required: true },
-    type: { type: String, required: true },
+    type: {
+      type: String,
+      enum: [
+        "purchase_order",
+        "sales_order",
+        "invoice",
+        "bill",
+        "return_order",
+        "credit_note",
+        "quotation",
+      ],
+      required: true,
+    },
+    businessEntity: { type: Schema.Types.ObjectId, required: true }, //supplier or customer
     date: { type: Date, required: true },
-    productId: { type: String, required: true },
-    supplierId: { type: String, required: true },
-    netCost: { type: Number, required: true },
-    vatType: { type: String, required: true },
-    totalCost: { type: Number, required: true },
-    status: { type: String, required: true },
+    dueDate: { type: Date, required: true },
+    products: [
+      {
+        productId: { type: Schema.Types.ObjectId, required: true },
+        name: { type: String, required: true },
+        sku: { type: String, required: true },
+        description: { type: String },
+        quantity: { type: Number, required: true },
+        price: { type: Number, required: true },
+        unitOfMeasurement: { type: String, required: true },
+      },
+    ],
+    vatAmount: { type: Number, required: true },
+    vatRate: { type: Number, required: true }, // vat rate
+    vatType: { type: String, enum: ["inclusive", "exclusive"], required: true }, // inclusive, exclusive, or other vat types
+    costBeforeVat: { type: Number, required: true },
+    costAfterVat: { type: Number, required: true },
+    note: { type: String },
+    documentStatus: {
+      type: String,
+      enum: ["complete", "pending", "cancelled", "rejected", "accepted", "not_applicable"],
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["paid", "partially_paid", "overdue", "open", "not_applicable"],
+      required: true,
+    },
   },
   { timestamps: true }
 );

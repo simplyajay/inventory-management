@@ -9,6 +9,7 @@ import organizationRouter from "./api/routes/organization.route.js";
 import productRouter from "./api/routes/product.route.js";
 import validationRouter from "./api/routes/validation.route.js";
 import documentRouter from "./api/routes/document.route.js";
+import supplierRouter from "./api/routes/supplier.route.js";
 
 const app = express();
 const port = 3001;
@@ -31,6 +32,7 @@ initializeDb(url).then((successful) => {
     app.use(productRouter);
     app.use(validationRouter);
     app.use(documentRouter);
+    app.use(supplierRouter);
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);
     });
