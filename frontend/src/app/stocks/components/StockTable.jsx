@@ -5,8 +5,12 @@ import TableHead from "@/components/table/TableHead";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
-import { getStockTableActions, tableHeaders } from "@/utils/stock/stockTable.util";
-import { createStockTableHandler } from "@/utils/stock/stockTable.util";
+import { createTableHandler } from "@/components/table/table.util";
+import { getFetchOptions } from "@/services/options";
+import { deleteProduct } from "@/services/api/products";
+import { notify } from "@/components/toast/ToastProvider";
+import ActionButton from "@/components/table/TableAction";
+import { EditIcon, DeleteIcon } from "@/components/icons/Icons";
 
 const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, updateState }) => {
   const {
@@ -21,14 +25,64 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
   } = state;
 
   const searchRef = useRef(null);
-  const tableActions = getStockTableActions(updateState);
 
-  const { deleteItem, searchItem, clearSearch, handleSort, pageNext, pagePrev } =
-    createStockTableHandler({
-      state,
-      updateState,
-      fetchProducts,
+  const { searchItem, clearSearch, handleSort, pageNext, pagePrev } = createTableHandler({
+    state,
+    updateState,
+    fetchTableData: fetchProducts,
+  });
+
+  const tableHeaders = [
+    { name: "SKU", key: "sku" },
+    { name: "NAME", key: "name", width: 50 },
+    { name: "DESCRIPTION", key: "description" },
+    { name: "UNIT", key: "unitOfMeasurement" },
+    { name: "QTY", key: "quantity" },
+  ];
+
+  const tableActions = {
+    name: "ACTIONS",
+    key: "actions",
+    components: [
+      <ActionButton
+        key={"edit"}
+        onClick={(prod) => {
+          updateState({
+            isEditForm: true,
+            pageInfoVisible: true,
+            selectedProduct: prod,
+          });
+        }}
+        icon={<EditIcon />}
+      />,
+      <ActionButton
+        key={"delete"}
+        onClick={(prod) => {
+          updateState({
+            showConfirmDialog: true,
+            selectedProduct: prod,
+            isEditForm: false,
+            pageInfoVisible: false,
+          });
+        }}
+        icon={<DeleteIcon />}
+      />,
+    ],
+  };
+
+  const deleteItem = async (selectedProduct) => {
+    const fetchOptions = getFetchOptions("DELETE", null, true, false);
+    updateState({ deleting: true });
+    const data = await deleteProduct(fetchOptions, selectedProduct._id);
+    //await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
+    notify(data.message);
+    updateState({
+      pageInfoVisible: false,
+      deleting: false,
+      showConfirmDialog: false,
     });
+    fetchProducts();
+  };
 
   return (
     <div className="lg:h-full h-[50%] flex-1">

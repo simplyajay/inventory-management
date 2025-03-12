@@ -1,76 +1,117 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useRef, useEffect } from "react";
 import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableHead";
 import TableLayout from "@/components/table/TableLayout";
-import { tableHeaders } from "@/utils/supplier/supplierTable.util";
-
-const tableBodies = [
-  {
-    id: "01",
-    name: "JALEEL",
-    phone: "00002",
-    email: "jaleel@gmail.com",
-    address: "al qouz",
-  },
-  {
-    id: "02",
-    name: "Jalol",
-    phone: "00002",
-    email: "jaleel@gmail.com",
-    address: "al qouz",
-  },
-  {
-    id: "03",
-    name: "Jalal",
-    phone: "00002",
-    email: "jaleel@gmail.com",
-    address: "al qouz",
-  },
-];
-const tableActions = [];
+import Pagination from "@/components/table/Pagination";
+import { getFetchOptions } from "@/services/options";
+import { getSuppliers } from "@/services/api/supplier";
+import ActionButton from "@/components/table/TableAction";
+import { EditIcon } from "@/components/icons/Icons";
+import { createTableHandler } from "@/components/table/table.util";
 
 const Layout = () => {
   const [state, setState] = useState({
+    suppliers: [],
     loading: false,
     initializing: false,
     searchKeyword: "",
     sortBy: { key: "name", type: "asc" },
+    page: 1,
+    totalPages: 0,
   });
 
-  const { loading, initializing, sortBy, searchKeyword } = state;
+  const { suppliers, loading, page, totalPages, sortBy, searchKeyword } = state;
 
   const searchRef = useRef(null);
 
-  const route = useRouter();
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
 
-  const handleSearch = () => {
-    console.log("test");
+  const updateState = (updates) => {
+    setState((prevState) => ({ ...prevState, ...updates }));
   };
 
-  const handleRowClick = (row) => {
-    console.log(row.name);
+  const fetchSuppliers = async ({
+    page = 1,
+    searchKeyword = "",
+    sortBy = { key: "name", type: "asc" },
+  } = {}) => {
+    try {
+      updateState({ loading: true });
+      const fetchOptions = getFetchOptions("GET", null, true, false);
+      fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
+      const data = await getSuppliers(fetchOptions);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      updateState({
+        searchKeyword,
+        sortBy,
+        suppliers: data.suppliers,
+        totalPages: data.totalPages,
+        loading: false,
+        page: data.page,
+      });
+    } catch (error) {
+      console.error("Error on fetchSupplier at Layout ", error);
+      updateState({ loading: true });
+    }
+  };
+
+  const { searchItem, clearSearch, handleSort, pageNext, pagePrev } = createTableHandler({
+    state,
+    fetchTableData: fetchSuppliers,
+  });
+
+  const tableHeaders = [
+    { name: "COMPANY NAME", key: "name" },
+    { name: "PHONE", key: "phone" },
+    { name: "EMAIL", key: "email" },
+    { name: "ADDRESS", key: "address" },
+  ];
+
+  const tableActions = {
+    name: "ACTIONS",
+    key: "actions",
+    components: [
+      <ActionButton
+        key={"goto"}
+        onClick={(target) => console.log(target)}
+        icon={<EditIcon />}
+        text={"View"}
+        customClass={"text-blue-500"}
+      />,
+    ],
   };
 
   return (
     <div className="h-full w-full flex flex-col lg:flex-row gap-5 md:gap-5 justify-between">
-      <TableLayout searchKeyword={searchKeyword}>
+      <TableLayout loading={loading}>
         <TableHead
-          title="SUPPLIERS"
-          buttonText="New Supplier"
+          title={"SUPPLIERS"}
+          buttonText={"Add Supplier"}
+          onButtonClick={() => console.log("test")}
           searchRef={searchRef}
-          handleSearch={handleSearch}
+          handleSearch={searchItem}
+          handleSearchClear={clearSearch}
+          searchKeyword={searchKeyword}
         />
 
         <Table
-          initializing={initializing}
           loading={loading}
-          sortSetting={{ ...sortBy, searchKeyword }}
           headers={tableHeaders}
-          bodies={tableBodies}
+          bodies={suppliers}
+          actions={tableActions}
           messageWhenEmpty={"There are no Suppliers"}
-          handleRowClick={handleRowClick}
+          sortSetting={{ ...sortBy, searchKeyword }}
+          handleSort={handleSort}
+        />
+
+        <Pagination
+          onPrevPage={() => pagePrev(searchKeyword)}
+          onNextPage={() => pageNext(searchKeyword)}
+          currentPage={page}
+          totalPages={totalPages}
         />
       </TableLayout>
     </div>

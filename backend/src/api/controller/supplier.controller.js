@@ -64,12 +64,12 @@ export const getAllSuppliers = async (req, res) => {
 
     const startIndex = page && limit && (page - 1) * limit;
 
-    const supplier = await Supplier.find(filter).sort(sort).limit(Number(limit)).skip(startIndex);
+    const suppliers = await Supplier.find(filter).sort(sort).limit(Number(limit)).skip(startIndex);
 
     const totalSuppliers = await Supplier.countDocuments(filter);
 
     return res.status(200).json({
-      supplier,
+      suppliers,
       totalPages: Math.max(1, Math.ceil(totalSuppliers / limit)),
       totalSuppliers,
       page,
