@@ -47,14 +47,60 @@ const ProductSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const BusinessEntitySchema = new Schema(
+  {
+    _orgId: { type: String, required: true },
+    type: { type: String, enum: ["customer", "supplier"], required: true },
+    name: { type: String, required: true },
+    trn: { type: String },
+    description: { type: String },
+    website: { type: String },
+    address: {
+      streetAddress1: { type: String },
+      streetAddress2: { type: String },
+      city: { type: String },
+      state: { type: String },
+      country: { type: String },
+      zipCode: { type: String },
+    },
+    contact: {
+      title: { type: String },
+      firstName: { type: String },
+      middleName: { type: String },
+      lastName: { type: String },
+      phone: { type: String },
+      email: { type: String },
+    },
+    displayImage: { type: String, required: false },
+    status: { type: String, enum: ["inactive", "active"], required: true },
+  },
+  { timestamps: true }
+);
+
 const SupplierSchema = new Schema(
   {
     _orgId: { type: String, required: true },
     name: { type: String, required: true },
     trn: { type: String },
-    phone: { type: String },
-    email: { type: String },
-    address: { type: String, default: "" },
+    description: { type: String },
+    website: { type: String },
+    address: {
+      streetAddress1: { type: String },
+      streetAddress2: { type: String },
+      city: { type: String },
+      state: { type: String },
+      country: { type: String },
+      zipCode: { type: String },
+    },
+    contact: {
+      title: { type: String },
+      firstName: { type: String },
+      middleName: { type: String },
+      lastName: { type: String },
+      phone: { type: String },
+      email: { type: String },
+    },
     displayImage: { type: String, required: false },
     status: { type: String, enum: ["inactive", "active"], required: true },
   },
@@ -106,10 +152,13 @@ const DocumentSchema = new Schema(
       },
     ],
     vatAmount: { type: Number, required: true },
-    vatRate: { type: Number, required: true }, // vat rate
+    vatRate: { type: Number, required: true }, // vat rate in percent
     vatType: { type: String, enum: ["inclusive", "exclusive"], required: true }, // inclusive, exclusive, or other vat types
     costBeforeVat: { type: Number, required: true },
     costAfterVat: { type: Number, required: true },
+    taxWithHeldAmount: { type: Number },
+    withHoldingTaxRate: { type: Number }, // in percent
+    withHoldingTaxAmount: { type: Number },
     note: { type: String },
     documentStatus: {
       type: String,
@@ -128,6 +177,7 @@ const DocumentSchema = new Schema(
 export const User = mongoose.model("User", UserSchema);
 export const Organization = mongoose.model("Organization", organizationSchema);
 export const Product = mongoose.model("Product", ProductSchema);
+export const BusinessEntity = mongoose.model("BusinessEntity", BusinessEntitySchema);
 export const Supplier = mongoose.model("Supplier", SupplierSchema);
 export const Customer = mongoose.model("Customer", CustomerSchema);
 export const Document = mongoose.model("Document", DocumentSchema);

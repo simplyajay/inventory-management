@@ -58,7 +58,6 @@ export const getAllSuppliers = async (req, res) => {
       filter.$or = [
         { name: { $regex: searchKeyword, $options: "i" } },
         { email: { $regex: searchKeyword, $options: "i" } },
-        { address: { $regex: searchKeyword, $options: "i" } },
         // Add other fields if necessary, for example:
         // { description: { $regex: searchKeyword, $options: "i" } },
       ];

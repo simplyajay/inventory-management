@@ -240,7 +240,9 @@ const Table = ({
                               </div>
                             ) : (
                               <div className="pr-2 overflow-hidden whitespace-nowrap">
-                                {body[header.key]}
+                                {header.object && body[header.object]
+                                  ? body[header.object][header.key]
+                                  : body[header.key]}
                               </div>
                             )}
                           </td>

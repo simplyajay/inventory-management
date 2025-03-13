@@ -3,7 +3,7 @@ import { getSupplier } from "@/services/api/supplier";
 import { getFetchOptions } from "@/services/options";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import SupplierDetail from "../components/SupplierDetail";
+import SupplierDetail from "../components/SupplierDetailLayout";
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page
   title: "Suppliers | Detail",
