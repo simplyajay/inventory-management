@@ -3,7 +3,6 @@ import initializeDb from "./connection/connection.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-
 import userRouter from "./api/routes/user.route.js";
 import organizationRouter from "./api/routes/organization.route.js";
 import productRouter from "./api/routes/product.route.js";

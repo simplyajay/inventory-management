@@ -1,12 +1,12 @@
-import { BusinessEntity } from "../../models/models.js";
+import { Supplier } from "../../models/models.js";
 import { getOrgId } from "../service/user.service.js";
 
-export const createSupplier = async (req, res) => {
+export const createBusinessEntity = async (req, res) => {
   try {
     try {
       const _orgId = await getOrgId(req.user._id);
       const s = { ...req.body, _orgId };
-      const supplier = await BusinessEntity.create(s);
+      const supplier = await Supplier.create(s);
       res.status(200).json({ message: `New supplier created: [${supplier.name}]` });
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -16,13 +16,13 @@ export const createSupplier = async (req, res) => {
   }
 };
 
-export const findSupplier = async (req, res) => {
+export const findBusinessEntity = async (req, res) => {
   try {
     const { id } = req.params;
     const _orgId = await getOrgId(req.user._id);
 
     if (id && _orgId) {
-      const supplier = await BusinessEntity.findOne({ _orgId, _id: id });
+      const supplier = await Supplier.findOne({ _orgId, _id: id });
 
       if (!supplier) {
         return res.status(404).json({ message: "Supplier not found" });
@@ -37,11 +37,11 @@ export const findSupplier = async (req, res) => {
   }
 };
 
-export const getAllSuppliers = async (req, res) => {
+export const getBusinessEntities = async (req, res) => {
   try {
     const _orgId = await getOrgId(req.user._id);
 
-    const filter = { _orgId, type: "supplier" };
+    const filter = { _orgId };
 
     const page = req.query.page || 1;
     const limit = req.query.limit || 15;
@@ -69,12 +69,9 @@ export const getAllSuppliers = async (req, res) => {
 
     const startIndex = page && limit && (page - 1) * limit;
 
-    const suppliers = await BusinessEntity.find(filter)
-      .sort(sort)
-      .limit(Number(limit))
-      .skip(startIndex);
+    const suppliers = await Supplier.find(filter).sort(sort).limit(Number(limit)).skip(startIndex);
 
-    const totalSuppliers = await BusinessEntity.countDocuments(filter);
+    const totalSuppliers = await Supplier.countDocuments(filter);
 
     return res.status(200).json({
       suppliers,
@@ -87,10 +84,10 @@ export const getAllSuppliers = async (req, res) => {
   }
 };
 
-export const updateSupplier = async (req, res) => {
+export const updateBusinessEntity = async (req, res) => {
   try {
     const { _id } = req.body;
-    const supplier = await BusinessEntity.findByIdAndUpdate(_id, req.body, {
+    const supplier = await Supplier.findByIdAndUpdate(_id, req.body, {
       returnOriginal: false,
     });
     if (!supplier) {
@@ -102,10 +99,10 @@ export const updateSupplier = async (req, res) => {
   }
 };
 
-export const deleteSupplier = async (req, res) => {
+export const deleteBusinessEntity = async (req, res) => {
   try {
     const { id } = req.params;
-    const supplier = await BusinessEntity.findByIdAndDelete(id);
+    const supplier = await Supplier.findByIdAndDelete(id);
     if (!supplier) {
       return res.status(404).json({ message: "Supplier not found" });
     }

@@ -72,51 +72,10 @@ const BusinessEntitySchema = new Schema(
       phone: { type: String },
       email: { type: String },
     },
-    displayImage: { type: String, required: false },
+    creditLimit: { type: Number },
+    openBalance: { type: Number, default: 0 },
     status: { type: String, enum: ["inactive", "active"], required: true },
-  },
-  { timestamps: true }
-);
-
-const SupplierSchema = new Schema(
-  {
-    _orgId: { type: String, required: true },
-    name: { type: String, required: true },
-    trn: { type: String },
-    description: { type: String },
-    website: { type: String },
-    address: {
-      streetAddress1: { type: String },
-      streetAddress2: { type: String },
-      city: { type: String },
-      state: { type: String },
-      country: { type: String },
-      zipCode: { type: String },
-    },
-    contact: {
-      title: { type: String },
-      firstName: { type: String },
-      middleName: { type: String },
-      lastName: { type: String },
-      phone: { type: String },
-      email: { type: String },
-    },
-    displayImage: { type: String, required: false },
-    status: { type: String, enum: ["inactive", "active"], required: true },
-  },
-  { timestamps: true }
-);
-
-const CustomerSchema = new Schema(
-  {
-    _orgId: { type: String, required: true },
-    name: { type: String, required: true },
-    trn: { type: String, required: true },
-    phone: { type: String },
-    email: { type: String },
-    address: { type: String, default: "" },
-    displayImage: { type: String, required: false },
-    status: { type: String, enum: ["inactive", "active"], required: true },
+    displayImage: { type: String },
   },
   { timestamps: true }
 );
@@ -178,6 +137,4 @@ export const User = mongoose.model("User", UserSchema);
 export const Organization = mongoose.model("Organization", organizationSchema);
 export const Product = mongoose.model("Product", ProductSchema);
 export const BusinessEntity = mongoose.model("BusinessEntity", BusinessEntitySchema);
-export const Supplier = mongoose.model("Supplier", SupplierSchema);
-export const Customer = mongoose.model("Customer", CustomerSchema);
 export const Document = mongoose.model("Document", DocumentSchema);
