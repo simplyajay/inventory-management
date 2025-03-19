@@ -12,7 +12,6 @@ const BasicForm = ({
   submitProps,
   inputs,
   validationSchema,
-  confirmOnly,
   labels,
 }) => {
   const { register, handleSubmit, formState, clearErrors, reset, setError } = useForm({
@@ -43,11 +42,7 @@ const BasicForm = ({
           clearErrors={clearErrors}
           labels={labels}
         />
-        <FormButtons
-          onCancelProps={cancelProps}
-          onSubmitProps={submitProps}
-          confirmOnly={confirmOnly}
-        />
+        <FormButtons onCancelProps={cancelProps} onSubmitProps={submitProps} />
       </form>
     </div>
   );

@@ -11,6 +11,10 @@ import {
   entityFormLabels,
 } from "@/utils/form/bussinessEntity.util";
 import { getCountries } from "@/services/api/countries";
+import { getFetchOptions } from "@/services/options";
+import { updateSupplier } from "@/services/api/supplier";
+import { notify } from "@/components/toast/ToastProvider";
+import { useRouter } from "next/navigation";
 
 const SupplierDetailLayout = ({ supplier }) => {
   const [state, setState] = useState({
@@ -22,11 +26,19 @@ const SupplierDetailLayout = ({ supplier }) => {
 
   const { formVisible, loading, updating, inputs } = state;
 
+  const route = useRouter();
+
   const updateState = (updates) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async ({ values }) => {
+    const fetchOptions = getFetchOptions("PUT", { _id: supplier._id, ...values }, true, false);
+    const data = await updateSupplier(fetchOptions, supplier._id);
+    updateState({ formVisible: !formVisible });
+    notify(data.message);
+    route.refresh();
+  };
 
   const values = getEntityFormValues(supplier);
 
@@ -43,15 +55,9 @@ const SupplierDetailLayout = ({ supplier }) => {
     updateState({ loading: false });
   };
 
-  const confirmProps = {
-    text: "Save",
-    onClick: () => updateState({ formVisible: !formVisible }),
-  };
+  const confirmProps = { text: "Save" };
 
-  const cancelProps = {
-    text: "Cancel",
-    onClick: () => updateState({ formVisible: !formVisible }),
-  };
+  const cancelProps = { text: "Cancel", onClick: () => updateState({ formVisible: !formVisible }) };
 
   useEffect(() => {
     getInputs();

@@ -29,8 +29,8 @@ export const updateSupplier = async (fetchOptions, id) => {
       fetchOptions
     );
     if (!res.ok) {
-      console.error(data.message, res.status);
-      return { status: res.status, message: data.message };
+      console.error("Error: ", res.status);
+      return { status: res.status, message: res.message };
     }
 
     const updatedSupplier = await res.json();

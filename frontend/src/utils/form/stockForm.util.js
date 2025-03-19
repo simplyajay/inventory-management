@@ -91,7 +91,7 @@ export const getProductFormInputs = (updating, updateForm) => {
       obj.type = "textarea";
     } else if (key === "quantity") {
       obj.disabled = updateForm ? true : updating;
-      obj.customClass = "disabled:cursor-not-allowed";
+      obj.customclass = "disabled:cursor-not-allowed";
     } else if (key === "unitOfMeasurement") {
       obj.type = "select";
       obj.children = ["PCS", "PKT", "CTN", "OTR"];

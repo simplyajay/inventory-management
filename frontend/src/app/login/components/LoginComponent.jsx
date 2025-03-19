@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { validateLogin } from "@/services/api/validation";
+import { validateLogin } from "@/services/api/user/validation";
 import { getFetchOptions } from "@/services/options";
 import { ClipLoader } from "react-spinners";
 
@@ -73,13 +73,9 @@ const LoginForm = () => {
             placeholder="Username or email"
             autoComplete="off"
             onFocus={() => clearErrors("username")}
-            className={`${fieldClass}  ${
-              errors.username && "ring-2 ring-red-100"
-            }`}
+            className={`${fieldClass}  ${errors.username && "ring-2 ring-red-100"}`}
           />
-          {errors.username && (
-            <p className="text-red-500">{errors.username.message}</p>
-          )}
+          {errors.username && <p className="text-red-500">{errors.username.message}</p>}
         </div>
         <div className="flex flex-col gap-1">
           <input
@@ -89,13 +85,9 @@ const LoginForm = () => {
             placeholder="Password"
             autoComplete="off"
             onFocus={() => clearErrors("password")}
-            className={`${fieldClass}  ${
-              errors.password && "ring-2 ring-red-100"
-            }`}
+            className={`${fieldClass}  ${errors.password && "ring-2 ring-red-100"}`}
           />
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
         </div>
         <div className="flex justify-end">
           <button

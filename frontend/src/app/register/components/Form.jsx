@@ -9,9 +9,9 @@ import {
 } from "../../../utils/schema/register.validationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validateOnRegister } from "@/services/api/validation";
+import { validateOnRegister } from "@/services/api/user/validation";
 import { getFetchOptions } from "@/services/options";
-import { createOrganization, createUser } from "@/services/api/registration";
+import { createOrganization, createUser } from "@/services/api/user/registration";
 
 const Form = () => {
   const [step, setStep] = useState(1);
@@ -121,11 +121,7 @@ const Form = () => {
       </div>
 
       {step === 1 ? (
-        <StepOne
-          register={register}
-          errors={errors}
-          clearErrors={clearErrors}
-        />
+        <StepOne register={register} errors={errors} clearErrors={clearErrors} />
       ) : step === 2 ? (
         <StepTwo
           register={register}
@@ -135,11 +131,7 @@ const Form = () => {
           setValue={setValue}
         />
       ) : step === 3 ? (
-        <StepThree
-          register={register}
-          errors={errors}
-          clearErrors={clearErrors}
-        />
+        <StepThree register={register} errors={errors} clearErrors={clearErrors} />
       ) : (
         <StepFour getValues={getValues} />
       )}

@@ -4,7 +4,7 @@ import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import Navbar from "@/components/navigation/navbar/Navbar";
 import { cookies, headers } from "next/headers";
 import { getFetchOptions } from "@/services/options";
-import { getAuthenticatedUser } from "@/services/api/authentication";
+import { getAuthenticatedUser } from "@/services/api/user/authentication";
 import ToastProvider from "@/components/toast/ToastProvider";
 import { SkeletonTheme } from "react-loading-skeleton";
 

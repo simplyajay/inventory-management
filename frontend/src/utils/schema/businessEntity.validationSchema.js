@@ -19,5 +19,5 @@ export const BusinessEntitySchema = Yup.object({
   phone: Yup.string(),
   email: Yup.string(),
   creditLimit: Yup.number("Should be a valid number").default(0),
-  status: Yup.string().oneOf(["active", "inactive"], "Invalid Status"),
+  status: Yup.string().oneOf(["Active", "Inactive"], "Invalid Status"),
 });

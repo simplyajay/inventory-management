@@ -52,9 +52,7 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
           pageInfoVisible={pageInfoVisible}
         >
           <BasicForm
-            updateForm={isEditForm}
             values={formValues}
-            fetchProducts={() => fetchProducts()}
             onSubmit={onFormSubmit}
             cancelProps={formCancelProps}
             submitProps={formSubmitProps}
