@@ -1,10 +1,15 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { createStockFormHandler } from "@/utils/form/stockForm.util";
-import { getProductFormInputs, getProductFormValues } from "@/utils/form/stockForm.util";
-import Form from "@/components/form/Form";
-import { FormLayout } from "@/components/form/FormLayout";
+import {
+  getProductFormInputs,
+  getProductFormValues,
+  productFormLabels,
+} from "@/utils/form/stockForm.util";
+import BasicForm from "@/components/forms/basic-form/BasicForm";
+import { FormLayout } from "@/components/forms/basic-form/FormLayout";
 import { ClipLoader } from "react-spinners";
+import { ProductSchema } from "@/utils/schema/product.validationSchema";
 
 const StockForm = ({ state, fetchProducts, hideForm }) => {
   const [updating, setUpdating] = useState(false);
@@ -46,7 +51,7 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
           title={isEditForm ? "PRODUCT INFORMATION" : "NEW PRODUCT"}
           pageInfoVisible={pageInfoVisible}
         >
-          <Form
+          <BasicForm
             updateForm={isEditForm}
             values={formValues}
             fetchProducts={() => fetchProducts()}
@@ -54,6 +59,8 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
             cancelProps={formCancelProps}
             submitProps={formSubmitProps}
             inputs={formInputs}
+            validationSchema={ProductSchema}
+            labels={productFormLabels}
           />
         </FormLayout>
       </div>

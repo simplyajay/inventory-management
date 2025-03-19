@@ -8,7 +8,7 @@ import ActionButton from "@/components/table/TableAction";
 import { useRouter } from "next/navigation";
 import { getFetchOptions } from "@/services/options";
 import { getSuppliers } from "@/services/api/supplier";
-import { EditIcon } from "@/components/icons/Icons";
+import { ExternalLinkIcon } from "@/components/icons/Icons";
 import { createTableHandler } from "@/components/table/table.util";
 
 const Suppliers = () => {
@@ -68,9 +68,9 @@ const Suppliers = () => {
 
   const tableHeaders = [
     { name: "COMPANY NAME", key: "name" },
-    { name: "PHONE", key: "phone" },
-    { name: "EMAIL", key: "email" },
-    { name: "ADDRESS", key: "address" },
+    { name: "DESCRIPTION", key: "description" },
+    { name: "PHONE", key: "phone", object: "contact" },
+    { name: "EMAIL", key: "email", object: "contact" },
   ];
 
   const tableActions = {
@@ -80,7 +80,7 @@ const Suppliers = () => {
       <ActionButton
         key={"goto"}
         onClick={(target) => router.push(`/suppliers/${target._id}`)}
-        icon={<EditIcon />}
+        icon={<ExternalLinkIcon className="fill-current text-blue-500" />}
         text={"View"}
         customClass={"text-blue-500"}
       />,

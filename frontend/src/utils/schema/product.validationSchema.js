@@ -1,16 +1,6 @@
 import * as Yup from "yup";
 
-const initialValues = {
-  sku: "",
-  name: "",
-  barcode: "",
-  description: "",
-  price: 0,
-  unitOfMeasurement: "PCS",
-  quantity: 0,
-};
-
-export const validationSchema = Yup.object({
+export const ProductSchema = Yup.object({
   sku: Yup.string().required("SKU is required"),
   barcode: Yup.string().required("Barcode is required"),
   name: Yup.string().required("Product name is required"),
