@@ -83,48 +83,25 @@ export const getProductFormValues = (product = {}) => {
 };
 
 export const getProductFormInputs = (updating, updateForm) => {
-  const formInputs = [
-    {
-      id: "sku",
-      name: "sku",
-      disabled: updating,
-    },
-    {
-      id: "name",
-      name: "name",
-      disabled: updating,
-    },
-    {
-      id: "barcode",
-      name: "barcode",
-      disabled: updating,
-    },
-    {
-      id: "description",
-      name: "description",
-      disabled: updating,
-      type: "textarea",
-    },
+  const values = getProductFormValues();
+  return Object.keys(values).map((key) => {
+    let obj = { id: key, name: key, disabled: updating };
 
-    {
-      id: "quantity",
-      name: "quantity",
-      disabled: updateForm ? true : updating,
-      customclass: "disabled:cursor-not-allowed",
-    },
-    {
-      id: "price",
-      name: "price",
-      disabled: updating,
-    },
-    {
-      id: "unitOfMeasurement",
-      name: "unitOfMeasurement",
-      disabled: updating,
-      type: "select",
-      children: ["PCS", "PKT", "CTN", "OTR"],
-    },
-  ];
+    if (key === "description") {
+      obj.type = "textarea";
+    } else if (key === "quantity") {
+      obj.disabled = updateForm ? true : updating;
+      obj.customClass = "disabled:cursor-not-allowed";
+    } else if (key === "unitOfMeasurement") {
+      obj.type = "select";
+      obj.children = ["PCS", "PKT", "CTN", "OTR"];
+    }
 
-  return formInputs;
+    return obj;
+  });
 };
+
+export const productFormLabels = [
+  { name: "sku", text: "SKU" },
+  { name: "unitOfMeasurement", text: "OUM" },
+];

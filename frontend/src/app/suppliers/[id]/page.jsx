@@ -3,7 +3,7 @@ import { getSupplier } from "@/services/api/supplier";
 import { getFetchOptions } from "@/services/options";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import SupplierDetail from "../components/SupplierDetailLayout";
+import SupplierDetailLayout from "../components/SupplierDetailLayout";
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page
   title: "Suppliers | Detail",
@@ -21,7 +21,7 @@ const SupplierDetailPage = async ({ params }) => {
 
   return (
     <div className="w-full h-full p-4 overflow-hidden">
-      <SupplierDetail supplier={supplier} />
+      <SupplierDetailLayout supplier={supplier} />
     </div>
   );
 };

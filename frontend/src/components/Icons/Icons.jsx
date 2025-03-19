@@ -327,3 +327,49 @@ export const ExternalLinkIcon = (props) => {
     </svg>
   );
 };
+
+export const DoubleCaretDownIcon = (props) => {
+  return (
+    <svg
+      class="w-6 h-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m8 7 4 4 4-4m-8 6 4 4 4-4"
+      />
+    </svg>
+  );
+};
+
+export const DoubleCaretUpIcon = (props) => {
+  return (
+    <svg
+      class="w-6 h-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m16 17-4-4-4 4m8-6-4-4-4 4"
+      />
+    </svg>
+  );
+};

@@ -1,34 +1,88 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import SupplierDetail from "./SupplierDetail";
+import React, { useState, useEffect, useMemo } from "react";
 import SupplierDocuments from "./SupplierDocuments";
+import SupplierDetailCollapsed from "./supplier-detail/SupplierDetailCollapsed";
+import FormDialog from "@/components/dialogs/FormDialog";
+import BasicForm from "@/components/forms/basic-form/BasicForm";
+import { BusinessEntitySchema } from "@/utils/schema/businessEntity.validationSchema";
+import {
+  getEntityFormInputs,
+  getEntityFormValues,
+  entityFormLabels,
+} from "@/utils/form/bussinessEntity.util";
+import { getCountries } from "@/services/api/countries";
 
 const SupplierDetailLayout = ({ supplier }) => {
   const [state, setState] = useState({
-    detailCollapse: true,
+    formVisible: false,
+    loading: true,
+    inputs: [],
+    updating: false,
   });
 
-  const { detailCollapse } = state;
+  const { formVisible, loading, updating, inputs } = state;
 
   const updateState = (updates) => {
-    setState((prevState) => ({ ...prevState, ...updates }));
+    setState((prev) => ({ ...prev, ...updates }));
   };
-  return (
-    <div className="w-full h-full flex flex-col items-center shadow-sm bg-white ">
-      <div className={`${detailCollapse ? `h-[20%]` : "flex-1"} w-full pb-2`}>
-        <SupplierDetail detailCollapse={detailCollapse} supplier={supplier} />
+
+  const handleSubmit = () => {};
+
+  const values = getEntityFormValues(supplier);
+
+  const getInputs = async () => {
+    if (!loading) {
+      updateState({ loading: true });
+    }
+
+    const data = await getCountries();
+    const i = getEntityFormInputs(updating, data.countries);
+    if (i) {
+      updateState({ inputs: i });
+    }
+    updateState({ loading: false });
+  };
+
+  const confirmProps = {
+    text: "Save",
+    onClick: () => updateState({ formVisible: !formVisible }),
+  };
+
+  const cancelProps = {
+    text: "Cancel",
+    onClick: () => updateState({ formVisible: !formVisible }),
+  };
+
+  useEffect(() => {
+    getInputs();
+  }, []);
+
+  return loading ? (
+    <>loading</>
+  ) : (
+    <div className="w-full h-full flex flex-col flex-wrap items-center gap-2 shadow-sm  ">
+      <div className="w-full">
+        <SupplierDetailCollapsed
+          supplier={supplier}
+          onEdit={() => updateState({ formVisible: !formVisible })}
+        />
       </div>
-      <div className="w-full flex items-center justify-center border border-collapse border-gray-300 ">
-        <button
-          className="fixed z-10 bg-yellow-50 p-2 rounded-full hover:scale-105 transition-al l"
-          onClick={() => updateState({ detailCollapse: !detailCollapse })}
-        >
-          test
-        </button>
-      </div>
-      <div className={`${detailCollapse ? "flex-1" : "h-[20%]"} w-full pt-2 `}>
+      <div className="flex-1 w-full">
         <SupplierDocuments />
       </div>
+      {formVisible && (
+        <FormDialog title="SUPPLIER INFORMATION">
+          <BasicForm
+            values={values}
+            onSubmit={handleSubmit}
+            inputs={inputs}
+            validationSchema={BusinessEntitySchema}
+            labels={entityFormLabels}
+            submitProps={confirmProps}
+            cancelProps={cancelProps}
+          />
+        </FormDialog>
+      )}
     </div>
   );
 };
