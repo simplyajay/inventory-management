@@ -10,7 +10,7 @@ import {
   getEntityFormValues,
   entityFormLabels,
 } from "@/utils/form/bussinessEntity.util";
-import { getCountries } from "@/services/api/countries";
+import { getCountries } from "@/services/api/csc";
 import { getFetchOptions } from "@/services/options";
 import { updateSupplier } from "@/services/api/supplier";
 import { notify } from "@/components/toast/ToastProvider";

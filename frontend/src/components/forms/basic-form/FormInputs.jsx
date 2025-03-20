@@ -25,8 +25,8 @@ const FormInputs = ({ register, errors, clearErrors, inputs, labels }) => {
                   {input.default ? input.default : "Select"}
                 </option>
                 {input.children.map((child, childIndex) => (
-                  <option key={childIndex} value={child} className="p-5">
-                    {child}
+                  <option key={childIndex} value={child.key ? child.key : child} className="p-5">
+                    {child.value ? child.value : child}
                   </option>
                 ))}
               </select>

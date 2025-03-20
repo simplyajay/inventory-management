@@ -29,8 +29,11 @@ export const getEntityFormInputs = (updating, countries) => {
     return;
   }
 
-  const countryNames = countries.map((country) => country.name?.common);
-  const sortedCountries = countryNames.sort((a, b) => a.localeCompare(b));
+  const countriesObj = countries.map((country) => ({
+    key: country.iso2,
+    value: `${country.name} (${country.iso2})`,
+  }));
+  const sortedCountries = countriesObj.sort((a, b) => a.value.localeCompare(b.value));
 
   return Object.keys(values).map((key) => {
     let obj = { id: key, name: key, disabled: updating };
@@ -43,7 +46,10 @@ export const getEntityFormInputs = (updating, countries) => {
       obj.default = "Select Country";
     } else if (key === "status") {
       obj.type = "select";
-      obj.children = ["Active", "Inactive"];
+      obj.children = [
+        { key: "active", value: "Active" },
+        { key: "inactive", value: "Inactive" },
+      ];
       obj.default = "Select status";
     }
 
@@ -62,4 +68,5 @@ export const entityFormLabels = [
   { name: "middlename", text: "Contact Middle Name" },
   { name: "lastname", text: "Contact Last Name" },
   { name: "phone", text: "Contact Mobile Number" },
+  { name: "creditlimit", text: "Credit Limit" },
 ];

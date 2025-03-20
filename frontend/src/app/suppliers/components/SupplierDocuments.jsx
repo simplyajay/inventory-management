@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const SupplierDocuments = () => {
   const [state, setState] = useState({
