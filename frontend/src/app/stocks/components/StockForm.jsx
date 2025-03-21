@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { createStockFormHandler } from "@/utils/form/stockForm.util";
 import {
-  getProductFormInputs,
+  getProductComponents,
   getProductFormValues,
   productFormLabels,
 } from "@/utils/form/stockForm.util";
@@ -37,12 +37,11 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
   };
 
   const formSubmitProps = {
-    disabled: updating ? true : false,
     text: isEditForm ? (updating ? "Saving" : "Save") : updating ? "Creating" : "Create",
     icon: updating && <ClipLoader color="#007d96" size={15} loading={updating} />,
   };
 
-  const formInputs = getProductFormInputs(updating, isEditForm);
+  const formComponents = getProductComponents(isEditForm);
 
   return (
     pageInfoVisible && (
@@ -56,7 +55,8 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
             onSubmit={onFormSubmit}
             cancelProps={formCancelProps}
             submitProps={formSubmitProps}
-            inputs={formInputs}
+            components={formComponents}
+            loading={updating ? true : false}
             validationSchema={ProductSchema}
             labels={productFormLabels}
           />

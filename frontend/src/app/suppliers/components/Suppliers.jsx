@@ -25,7 +25,6 @@ const Suppliers = () => {
   const { suppliers, loading, page, totalPages, sortBy, searchKeyword } = state;
 
   const searchRef = useRef(null);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -46,7 +45,6 @@ const Suppliers = () => {
       const fetchOptions = getFetchOptions("GET", null, true, false);
       fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
       const data = await getSuppliers(fetchOptions);
-      await new Promise((resolve) => setTimeout(resolve, 500));
       updateState({
         searchKeyword,
         sortBy,

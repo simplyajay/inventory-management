@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FormInputs from "./FormInputs";
+import FormComponents from "./FormComponents";
 import FormButtons from "../form-components/FormButtons";
 
 const BasicForm = ({
@@ -10,12 +10,13 @@ const BasicForm = ({
   onSubmit,
   cancelProps,
   submitProps,
-  inputs,
+  components,
   validationSchema,
   labels,
+  loading,
 }) => {
   const { register, handleSubmit, formState, clearErrors, reset, setError } = useForm({
-    mode: "onBlur",
+    mode: "onSubmit",
     resolver: yupResolver(validationSchema),
     defaultValues: values,
     shouldFocusError: false,
@@ -35,12 +36,13 @@ const BasicForm = ({
         })}
         className="h-full flex flex-col"
       >
-        <FormInputs
-          inputs={inputs}
+        <FormComponents
+          components={components}
           register={register}
           errors={errors}
           clearErrors={clearErrors}
           labels={labels}
+          loading={loading}
         />
         <FormButtons onCancelProps={cancelProps} onSubmitProps={submitProps} />
       </form>
