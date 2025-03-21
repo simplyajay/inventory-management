@@ -9,7 +9,7 @@ export const metadata = {
 const StocksPage = () => {
   const StocksMemo = React.memo(Stocks);
   return (
-    <div className="h-full p-4">
+    <div className="h-full p-2">
       <StocksMemo />
     </div>
   );

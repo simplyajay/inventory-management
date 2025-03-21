@@ -16,12 +16,14 @@ const SupplierDetailCollapsed = ({ supplier, onEdit }) => {
             <p className="text-responsive-xs font-semibold text-gray-500">COMPANY NAME </p>
             <p className="text-responsive-lg font-bold text-gray-700">{name}</p>
           </div>
-          <div className="w-full flex-col gap-2">
-            <p className="text-responsive-xs font-semibold text-gray-500">ADDRESS</p>
-            <p className="text-responsive-md font-medium text-gray-700">{`${
-              street1 ? `${city}, ${street1}` : city
-            }`}</p>
-          </div>
+          {(city || street1) && (
+            <div className="w-full flex-col gap-2">
+              <p className="text-responsive-xs font-semibold text-gray-500">ADDRESS</p>
+              <p className="text-responsive-md font-medium text-gray-700">{`${
+                city ? (street1 ? `${city}, ${street1}` : city) : street1 ? `${street1}` : ""
+              }`}</p>
+            </div>
+          )}
         </div>
 
         <div className="flex-1">

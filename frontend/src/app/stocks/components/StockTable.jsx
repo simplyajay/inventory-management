@@ -74,7 +74,6 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
     const fetchOptions = getFetchOptions("DELETE", null, true, false);
     updateState({ deleting: true });
     const data = await deleteProduct(fetchOptions, selectedProduct._id);
-    //await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
     notify(data.message);
     updateState({
       pageInfoVisible: false,

@@ -55,7 +55,6 @@ export const createStockFormHandler = ({
         data = await addProduct(fetchOptions);
       }
 
-      //  await new Promise((resolve) => setTimeout(resolve, 500));
       notify(data.message);
       reset();
       fetchProducts();
@@ -72,31 +71,30 @@ export const createStockFormHandler = ({
 
 export const getProductFormValues = (product = {}) => {
   return {
-    sku: product.sku || "",
-    name: product.name || "",
-    barcode: product.barcode || "",
-    description: product.description || "",
+    sku: product.sku || null,
+    name: product.name || null,
+    barcode: product.barcode || null,
+    description: product.description || null,
     unitOfMeasurement: product.unitOfMeasurement || "PCS",
     quantity: product.quantity || 0,
     price: product.price || 0,
   };
 };
 
-export const getProductFormInputs = (updating, updateForm) => {
+export const getProductComponents = (updateForm) => {
   const values = getProductFormValues();
   return Object.keys(values).map((key) => {
-    let obj = { id: key, name: key, disabled: updating };
+    let obj = { id: key, name: key };
 
     if (key === "description") {
       obj.type = "textarea";
     } else if (key === "quantity") {
-      obj.disabled = updateForm ? true : updating;
-      obj.customClass = "disabled:cursor-not-allowed";
+      obj.disabled = updateForm ? true : false;
+      obj.customclass = "disabled:cursor-not-allowed";
     } else if (key === "unitOfMeasurement") {
       obj.type = "select";
       obj.children = ["PCS", "PKT", "CTN", "OTR"];
     }
-
     return obj;
   });
 };

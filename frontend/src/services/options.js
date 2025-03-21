@@ -22,3 +22,15 @@ export const getFetchOptions = (
 
   return options;
 };
+
+export const getAllSpecify = (endpoint) => {};
+
+export const getAll = (endpoint) => {};
+
+export const getById = (endpoint) => {};
+
+export const put = (endpoint) => {};
+
+export const post = (endpoint) => {};
+
+export const del = (endpoint) => {};

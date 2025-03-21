@@ -6,56 +6,43 @@ import FormDialog from "@/components/dialogs/FormDialog";
 import BasicForm from "@/components/forms/basic-form/BasicForm";
 import { BusinessEntitySchema } from "@/utils/schema/businessEntity.validationSchema";
 import {
-  getEntityFormInputs,
+  getEntityFormComponents,
   getEntityFormValues,
   entityFormLabels,
 } from "@/utils/form/bussinessEntity.util";
-import { getCountries } from "@/services/api/countries";
+import { getFetchOptions } from "@/services/options";
+import { updateSupplier } from "@/services/api/supplier";
+import { notify } from "@/components/toast/ToastProvider";
+import { useRouter } from "next/navigation";
 
-const SupplierDetailLayout = ({ supplier }) => {
+const SupplierDetailLayout = ({ supplier, geoData }) => {
+  const entityValues = getEntityFormValues(supplier);
+  const entityComponents = getEntityFormComponents(entityValues, geoData);
   const [state, setState] = useState({
     formVisible: false,
-    loading: true,
-    inputs: [],
+    loading: false,
     updating: false,
+    formComponents: entityComponents,
   });
 
-  const { formVisible, loading, updating, inputs } = state;
+  const { formVisible, loading, updating, formComponents } = state;
+
+  const route = useRouter();
 
   const updateState = (updates) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
 
-  const handleSubmit = () => {};
-
-  const values = getEntityFormValues(supplier);
-
-  const getInputs = async () => {
-    if (!loading) {
-      updateState({ loading: true });
-    }
-
-    const data = await getCountries();
-    const i = getEntityFormInputs(updating, data.countries);
-    if (i) {
-      updateState({ inputs: i });
-    }
-    updateState({ loading: false });
+  const handleSubmit = async ({ values }) => {
+    const fetchOptions = getFetchOptions("PUT", { _id: supplier._id, ...values }, true, false);
+    const data = await updateSupplier(fetchOptions, supplier._id);
+    updateState({ formVisible: !formVisible });
+    notify(data.message);
+    route.refresh();
   };
 
-  const confirmProps = {
-    text: "Save",
-    onClick: () => updateState({ formVisible: !formVisible }),
-  };
-
-  const cancelProps = {
-    text: "Cancel",
-    onClick: () => updateState({ formVisible: !formVisible }),
-  };
-
-  useEffect(() => {
-    getInputs();
-  }, []);
+  const confirmProps = { text: "Save" };
+  const cancelProps = { text: "Cancel", onClick: () => updateState({ formVisible: !formVisible }) };
 
   return loading ? (
     <>loading</>
@@ -73,9 +60,9 @@ const SupplierDetailLayout = ({ supplier }) => {
       {formVisible && (
         <FormDialog title="SUPPLIER INFORMATION">
           <BasicForm
-            values={values}
+            values={entityValues}
             onSubmit={handleSubmit}
-            inputs={inputs}
+            components={formComponents}
             validationSchema={BusinessEntitySchema}
             labels={entityFormLabels}
             submitProps={confirmProps}

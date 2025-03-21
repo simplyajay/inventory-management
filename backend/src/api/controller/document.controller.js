@@ -33,6 +33,15 @@ export const getAllDocuments = async (req, res) => {
   }
 };
 
+export const getDocumentsByEntity = async (req, res) => {
+  try {
+    const { entityId } = req.params; // this represents entity id
+    const docs = await Document.find({ _orgId: entityId });
+  } catch (error) {
+    return res.status(500).json({ status: 500, message: error.message });
+  }
+};
+
 export const updateDocument = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,4 +1,4 @@
-import { createUser, createOrganization } from "@/services/api/registration";
+import { createUser, createOrganization } from "@/services/api/user/registration";
 
 export const addNewOrg = async (orgData) => {
   const organization = await createOrganization(orgData);

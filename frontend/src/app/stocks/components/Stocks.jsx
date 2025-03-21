@@ -42,7 +42,6 @@ const Stocks = () => {
       const fetchOptions = getFetchOptions("GET", null, true, false);
       fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
       const data = await getProducts(fetchOptions);
-      await new Promise((resolve) => setTimeout(resolve, 500)); // testing purposes only
       updateState({
         searchKeyword,
         sortBy,
@@ -62,7 +61,7 @@ const Stocks = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col lg:flex-row gap-4 md:gap-4 justify-between">
+    <div className="h-full w-full flex flex-col lg:flex-row gap-2 md:gap-2 justify-between">
       <StockTable
         state={state}
         bodies={products}
