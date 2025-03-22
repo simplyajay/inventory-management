@@ -99,6 +99,7 @@ const DocumentSchema = new Schema(
       required: true,
     },
     businessEntity: { type: Schema.Types.ObjectId, required: true }, //supplier or customer
+    documentId: { type: String, required: true },
     date: { type: Date, required: true },
     dueDate: { type: Date, required: true },
     products: [
@@ -121,6 +122,7 @@ const DocumentSchema = new Schema(
     withHoldingTaxRate: { type: Number }, // in percent
     withHoldingTaxAmount: { type: Number },
     note: { type: String },
+    memorandum: { type: String },
     documentStatus: {
       type: String,
       enum: ["complete", "pending", "cancelled", "rejected", "accepted", "not_applicable"],
