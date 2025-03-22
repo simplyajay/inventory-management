@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useRef,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { Magnifying } from "../icons/Icons";
 
 const SearchBox = forwardRef(({ onSearch }, ref) => {
@@ -40,7 +35,7 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex rounded-lg p-1 focus:outline-none h-full transition-all duration-150 select-none ${
+      className={`flex justify-center items-center rounded-lg p-1 focus:outline-none h-full transition-all duration-150 select-none ${
         isFocused ? "ring-1 focus:ring-blue-100" : ""
       } border border-gray-500 ${inputVisible ? "w-full" : "w-[45px]"}`}
     >
@@ -48,7 +43,7 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
         className="flex justify-center items-center p-1 hover:cursor-pointer"
         onClick={toggleInput}
       >
-        <Magnifying width="1.5em" height="1.5em" />
+        <Magnifying width="1.2em" height="1.2em" />
       </div>
       {inputVisible && (
         <input
@@ -59,7 +54,7 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
           placeholder="Search"
           value={inputValue}
           onChange={handleInputChange}
-          className={` w-full focus:outline-none bg-transparent p-1`}
+          className={`w-full focus:outline-none bg-transparent`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         ></input>

@@ -19,9 +19,9 @@ const Table = ({
     throw new Error("Invalid Headers or bodies");
 
   const headingClass =
-    "px-3 py-2 text-md font-extralight sticky top-0 bg-white shadow-sm border border-dotted";
+    "px-3 py-2 text-md font-extralight sticky top-0 bg-white border border-dotted border-gray-300";
 
-  const bodyClass = "p-2 border border-dotted border-gray-300 ";
+  const bodyClass = "p-2 border border-dotted border-gray-100 ";
 
   const tableRef = useRef(null);
   const headerRefs = useRef([]);
@@ -56,7 +56,7 @@ const Table = ({
   });
 
   let startX, startWidth;
-  const offset = 15;
+  const offset = 10;
 
   const handleMouseMove = useCallback((e) => {
     //these are the table columns not including the action column
@@ -178,7 +178,7 @@ const Table = ({
       <div className="h-full w-full overflow-auto select-none">
         <table
           ref={tableRef}
-          className={`w-full border-collapse border-spacing-0 scroll-smooth table-fixed ${
+          className={`w-full border-separate border-spacing-0 scroll-smooth table-fixed ${
             loading ? "h-full" : bodies.length === 0 ? "h-full" : "" // when loading or if bodies' length is 0, table should have full height
           }`}
         >

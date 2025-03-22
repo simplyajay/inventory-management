@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import TableLayout from "@/components/table/TableLayout";
-import TableHead from "@/components/table/TableHead";
+import TableInfo from "@/components/table/TableInfo";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
@@ -34,7 +34,7 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
 
   const tableHeaders = [
     { name: "SKU", key: "sku" },
-    { name: "NAME", key: "name", width: 50 },
+    { name: "NAME", key: "name" },
     { name: "DESCRIPTION", key: "description" },
     { name: "UNIT", key: "unitOfMeasurement" },
     { name: "QTY", key: "quantity" },
@@ -84,9 +84,9 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
   };
 
   return (
-    <div className="lg:h-full h-[50%] flex-1">
+    <div className="flex-1 overflow-auto">
       <TableLayout loading={loading}>
-        <TableHead
+        <TableInfo
           title={"PRODUCTS"}
           buttonText={"Add Product"}
           onButtonClick={handleTableButtonClick}

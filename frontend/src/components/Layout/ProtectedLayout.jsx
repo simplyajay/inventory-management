@@ -1,13 +1,16 @@
 import React from "react";
 import Sidebar from "@/components/navigation/sidebar/Sidebar";
+import Navbar from "../navigation/navbar/Navbar";
+
 const ProtectedLayout = async ({ children }) => {
   return (
-    <>
-      <aside className="">
-        <Sidebar />
-      </aside>
-      <div className="flex-1 overflow-auto">{children}</div>
-    </>
+    <div className="flex h-full w-full">
+      <Sidebar />
+      <div className="flex flex-col flex-1">
+        <Navbar />
+        <div className="flex-1 overflow-hidden">{children}</div>
+      </div>
+    </div>
   );
 };
 

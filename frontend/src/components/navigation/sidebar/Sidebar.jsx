@@ -50,11 +50,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div
-      className={`h-full px-2 py-5 w-[65px] md:w-[180px] shadow-lg bg-yellow-500
-        ${
-          !collapsed ? "md:w-[180px]" : "md:w-[65px]"
-        } select-none transform duration-200 ease-in-out transition-all overflow-hidden`}
+    <aside
+      className={` px-2 py-5 w-[65px] md:w-[180px] border-r border-gray-300
+      ${
+        !collapsed ? "md:w-[180px]" : "md:w-[65px]"
+      } select-none transform duration-200 ease-in-out transition-all overflow-hidden`}
     >
       {loading ? (
         <div className="h-full w-full bg-gray-500 text-5xl"> LOADING</div>
@@ -83,7 +83,7 @@ const Sidebar = () => {
           </div>
         </div>
       )}
-    </div>
+    </aside>
   );
 };
 

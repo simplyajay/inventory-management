@@ -43,9 +43,8 @@ const RootLayout = async ({ children }) => {
     <SkeletonTheme baseColor="#d1e0e0" highlightColor="#edf7f6">
       <Providers initialState={initialState}>
         <html lang="en">
-          <body className="antialiased w-screen h-screen m-0 p-0 flex flex-col">
-            <Navbar />
-            <main className="flex flex-1 h-[90%]">
+          <body className="antialiased w-screen h-screen m-0 p-0">
+            <main className="h-full w-full overflow-hidden">
               {isAuthenticated && !publicPaths.includes(currentPath) ? (
                 <ProtectedLayout> {children}</ProtectedLayout>
               ) : (

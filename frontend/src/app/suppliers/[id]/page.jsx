@@ -23,7 +23,7 @@ const SupplierDetailPage = async ({ params }) => {
   const geoData = await getGeoData();
 
   return (
-    <div className="w-full h-full p-2 overflow-hidden">
+    <div className="w-full h-full bg-white">
       <SupplierDetailLayout supplier={supplier} geoData={geoData} />
     </div>
   );

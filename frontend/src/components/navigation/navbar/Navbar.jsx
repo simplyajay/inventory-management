@@ -4,9 +4,9 @@ import logo from "@/assets/react-icon.svg";
 
 const Navbar = () => {
   return (
-    <nav className="flex h-[9%] p-2 gap-5 shadow-md bg-background select-none">
+    <nav className="flex p-2 gap-5 bg-background select-none border-b border-gray-300">
       <div className="flex items-center gap-5">
-        <Image src={logo} alt="logo" width={50} height={50} priority></Image>
+        <Image src={logo} alt="logo" width={30} height={30} priority></Image>
       </div>
     </nav>
   );
