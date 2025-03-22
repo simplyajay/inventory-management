@@ -10,14 +10,14 @@ const SupplierDetailCollapsed = ({ supplier, onEdit }) => {
 
   return (
     <div className="w-full h-full flex flex-col sm:flex-row gap-2 items-center bg-transparent overflow-hidden">
-      <div className="flex-1 h-full w-full flex flex-col md:flex-row bg-white shadow-sm">
-        <div className="flex-1 flex flex-col justify-between p-5 gap-2">
-          <div className="w-full flex-col gap-2">
+      <div className="flex-1 h-full w-full flex flex-col md:flex-row bg-white shadow-sm p-4">
+        <div className="flex-1 flex justify-around items-start">
+          <div className="w-full flex-col gap-4">
             <p className="text-responsive-xs font-semibold text-gray-500">COMPANY NAME </p>
-            <p className="text-responsive-lg font-bold text-gray-700">{name}</p>
+            <p className="text-responsive-md font-bold text-gray-700">{name}</p>
           </div>
           {(city || street1) && (
-            <div className="w-full flex-col gap-2">
+            <div className="w-full flex-col gap-4">
               <p className="text-responsive-xs font-semibold text-gray-500">ADDRESS</p>
               <p className="text-responsive-md font-medium text-gray-700">{`${
                 city ? (street1 ? `${city}, ${street1}` : city) : street1 ? `${street1}` : ""
@@ -27,7 +27,7 @@ const SupplierDetailCollapsed = ({ supplier, onEdit }) => {
         </div>
 
         <div className="flex-1">
-          <div className="w-full h-full p-5 flex flex-col gap-2">
+          <div className="w-full h-full flex flex-col items-start gap-2">
             <p className="text-responsive-xs font-semibold text-gray-500">CONTACT INFORMATION</p>
             <div>
               {contactFullName && (
@@ -35,9 +35,6 @@ const SupplierDetailCollapsed = ({ supplier, onEdit }) => {
               )}
               {email && <p className="text-responsive-sm font-semibold text-gray-700">{email}</p>}
               {phone && <p className="text-responsive-sm font-semibold text-gray-700">{phone}</p>}
-              {website && (
-                <p className="text-responsive-sm font-semibold text-gray-700">{website}</p>
-              )}
             </div>
           </div>
         </div>
@@ -45,7 +42,7 @@ const SupplierDetailCollapsed = ({ supplier, onEdit }) => {
           <ButtonConfirmBlue onClick={onEdit} icon={<EditIcon />} />
         </div>
       </div>
-      <div className="h-full w-full sm:w-auto flex flex-row gap-6 justify-start flex-wrap sm:content-center sm:flex-col p-5 bg-white shadow-sm ">
+      <div className="h-full w-full sm:w-auto flex flex-col gap-6 justify-start flex-wrap sm:content-center p-5 bg-white shadow-sm ">
         <span className="flex flex-col">
           <p className="text-responsive-xs font-semibold text-gray-500">OPEN BALANCE</p>
           <p className="text-responsive-sm  font-semibold">{openbalance}</p>

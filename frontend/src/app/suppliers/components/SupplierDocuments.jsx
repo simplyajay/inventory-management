@@ -5,6 +5,8 @@ import TableHead from "@/components/table/TableHead";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
 import { createTableHandler } from "@/components/table/table.util";
+import ActionButton from "@/components/table/TableAction";
+import { ExternalLinkIcon } from "@/components/icons/Icons";
 
 const SupplierDocuments = () => {
   const [state, setState] = useState({
@@ -16,8 +18,27 @@ const SupplierDocuments = () => {
     totalPages: 0,
   });
 
-  const tableHeaders = [];
-  const tableActions = [];
+  const tableHeaders = [
+    { name: "TYPE", key: "type" },
+    { name: "ID", key: "documentId" },
+    { name: "DATE", key: "date" },
+    { name: "MEMO", key: "memorandum" },
+    { name: "AMOUNT", key: "costAfterVat" },
+    { name: "STATUS", key: "documentStatus" },
+  ];
+  const tableActions = {
+    name: "ACTIONS",
+    key: "actions",
+    components: [
+      <ActionButton
+        key={"goto"}
+        onClick={(target) => router.push(`/suppliers/${target._id}`)}
+        icon={<ExternalLinkIcon className="fill-current text-blue-500" />}
+        text={"View"}
+        customClass={"text-blue-500"}
+      />,
+    ],
+  };
 
   const { documents, loading, searchKeyword, sortBy, page, totalPages } = state;
 
