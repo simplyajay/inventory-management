@@ -17,7 +17,7 @@ const Pagination = ({ onPrevPage, onNextPage, loading, initializing, currentPage
       {initializing ? (
         <Skeleton width={60} height={20} />
       ) : (
-        <div className="flex items-center text-center gap-4">
+        <div className="flex items-center text-center gap-4 text-responsive-xs">
           <strong>{currentPage ? currentPage : 1}</strong>
           <p>of</p>
           <strong>{totalPages ? totalPages : 1}</strong>

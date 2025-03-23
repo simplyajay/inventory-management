@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getGeoData } from "@/utils/form/bussinessEntity.util";
 import SupplierDetailLayout from "../components/SupplierDetailLayout";
+import Test from "../Test";
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page
   title: "Suppliers | Detail",

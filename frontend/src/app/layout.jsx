@@ -1,7 +1,6 @@
 import "@/globals.css";
 import Providers from "./providers";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
-import Navbar from "@/components/navigation/navbar/Navbar";
 import { cookies, headers } from "next/headers";
 import { getFetchOptions } from "@/services/options";
 import { getAuthenticatedUser } from "@/services/api/user/authentication";

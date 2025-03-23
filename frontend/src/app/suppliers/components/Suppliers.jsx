@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Table from "@/components/table/Table";
 import TableHead from "@/components/table/TableInfo";
 import TableLayout from "@/components/table/TableLayout";
@@ -11,25 +11,20 @@ import { getSuppliers } from "@/services/api/supplier";
 import { ExternalLinkIcon } from "@/components/icons/Icons";
 import { createTableHandler } from "@/components/table/table.util";
 
-const Suppliers = () => {
+const Suppliers = ({ data }) => {
   const [state, setState] = useState({
-    suppliers: [],
+    suppliers: data.suppliers,
     loading: false,
-    initializing: false,
     searchKeyword: "",
     sortBy: { key: "name", type: "asc" },
-    page: 1,
-    totalPages: 0,
+    page: data.page,
+    totalPages: data.totalPages,
   });
 
   const { suppliers, loading, page, totalPages, sortBy, searchKeyword } = state;
 
   const searchRef = useRef(null);
   const router = useRouter();
-
-  useEffect(() => {
-    fetchSuppliers();
-  }, []);
 
   const updateState = (updates) => {
     setState((prevState) => ({ ...prevState, ...updates }));

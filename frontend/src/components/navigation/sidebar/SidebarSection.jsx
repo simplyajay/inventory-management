@@ -5,9 +5,9 @@ const ListItems = ({ item, onClick, currentLink, collapsed }) => {
   return (
     <span
       onClick={onClick}
-      className={`flex rounded-sm ${
+      className={`flex rounded-sm items-center ${
         item.link
-          ? `hover:bg-[#bbb4d9] ${currentLink === item.link ? "bg-[#bbb4d9]" : ""}`
+          ? `hover:bg-[#c3bfda] ${currentLink === item.link ? "bg-[#c3bfda]" : ""}`
           : "hover:cursor-pointer"
       }`}
     >

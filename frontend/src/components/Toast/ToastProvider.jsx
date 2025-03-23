@@ -4,14 +4,15 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 const defaultToastConfig = {
   type: "success",
   position: "top-center",
-  autoClose: 2000,
-  hideProgressBar: false,
+  autoClose: 1500,
+  hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: false,
   draggable: true,
   progress: undefined,
   theme: "light",
   transition: Bounce,
+  className: "text-responsive-xs",
 };
 
 export const notify = (message, config = defaultToastConfig) => {
