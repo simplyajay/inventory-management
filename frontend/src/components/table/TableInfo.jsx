@@ -15,10 +15,10 @@ const TableInfo = ({
   searchKeyword,
 }) => {
   return (
-    <div className="w-full flex flex-col items-end center py-1 px-2 gap-1">
+    <div className="w-full flex flex-col items-end center py-1 px-2 gap-1 bg-white">
       <div className="w-full flex md:flex-row flex-col justify-between items-center gap-1">
         <div className="w-full md:w-auto py-2 ">
-          <h1 className="text-xl font-sans select-none">{title}</h1>
+          <h1 className="text-responsive-md font-sans select-none">{title}</h1>
         </div>
 
         <div className="w-full flex-1 flex flex-row justify-between md:justify-end items-center gap-2">
@@ -36,7 +36,7 @@ const TableInfo = ({
         {searchKeyword && (
           <div className="italic p-2 shadow-sm bg-[#dbe9ef] ">
             <div className="flex gap-4">
-              <p>{`Showing results for keyword '${searchKeyword}'`}</p>
+              <p className="text-responsive-xs">{`Showing results for keyword '${searchKeyword}'`}</p>
               <button onClick={() => handleSearchClear(searchRef)}>
                 <Close />
               </button>

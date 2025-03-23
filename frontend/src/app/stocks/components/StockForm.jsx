@@ -45,7 +45,7 @@ const StockForm = ({ state, fetchProducts, hideForm }) => {
 
   return (
     pageInfoVisible && (
-      <div className={`lg:h-full lg:w-[35%] h-[40%]`}>
+      <div className={`lg:h-full lg:w-[30%] h-[40%]`}>
         <FormLayout
           title={isEditForm ? "PRODUCT INFORMATION" : "NEW PRODUCT"}
           pageInfoVisible={pageInfoVisible}

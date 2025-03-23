@@ -19,9 +19,9 @@ const Table = ({
     throw new Error("Invalid Headers or bodies");
 
   const headingClass =
-    "px-3 py-2 text-md font-extralight sticky top-0 bg-white border border-dotted border-gray-300";
+    "px-3 py-2 text-responsive-xs font-extralight sticky top-0 bg-white border border-dotted border-gray-300";
 
-  const bodyClass = "p-2 border border-dotted border-gray-100 ";
+  const bodyClass = "p-2 border border-dotted border-gray-100 text-responsive-xs";
 
   const tableRef = useRef(null);
   const headerRefs = useRef([]);
@@ -174,7 +174,7 @@ const Table = ({
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col bg-white">
       <div className="h-full w-full overflow-auto select-none">
         <table
           ref={tableRef}
@@ -231,7 +231,7 @@ const Table = ({
                           >
                             {/* if last index, check if actions is truthy. if so, render action components  */}
                             {isLast && actions?.components ? (
-                              <div className="flex gap-1 justify-center">
+                              <div className="flex justify-center">
                                 {actions.components.map((component, index) => (
                                   <div key={index}>
                                     {React.cloneElement(component, { target: body })}
