@@ -1,32 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getFetchOptions } from "@/services/options";
 import { getProducts } from "@/services/api/products";
 import StockForm from "./StockForm";
 import StockTable from "./StockTable";
 
-const Stocks = () => {
+const Stocks = ({ data }) => {
   const [state, setState] = useState({
-    loading: true,
-    updating: false,
-    deleting: false,
-    products: [],
+    loading: false,
+    products: data.products,
     selectedProduct: {},
     pageInfoVisible: false,
     showConfirmDialog: false,
     isEditForm: false,
-    initialValues: {},
-    page: 1,
+    page: data.page,
     sortBy: { key: "name", type: "asc" },
-    totalPages: 0,
+    totalPages: data.totalPages,
     searchKeyword: "",
   });
 
-  const { products, initialValues } = state;
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const { products } = state;
 
   const updateState = (updates) => {
     setState((prevState) => ({ ...prevState, ...updates }));
@@ -67,7 +60,6 @@ const Stocks = () => {
         bodies={products}
         handleTableButtonClick={() =>
           updateState({
-            initialValues,
             isEditForm: false,
             pageInfoVisible: true,
           })
