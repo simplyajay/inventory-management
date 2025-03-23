@@ -1,7 +1,7 @@
 import React from "react";
 
 const defaultClass =
-  "p-2 text-md focus:outline-none min-h-[2.5rem] w-full focus:ring-2 focus:ring-blue-100 border border-gray-200";
+  "p-2 text-responsive-xs focus:outline-none min-h-[2.5rem] w-full focus:ring-2 focus:ring-blue-100 border border-gray-200";
 
 //SELECT OPTION VALUES SHOULD BE AN OBJECT IDENTIFIED BY KEY AND VALUE
 //DEFAULT VALUE KEY WILL ALWAYS BE 'default'

@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 
 const Pagination = ({ onPrevPage, onNextPage, loading, initializing, currentPage, totalPages }) => {
   return (
-    <div className="flex-1 flex justify-center items-center p-2 w-full border-t border-gray-200 gap-10 select-none">
+    <div className="flex-1 flex justify-center items-center p-2 w-full border-t border-gray-200 gap-10 select-none bg-white">
       <button
         onClick={onPrevPage}
         disabled={initializing ? initializing : loading}

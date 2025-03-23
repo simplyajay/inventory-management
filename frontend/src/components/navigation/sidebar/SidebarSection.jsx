@@ -5,7 +5,7 @@ const ListItems = ({ item, onClick, currentLink, collapsed }) => {
   return (
     <span
       onClick={onClick}
-      className={`flex rounded-lg ${
+      className={`flex rounded-sm ${
         item.link
           ? `hover:bg-[#bbb4d9] ${currentLink === item.link ? "bg-[#bbb4d9]" : ""}`
           : "hover:cursor-pointer"
@@ -13,7 +13,7 @@ const ListItems = ({ item, onClick, currentLink, collapsed }) => {
     >
       <div className="p-2 flex justify-center items-center">{item.icon}</div>
       {!collapsed && (
-        <p className="hidden md:flex md:flex-1 md:tems-center p-1 md:whitespace-nowrap">
+        <p className="hidden md:flex md:flex-1 md:tems-center p-1 md:whitespace-nowrap text-responsive-xs">
           {item.name}
         </p>
       )}

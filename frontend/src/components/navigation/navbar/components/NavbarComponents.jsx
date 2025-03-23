@@ -34,11 +34,11 @@ export const UserComponent = ({ user }) => {
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <button
-        className="flex gap-2 p-1 items-center justify-between hover:bg-blue-100"
+        className="flex gap-2 p-1 items-center justify-between hover:bg-blue-100 rounded-sm"
         onClick={handleDropdown}
       >
         <UserIcon height={20} width={20} />
-        <p>{user.username}</p>
+        <p className="text-responsive-xs">{user.username}</p>
         <i>
           <ChevronDown height={10} width={10} />
         </i>

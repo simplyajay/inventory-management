@@ -54,7 +54,7 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
           placeholder="Search"
           value={inputValue}
           onChange={handleInputChange}
-          className={`w-full focus:outline-none bg-transparent`}
+          className={`w-full focus:outline-none bg-transparent text-responsive-xs`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         ></input>

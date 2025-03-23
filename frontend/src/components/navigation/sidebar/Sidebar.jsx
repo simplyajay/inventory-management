@@ -18,7 +18,7 @@ const Sidebar = ({ collapsed }) => {
   return (
     <aside
       className={`${
-        !collapsed ? "w-[50px] md:w-[180px] border-r" : "w-[0px] md:w-[50px] md:border-r border-0"
+        !collapsed ? "w-[51px] md:w-[180px] border-r" : "w-[0px] md:w-[51px] md:border-r border-0"
       } border-gray-300 select-none transform duration-200 ease-in-out transition-all overflow-hidden`}
     >
       <div className="flex flex-col h-full w-full justify-between gap-5">
