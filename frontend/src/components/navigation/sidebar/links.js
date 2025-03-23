@@ -4,10 +4,7 @@ import {
   SupplierIcon,
   DocumentIcon,
   PurchaseIcon,
-  UserIcon,
-  LogoutIcon,
   SaleIcon,
-  Home2,
 } from "../../icons/Icons";
 
 export const overview = [
@@ -15,50 +12,36 @@ export const overview = [
     id: "dashboard",
     name: "Dashboard",
     link: "/dashboard",
-    icon: <HomeIcon />,
+    icon: <HomeIcon width={18} height={18} />,
   },
   {
     id: "products",
     name: "Stocks",
     link: "/stocks",
-    icon: <ProductIcon />,
+    icon: <ProductIcon width={18} height={18} />,
   },
   {
     id: "suppliers",
     name: "Suppliers",
     link: "/suppliers",
-    icon: <SupplierIcon />,
+    icon: <SupplierIcon width={18} height={18} />,
   },
   {
     id: "documents",
     name: "Documents",
     link: "/documents",
-    icon: <DocumentIcon />,
+    icon: <DocumentIcon width={18} height={18} />,
   },
   {
     id: "purchase",
     name: "Purchase",
     link: "/purchase",
-    icon: <PurchaseIcon />,
+    icon: <PurchaseIcon width={18} height={18} />,
   },
   {
     id: "sale",
     name: "Sale",
     link: "/sale",
-    icon: <SaleIcon />,
-  },
-];
-
-export const account = [
-  {
-    id: "profile",
-    name: "Profile",
-    link: "/profile",
-    icon: <UserIcon />,
-  },
-  {
-    id: "logout",
-    name: "Log Out",
-    icon: <LogoutIcon />,
+    icon: <SaleIcon width={18} height={18} />,
   },
 ];

@@ -1,13 +1,22 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Sidebar from "@/components/navigation/sidebar/Sidebar";
-const ProtectedLayout = async ({ children }) => {
+import Navbar from "../navigation/navbar/Navbar";
+
+const ProtectedLayout = ({ children }) => {
+  const [collapsed, setCollapsed] = useState(true);
+
+  const handleToggle = () => {
+    setCollapsed((prev) => !prev);
+  };
   return (
-    <>
-      <aside className="">
-        <Sidebar />
-      </aside>
-      <div className="flex-1 overflow-auto">{children}</div>
-    </>
+    <div className="flex h-full w-full">
+      <Sidebar collapsed={collapsed} />
+      <div className="flex flex-col flex-1">
+        <Navbar collapsed={collapsed} toggle={handleToggle} />
+        <div className="flex-1 overflow-hidden">{children}</div>
+      </div>
+    </div>
   );
 };
 

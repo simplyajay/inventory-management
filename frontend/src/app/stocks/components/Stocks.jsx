@@ -61,7 +61,7 @@ const Stocks = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col lg:flex-row gap-2 md:gap-2 justify-between">
+    <div className="h-full flex flex-col lg:flex-row gap-1 justify-between">
       <StockTable
         state={state}
         bodies={products}

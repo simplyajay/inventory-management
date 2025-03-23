@@ -47,7 +47,7 @@ const SupplierDetailLayout = ({ supplier, geoData }) => {
   return loading ? (
     <>loading</>
   ) : (
-    <div className="w-full h-full flex flex-col flex-wrap items-center gap-2 shadow-sm  ">
+    <div className="w-full h-full flex flex-col flex-wrap items-center gap-1 shadow-sm  ">
       <div className="w-full">
         <SupplierDetailCollapsed
           supplier={supplier}

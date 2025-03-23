@@ -8,7 +8,7 @@ export const metadata = {
 
 const SuppliersPage = () => {
   return (
-    <div className="h-full p-2">
+    <div className="h-full w-full bg-white">
       <Suppliers />
     </div>
   );

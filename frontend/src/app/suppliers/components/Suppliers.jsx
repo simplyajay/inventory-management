@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Table from "@/components/table/Table";
-import TableHead from "@/components/table/TableHead";
+import TableHead from "@/components/table/TableInfo";
 import TableLayout from "@/components/table/TableLayout";
 import Pagination from "@/components/table/Pagination";
 import ActionButton from "@/components/table/TableAction";
