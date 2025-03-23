@@ -1,14 +1,34 @@
-import React from "react";
-import Image from "next/image";
-import logo from "@/assets/react-icon.svg";
+"use client";
+import React, { useEffect, useState } from "react";
+import { getFetchOptions } from "@/services/options";
+import { getAuthenticatedUser } from "@/services/api/user/authentication";
+import { ToggleComponent, UserComponent } from "./components/NavbarComponents";
 
-const Navbar = () => {
+const Navbar = ({ collapsed, toggle }) => {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+
+  const fetchUser = async () => {
+    setLoading(true);
+    const fetchOptions = getFetchOptions("GET", null, true, false);
+    const { username, ...user } = await getAuthenticatedUser(fetchOptions);
+    setUser({ username: username });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
-    <nav className="flex p-2 gap-5 bg-background select-none border-b border-gray-300">
-      <div className="flex items-center gap-5">
-        <Image src={logo} alt="logo" width={30} height={30} priority></Image>
-      </div>
-    </nav>
+    !loading && (
+      <nav className="flex bg-background select-none border-b border-gray-300 minh-[30px]">
+        <ToggleComponent collapsed={collapsed} toggle={toggle} />
+
+        <div className="flex-1 flex p-1 justify-end items-center">
+          <UserComponent user={user} />
+        </div>
+      </nav>
+    )
   );
 };
 
