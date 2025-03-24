@@ -54,12 +54,27 @@ export const authenticateLogin = async (identifier, pw, res) => {
 };
 
 export const logOut = async (req, res) => {
-  res.clearCookie(process.env.TOKEN, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Set to true in production
-    sameSite: "lax",
-    path: "/", // Adjust the path as necessary
-  });
+  try {
+    const tokenName = process.env.TOKEN;
 
-  return res.status(200).json({ message: "Logged out successfully" });
+    if (!tokenName) {
+      return res
+        .status(500)
+        .json({ error: "Server misconfiguration: TOKEN environment variable is missing" });
+    }
+
+    res.clearCookie(tokenName, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/", // Ensure this matches how the cookie was originally set
+    });
+
+    return res.status(200).json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error", error: "SERVER_ERROR" });
+  }
 };

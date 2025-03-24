@@ -1,11 +1,11 @@
 import React from "react";
 import { getSupplier } from "@/services/api/supplier";
+import { getDocumentsByEntity } from "@/services/api/documents";
 import { getFetchOptions } from "@/services/options";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getGeoData } from "@/utils/form/bussinessEntity.util";
 import SupplierDetailLayout from "../components/SupplierDetailLayout";
-import Test from "../Test";
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page
   title: "Suppliers | Detail",
@@ -21,11 +21,12 @@ const SupplierDetailPage = async ({ params }) => {
     return notFound();
   }
 
+  const documents = await getDocumentsByEntity(fetchOptions, supplier._id);
   const geoData = await getGeoData();
 
   return (
     <div className="w-full h-full bg-white">
-      <SupplierDetailLayout supplier={supplier} geoData={geoData} />
+      <SupplierDetailLayout supplier={supplier} documents={documents} geoData={geoData} />
     </div>
   );
 };

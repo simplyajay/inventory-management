@@ -7,20 +7,22 @@ import Pagination from "@/components/table/Pagination";
 import { createTableHandler } from "@/components/table/table.util";
 import ActionButton from "@/components/table/TableAction";
 import { ExternalLinkIcon } from "@/components/icons/Icons";
+import { getFetchOptions } from "@/services/options";
+import { getDocumentsByEntity } from "@/services/api/documents";
 
-const SupplierDocuments = () => {
+const SupplierDocuments = ({ supplierId, data }) => {
   const [state, setState] = useState({
-    documents: [],
+    documents: data.documents,
     loading: false,
     searchKeyword: "",
-    sortBy: { key: "name", type: "asc" },
+    sortBy: { key: "_documentId", type: "desc" },
     page: 1,
     totalPages: 0,
   });
 
   const tableHeaders = [
     { name: "TYPE", key: "type" },
-    { name: "ID", key: "documentId" },
+    { name: "ID", key: "_documentId" },
     { name: "DATE", key: "date" },
     { name: "MEMO", key: "memorandum" },
     { name: "AMOUNT", key: "costAfterVat" },
@@ -32,7 +34,7 @@ const SupplierDocuments = () => {
     components: [
       <ActionButton
         key={"goto"}
-        onClick={(target) => router.push(`/suppliers/${target._id}`)}
+        onClick={(target) => console.log("goto doc")}
         icon={<ExternalLinkIcon className="fill-current text-blue-500" />}
         text={"View"}
         customClass={"text-blue-500"}
@@ -51,8 +53,26 @@ const SupplierDocuments = () => {
   const fetchDocuments = async ({
     page = 1,
     searchKeyword = "",
-    sortBy = { key: "name", type: "asc" },
-  } = {}) => {};
+    sortBy = { key: "_documentId", type: "desc" },
+  } = {}) => {
+    try {
+      updateState({ loading: true });
+      const fetchOptions = getFetchOptions("GET", null, true, false);
+      fetchOptions.params = { page, sortBy: JSON.stringify(sortBy), searchKeyword };
+      const data = await getDocumentsByEntity(fetchOptions, supplierId);
+      updateState({
+        searchKeyword,
+        sortBy,
+        documents: data.documents,
+        totalPages: data.totalPages,
+        loading: false,
+        page: data.page,
+      });
+    } catch (error) {
+      console.error("Error fetchDocuments at SupplierDocuments", error);
+      return;
+    }
+  };
 
   const handleTableButtonClick = () => {
     console.log("test");
