@@ -2,6 +2,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MenuUnfoldIcon, MenuFoldIcon } from "@/components/icons/Icons";
 import { UserIcon, ChevronDown } from "@/components/icons/Icons";
+import { endSession } from "@/services/api/user/validation";
+import { getFetchOptions } from "@/services/options";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { setUser } from "@/store/slices/authenticationSlice";
 
 export const ToggleComponent = ({ collapsed, toggle, user }) => {
   return (
@@ -16,8 +21,22 @@ export const ToggleComponent = ({ collapsed, toggle, user }) => {
 export const UserComponent = ({ user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
   const handleDropdown = () => {
     setDropdownOpen((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    const fetchOptions = getFetchOptions("POST", null, true, false);
+    const data = await endSession(fetchOptions);
+
+    if (!data.success) {
+      console.error(data.message);
+      return;
+    }
+    setUser({});
+    router.replace("/");
+    router.refresh();
   };
 
   useEffect(() => {
@@ -47,9 +66,19 @@ export const UserComponent = ({ user }) => {
       {dropdownOpen && (
         <div className="absolute z-50 right-0 mt-1 w-28 md:w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
           <ul className="py-2">
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+            <li>
+              <Link href={"/account"}>
+                <div className="px-4 py-2 hover:bg-gray-100 text-responsive-xs">Account</div>
+              </Link>
+            </li>
+            <li>
+              <button
+                className="w-full text-start px-4 py-2 hover:bg-gray-100 cursor-pointer text-responsive-xs"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
       )}

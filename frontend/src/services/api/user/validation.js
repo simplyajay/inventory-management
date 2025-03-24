@@ -19,10 +19,7 @@ export const validateOnRegister = async (fetchOptions) => {
 
 export const validateLogin = async (fetchOptions) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/login`,
-      fetchOptions
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/login`, fetchOptions);
 
     if (!res.ok) {
       throw new Error("Response Status not OK");
@@ -39,13 +36,8 @@ export const validateLogin = async (fetchOptions) => {
   }
 };
 
-export const logOutUser = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("logout error");
-  }
+export const endSession = async (fetchOptions) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/logout`, fetchOptions);
+  const data = await res.json();
+  return data;
 };
