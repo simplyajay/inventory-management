@@ -55,6 +55,8 @@ const Table = ({
     }));
   });
 
+  const [hoveredCol, setHoveredCol] = useState("");
+
   let startX, startWidth;
   const offset = 10;
 
@@ -187,6 +189,8 @@ const Table = ({
               {columns.map((header, index) => (
                 <th
                   ref={(el) => (headerRefs.current[index] = el)}
+                  onMouseEnter={() => setHoveredCol(header.key)}
+                  onMouseLeave={() => setHoveredCol("")}
                   key={index}
                   style={{ width: `${header.width}%` }} // width from headers in percentage
                   className={`${headingClass} hidden lg:table-cell`}
@@ -197,7 +201,17 @@ const Table = ({
                     {sortSetting && sortSetting.key === header.key ? (
                       <span>{sortSetting.type === "asc" ? <CaretUp /> : <CaretDown />}</span>
                     ) : (
-                      <></>
+                      <>
+                        {hoveredCol === header.key && (
+                          <span>
+                            {sortSetting.type === "asc" ? (
+                              <CaretDown className="fill-current text-gray-400" />
+                            ) : (
+                              <CaretUp className="fill-current text-gray-400" />
+                            )}
+                          </span>
+                        )}
+                      </>
                     )}
                   </div>
                 </th>
