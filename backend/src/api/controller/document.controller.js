@@ -1,4 +1,5 @@
 import { Document } from "../../models/models.js";
+import { getOrgId } from "../service/user.service.js";
 
 export const createDocument = async (req, res) => {
   try {
@@ -35,10 +36,58 @@ export const getAllDocuments = async (req, res) => {
 
 export const getDocumentsByEntity = async (req, res) => {
   try {
-    const { entityId } = req.params; // this represents entity id
-    const docs = await Document.find({ _orgId: entityId });
+    const _orgId = await getOrgId(req.user._id);
+    const { entityId } = req.params; // /url/entityId
+
+    if (!_orgId || !entityId) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Identification Error", error: "NOT_FOUND" });
+    }
+
+    const filter = { _orgId, _entityId: entityId };
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 15;
+    const sortBy = req.query.sortBy
+      ? JSON.parse(req.query.sortBy)
+      : { key: "_documentId", type: "desc" };
+    const { searchKeyword } = req.query;
+
+    let sort = {};
+
+    if (isNaN(page) || isNaN(limit)) {
+      return res.status(400).json({ message: "Invalid page or limit number" });
+    }
+
+    if (searchKeyword) {
+      filter.$or = [
+        { _documentId: { $regex: searchKeyword, $options: "i" } },
+        { memorandum: { $regex: searchKeyword, $options: "i" } },
+        // Add other fields if necessary, for example:
+        // { description: { $regex: searchKeyword, $options: "i" } },
+      ];
+    }
+
+    if (sortBy && sortBy.key && sortBy.type) {
+      sort[sortBy.key] = sortBy.type === "asc" ? 1 : -1;
+    }
+
+    const startIndex = page && limit && (page - 1) * limit;
+
+    const documents = await Document.find(filter).sort(sort).limit(Number(limit)).skip(startIndex);
+
+    const totalDocuments = await Document.countDocuments(filter);
+
+    return res.status(200).json({
+      success: true,
+      message: "Fetch Successful",
+      documents,
+      totalPages: Math.max(1, Math.ceil(totalDocuments / limit)),
+      totalDocuments: totalDocuments,
+      page,
+    });
   } catch (error) {
-    return res.status(500).json({ status: 500, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

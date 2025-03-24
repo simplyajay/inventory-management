@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import SupplierDocuments from "./SupplierDocuments";
 import SupplierDetailCollapsed from "./supplier-detail/SupplierDetailCollapsed";
 import FormDialog from "@/components/dialogs/FormDialog";
@@ -15,7 +15,7 @@ import { updateSupplier } from "@/services/api/supplier";
 import { notify } from "@/components/toast/ToastProvider";
 import { useRouter } from "next/navigation";
 
-const SupplierDetailLayout = ({ supplier, geoData }) => {
+const SupplierDetailLayout = ({ supplier, documents, geoData }) => {
   const entityValues = getEntityFormValues(supplier);
   const entityComponents = getEntityFormComponents(entityValues, geoData);
   const [state, setState] = useState({
@@ -34,9 +34,10 @@ const SupplierDetailLayout = ({ supplier, geoData }) => {
   };
 
   const handleSubmit = async ({ values }) => {
+    updateState({ updating: true });
     const fetchOptions = getFetchOptions("PUT", { _id: supplier._id, ...values }, true, false);
     const data = await updateSupplier(fetchOptions, supplier._id);
-    updateState({ formVisible: !formVisible });
+    updateState({ formVisible: !formVisible, updating: false });
     notify(data.message);
     route.refresh();
   };
@@ -55,7 +56,7 @@ const SupplierDetailLayout = ({ supplier, geoData }) => {
         />
       </div>
       <div className="flex-1 w-full">
-        <SupplierDocuments />
+        <SupplierDocuments supplierId={supplier._id} data={documents} />
       </div>
       {formVisible && (
         <FormDialog title="SUPPLIER INFORMATION">

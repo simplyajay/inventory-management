@@ -98,8 +98,8 @@ const DocumentSchema = new Schema(
       ],
       required: true,
     },
-    businessEntity: { type: Schema.Types.ObjectId, required: true }, //supplier or customer
-    documentId: { type: String, required: true },
+    _entityId: { type: Schema.Types.ObjectId, required: true }, //supplier or customer
+    _documentId: { type: String, required: true },
     date: { type: Date, required: true },
     dueDate: { type: Date, required: true },
     products: [

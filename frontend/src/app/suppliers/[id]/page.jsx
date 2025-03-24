@@ -1,5 +1,6 @@
 import React from "react";
 import { getSupplier } from "@/services/api/supplier";
+import { getDocumentsByEntity } from "@/services/api/documents";
 import { getFetchOptions } from "@/services/options";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
@@ -20,11 +21,12 @@ const SupplierDetailPage = async ({ params }) => {
     return notFound();
   }
 
+  const documents = await getDocumentsByEntity(fetchOptions, supplier._id);
   const geoData = await getGeoData();
 
   return (
     <div className="w-full h-full bg-white">
-      <SupplierDetailLayout supplier={supplier} geoData={geoData} />
+      <SupplierDetailLayout supplier={supplier} documents={documents} geoData={geoData} />
     </div>
   );
 };

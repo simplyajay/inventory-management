@@ -36,7 +36,7 @@ export const getDocumentsByEntity = async (fetchOptions, entityId) => {
     const data = await res.json();
 
     if (!res.ok) {
-      return { status: res.status, message: data.message };
+      return { status: res.status, message: data.message, error: data.error };
     }
 
     return data;
