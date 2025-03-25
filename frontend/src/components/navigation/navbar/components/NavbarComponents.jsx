@@ -10,7 +10,7 @@ import { setUser } from "@/store/slices/authenticationSlice";
 
 export const ToggleComponent = ({ collapsed, toggle, user }) => {
   return (
-    <div className="flex items-center p-2">
+    <div className="flex items-center">
       <div className="text-3xl hover:cursor-pointer" onClick={toggle}>
         {!collapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
       </div>

@@ -1,13 +1,7 @@
-"use client";
-import { useEffect } from "react";
-import nProgress from "nprogress";
-import "nprogress/nprogress.css";
+import React from "react";
 
-const Loading = () => {
-  useEffect(() => {
-    nProgress.start();
-    return () => nProgress.done();
-  }, []);
+const loading = () => {
+  return <div>loading</div>;
 };
 
-export default Loading;
+export default loading;

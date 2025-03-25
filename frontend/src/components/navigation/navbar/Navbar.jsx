@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getFetchOptions } from "@/services/options";
 import { getAuthenticatedUser } from "@/services/api/user/authentication";
 import { ToggleComponent, UserComponent } from "./components/NavbarComponents";
+import Skeleton from "react-loading-skeleton";
 
 const Navbar = ({ collapsed, toggle }) => {
   const [loading, setLoading] = useState(true);
@@ -20,15 +21,18 @@ const Navbar = ({ collapsed, toggle }) => {
     fetchUser();
   }, []);
   return (
-    !loading && (
-      <nav className="flex bg-background select-none border-b border-gray-300 minh-[30px]">
-        <ToggleComponent collapsed={collapsed} toggle={toggle} />
-
-        <div className="flex-1 flex p-1 justify-end items-center">
-          <UserComponent user={user} />
-        </div>
-      </nav>
-    )
+    <nav className="flex bg-background select-none border-b border-gray-300 h-[5%] px-2">
+      <div className="flex justify-center items-center">
+        {!loading ? (
+          <ToggleComponent collapsed={collapsed} toggle={toggle} />
+        ) : (
+          <Skeleton width={20} />
+        )}
+      </div>
+      <div className="flex-1 flex justify-end items-center">
+        {!loading ? <UserComponent user={user} /> : <Skeleton width={100} />}
+      </div>
+    </nav>
   );
 };
 
