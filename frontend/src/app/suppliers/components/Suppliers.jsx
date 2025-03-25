@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { getFetchOptions } from "@/services/options";
 import { getSuppliers } from "@/services/api/supplier";
 import { ExternalLinkIcon } from "@/components/icons/Icons";
-import { createTableHandler } from "@/components/table/table.util";
+import { createTableHandler } from "@/components/table/utils/table.util";
 
 const Suppliers = ({ data }) => {
   const [state, setState] = useState({

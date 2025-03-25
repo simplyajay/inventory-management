@@ -4,11 +4,14 @@ import TableLayout from "@/components/table/TableLayout";
 import TableHead from "@/components/table/TableInfo";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
-import { createTableHandler } from "@/components/table/table.util";
+import { createTableHandler } from "@/components/table/utils/table.util";
 import ActionButton from "@/components/table/TableAction";
 import { ExternalLinkIcon } from "@/components/icons/Icons";
 import { getFetchOptions } from "@/services/options";
 import { getDocumentsByEntity } from "@/services/api/documents";
+import { formatDate } from "@/components/table/utils/tableFormater";
+import { formatDocument } from "@/components/table/utils/tableFormater";
+import { formatAmount } from "@/components/table/utils/tableFormater";
 
 const SupplierDocuments = ({ supplierId, data }) => {
   const [state, setState] = useState({
@@ -21,12 +24,28 @@ const SupplierDocuments = ({ supplierId, data }) => {
   });
 
   const tableHeaders = [
-    { name: "TYPE", key: "type" },
-    { name: "ID", key: "_documentId" },
-    { name: "DATE", key: "date" },
+    { name: "TYPE", key: "type", hasFormat: true, value: (type) => formatDocument(type) },
+    { name: "DOCUMENT NO", key: "_documentId" },
+    {
+      name: "DATE",
+      key: "date",
+      hasFormat: true,
+      value: (date, format) => formatDate(date, "mdy"),
+    },
     { name: "MEMO", key: "memorandum" },
-    { name: "AMOUNT", key: "costAfterVat" },
-    { name: "STATUS", key: "documentStatus" },
+    {
+      name: "AMOUNT",
+      key: "costAfterVat",
+      hasFormat: true,
+      value: (amount) => formatAmount(amount, { locale: "en-US", currency: "USD" }),
+      align: "right",
+    },
+    {
+      name: "STATUS",
+      key: "documentStatus",
+      hasFormat: true,
+      value: (status) => status.charAt(0).toUpperCase() + status.slice(1),
+    },
   ];
   const tableActions = {
     name: "ACTIONS",
