@@ -27,6 +27,14 @@ const Table = ({
   const headerRefs = useRef([]);
   const resizeRef = useRef(false);
 
+  //tableHeader Object attributes
+  //name = the text that will be on the th
+  //key = the key that will be used to identify which object attribute to extract from body object
+  //hasFormat = if data needs to be formatted for visual purposes
+  //value = function that returns the formatted data
+  //align = css identifier ( can be left, right or center )
+  //object = name of the object that will be used to identify the current body object ( if it is )
+
   //default width is determined by the column count including actions ( by percentage )
   const [columns, setColumns] = useState(() => {
     const newColumns = [...headers];
@@ -196,19 +204,25 @@ const Table = ({
                   className={`${headingClass} hidden lg:table-cell`}
                   onClick={() => handleHeaderclick(header)}
                 >
-                  <div className="flex gap-2 items-center">
+                  <div
+                    className={`flex gap-2 items-center ${
+                      header.key === "actions" ? "justify-center" : ""
+                    } ${
+                      header.align === "left"
+                        ? "justify-start"
+                        : header.align === "right"
+                        ? "justify-end"
+                        : "justify-normal"
+                    }`}
+                  >
                     <span>{header.name}</span>
                     {sortSetting && sortSetting.key === header.key ? (
                       <span>{sortSetting.type === "asc" ? <CaretUp /> : <CaretDown />}</span>
                     ) : (
                       <>
-                        {hoveredCol === header.key && (
+                        {hoveredCol === header.key && header.key !== "actions" && (
                           <span>
-                            {sortSetting.type === "asc" ? (
-                              <CaretDown className="fill-current text-gray-400" />
-                            ) : (
-                              <CaretUp className="fill-current text-gray-400" />
-                            )}
+                            <CaretUp className="fill-current text-gray-400" />
                           </span>
                         )}
                       </>
@@ -253,9 +267,14 @@ const Table = ({
                                 ))}
                               </div>
                             ) : (
-                              <div className="pr-2 overflow-hidden whitespace-nowrap">
+                              <div className={`pr-2 overflow-hidden whitespace-nowrap`}>
+                                {/* e.g, header = {object: 'contact'} body[contact][email]. in short, the current index is an object. */}
                                 {header.object && body[header.object]
-                                  ? body[header.object][header.key]
+                                  ? header.hasFormat
+                                    ? header.value(body[header.object][header.key])
+                                    : body[header.object][header.key]
+                                  : header.hasFormat
+                                  ? header.value(body[header.key])
                                   : body[header.key]}
                               </div>
                             )}

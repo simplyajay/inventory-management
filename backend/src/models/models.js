@@ -125,7 +125,7 @@ const DocumentSchema = new Schema(
     memorandum: { type: String },
     documentStatus: {
       type: String,
-      enum: ["complete", "pending", "cancelled", "rejected", "accepted", "not_applicable"],
+      enum: ["complete", "pending", "cancelled", "rejected", "accepted"],
       required: true,
     },
     paymentStatus: {

@@ -5,7 +5,7 @@ import TableInfo from "@/components/table/TableInfo";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog";
-import { createTableHandler } from "@/components/table/table.util";
+import { createTableHandler } from "@/components/table/utils/table.util";
 import { getFetchOptions } from "@/services/options";
 import { deleteProduct } from "@/services/api/products";
 import { notify } from "@/components/toast/ToastProvider";
@@ -37,7 +37,7 @@ const StockTable = ({ state, bodies, handleTableButtonClick, fetchProducts, upda
     { name: "NAME", key: "name" },
     { name: "DESCRIPTION", key: "description" },
     { name: "UNIT", key: "unitOfMeasurement" },
-    { name: "QTY", key: "quantity" },
+    { name: "QTY", key: "quantity", align: "right" },
   ];
 
   const tableActions = {
