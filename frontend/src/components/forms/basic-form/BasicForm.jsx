@@ -25,7 +25,7 @@ const BasicForm = ({
 
   useEffect(() => {
     reset(values);
-  }, [values]);
+  }, [values, reset]);
 
   return (
     <div className="h-full">
