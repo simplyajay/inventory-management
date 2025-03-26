@@ -13,6 +13,15 @@ const Table = ({
   handleSort,
   handleRowClick,
 }) => {
+  //tableHeader Object attributes
+  //name = the text that will be on the th
+  //key = the key that will be used to identify which object attribute to extract from body object
+  //hasFormat = if data needs to be formatted for visual purposes
+  //value = function that returns the formatted data
+  //align = css identifier ( can be left, right or center )
+  //object = name of the object that will be used to identify the current body object ( if it is )
+  //default width is determined by the column count including actions ( by percentage )
+
   if (!headers || !bodies) throw new Error("Headers or bodies not found");
 
   if (!Array.isArray(headers) || !Array.isArray(bodies))
@@ -26,19 +35,11 @@ const Table = ({
   const tableRef = useRef(null);
   const headerRefs = useRef([]);
   const resizeRef = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(0);
 
-  //tableHeader Object attributes
-  //name = the text that will be on the th
-  //key = the key that will be used to identify which object attribute to extract from body object
-  //hasFormat = if data needs to be formatted for visual purposes
-  //value = function that returns the formatted data
-  //align = css identifier ( can be left, right or center )
-  //object = name of the object that will be used to identify the current body object ( if it is )
-
-  //default width is determined by the column count including actions ( by percentage )
   const [columns, setColumns] = useState(() => {
     const newColumns = [...headers];
-
     if (actions) {
       newColumns.push({
         name: actions.name,
@@ -46,30 +47,23 @@ const Table = ({
         width: 10,
       });
     }
-
     let totalWidth = 0;
-
     newColumns.forEach((header) => {
       if (header.width !== undefined) {
         totalWidth += parseInt(header.width);
       }
     });
-
     const defaultWidth = (100 - totalWidth) / headers.length;
-
     return newColumns.map((header) => ({
       ...header,
       width: header.width !== undefined ? header.width : defaultWidth,
     }));
   });
-
   const [hoveredCol, setHoveredCol] = useState("");
 
-  let startX, startWidth;
   const offset = 10;
 
   const handleMouseMove = useCallback((e) => {
-    //these are the table columns not including the action column
     headerRefs.current.forEach((header) => {
       const rect = header.getBoundingClientRect();
 
@@ -79,7 +73,7 @@ const Table = ({
         header.style.cursor = "pointer";
       }
     });
-  });
+  }, []);
 
   const handleMouseDown = useCallback(
     (e) => {
@@ -92,13 +86,13 @@ const Table = ({
 
       if (e.pageX > rect.right - offset) {
         resizeRef.current = true;
-        startX = e.pageX;
+        startX.current = e.pageX;
 
         // startwidth; starting width of the current column.
         // nextWidth; starting width of the column after the current column
         // newWdith;  width after resize of the current column.
         // newNextWidth; width after resize of the column after the current column.
-        startWidth = columns[index].width;
+        startWidth.current = columns[index].width;
         const nextWidth = columns[index + 1]?.width || 0;
 
         let newWidth, newNextWidth, percentChange;
@@ -106,17 +100,17 @@ const Table = ({
         const handleResize = (moveEvent) => {
           if (!resizeRef.current) return;
 
-          const diffX = moveEvent.pageX - startX; // change in X pos from start to end of drag
+          const diffX = moveEvent.pageX - startX.current; // change in X pos from start to end of drag
           const tableWidth = tableRef.current.getBoundingClientRect().width;
           percentChange = Math.abs(diffX / tableWidth) * 100; // pixel to percentage of x pos change ( conver to absolute value )
 
-          const isDraggingToRight = moveEvent.pageX > startX;
+          const isDraggingToRight = moveEvent.pageX > startX.current;
 
           if (isDraggingToRight) {
-            newWidth = Math.max(10, parseFloat(startWidth) + parseFloat(percentChange)); //add the change to the width of current column.
+            newWidth = Math.max(10, parseFloat(startWidth.current) + parseFloat(percentChange)); //add the change to the width of current column.
             newNextWidth = Math.max(10, parseFloat(nextWidth) - parseFloat(percentChange)); // deduct the change to the width of the next column.
           } else {
-            newWidth = Math.max(10, parseFloat(startWidth) - parseFloat(percentChange)); //deduct the change to the width of current column.
+            newWidth = Math.max(10, parseFloat(startWidth.current) - parseFloat(percentChange)); //deduct the change to the width of current column.
             if (newWidth === 10) return;
             newNextWidth = Math.max(10, parseFloat(nextWidth) + parseFloat(percentChange)); // add the change to the width of the next column.
           }
@@ -152,7 +146,8 @@ const Table = ({
   );
 
   useEffect(() => {
-    headerRefs.current.forEach((headerRef) => {
+    const headers = headerRefs.current;
+    headers.forEach((headerRef) => {
       if (!headerRef) return;
 
       headerRef.addEventListener("mousemove", handleMouseMove);
@@ -160,7 +155,7 @@ const Table = ({
     });
 
     return () => {
-      headerRefs.current.forEach((headerRef) => {
+      headers.forEach((headerRef) => {
         if (!headerRef) return;
 
         headerRef.removeEventListener("mousemove", handleMouseMove);

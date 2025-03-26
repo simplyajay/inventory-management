@@ -118,7 +118,7 @@ const LoginForm = () => {
         </button>
         <div className="flex md:flex-row flex-col gap-2">
           <p className="text-sm text-gray-500">
-            Don't have an account?{" "}
+            Don&apos;t have an account?
             <b className="hover:cursor-pointer text-gray-600 hover:text-gray-800">
               <Link href={"/register"}>Register</Link>
             </b>

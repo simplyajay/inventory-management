@@ -1,9 +1,6 @@
 export const getAuthenticatedUser = async (fetchOptions) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/user`,
-      fetchOptions
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user`, fetchOptions);
     if (!res.ok) {
       return null;
     }

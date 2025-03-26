@@ -65,4 +65,6 @@ const SearchBox = forwardRef(({ onSearch }, ref) => {
   );
 });
 
+SearchBox.displayName = "SearchInput";
+
 export default SearchBox;
