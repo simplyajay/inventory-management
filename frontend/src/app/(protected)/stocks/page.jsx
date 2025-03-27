@@ -1,8 +1,8 @@
 import React from "react";
 import Stocks from "./components/Stocks";
 import { cookies } from "next/headers";
-import { getFetchOptions } from "@/services/options";
-import { getProducts } from "@/services/api/products";
+import { getFetchOptions } from "@/api/options";
+import { getProducts } from "@/api/products";
 
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page

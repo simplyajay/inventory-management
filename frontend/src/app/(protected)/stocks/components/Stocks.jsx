@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { getFetchOptions } from "@/services/options";
-import { getProducts } from "@/services/api/products";
+import { getFetchOptions } from "@/api/options";
+import { getProducts } from "@/api/products";
 import StockForm from "./StockForm";
 import StockTable from "./StockTable";
 

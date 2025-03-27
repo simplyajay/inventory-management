@@ -1,6 +1,6 @@
-import { getFetchOptions } from "@/services/options";
-import { validateSku } from "@/services/api/products";
-import { updateProduct, addProduct } from "@/services/api/products";
+import { getFetchOptions } from "@/api/options";
+import { validateSku } from "@/api/products";
+import { updateProduct, addProduct } from "@/api/products";
 import { notify } from "@/components/toast/ToastProvider";
 
 export const createStockFormHandler = ({

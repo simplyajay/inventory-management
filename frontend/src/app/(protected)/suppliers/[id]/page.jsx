@@ -1,10 +1,10 @@
 import React from "react";
-import { getSupplier } from "@/services/api/supplier";
-import { getDocumentsByEntity } from "@/services/api/documents";
-import { getFetchOptions } from "@/services/options";
+import { getSupplier } from "@/api/supplier";
+import { getDocumentsByEntity } from "@/api/documents";
+import { getFetchOptions } from "@/api/options";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import { getGeoData } from "@/utils/form/bussinessEntity.util";
+import { getGeoData } from "@/utils/bussinessEntityForm.util";
 import SupplierDetailLayout from "../components/SupplierDetailLayout";
 export const metadata = {
   robots: "noindex, nofollow", // Prevent search engines from indexing this page
