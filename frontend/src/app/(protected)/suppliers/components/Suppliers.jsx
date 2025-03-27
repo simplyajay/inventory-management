@@ -6,8 +6,8 @@ import TableLayout from "@/components/table/TableLayout";
 import Pagination from "@/components/table/Pagination";
 import ActionButton from "@/components/table/TableAction";
 import { useRouter } from "next/navigation";
-import { getFetchOptions } from "@/services/options";
-import { getSuppliers } from "@/services/api/supplier";
+import { getFetchOptions } from "@/api/options";
+import { getSuppliers } from "@/api/supplier";
 import { ExternalLinkIcon } from "@/components/icons/Icons";
 import { createTableHandler } from "@/components/table/utils/table.util";
 

@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MenuUnfoldIcon, MenuFoldIcon } from "@/components/icons/Icons";
 import { UserIcon, ChevronDown } from "@/components/icons/Icons";
-import { endSession } from "@/services/api/user/validation";
-import { getFetchOptions } from "@/services/options";
+import { endSession } from "@/api/user/validation";
+import { getFetchOptions } from "@/api/options";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { setUser } from "@/store/slices/authenticationSlice";

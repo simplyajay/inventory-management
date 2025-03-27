@@ -1,6 +1,5 @@
 import "@/globals.css";
 import Providers from "./providers";
-import ToastProvider from "@/components/toast/ToastProvider";
 import { SkeletonTheme } from "react-loading-skeleton";
 
 export const metadata = {
@@ -14,8 +13,7 @@ const RootLayout = async ({ children }) => {
       <Providers>
         <html lang="en">
           <body className="antialiased w-screen h-screen m-0 p-0">
-            <main className="h-full w-full overflow-hidden">{children}</main>
-            <ToastProvider />
+            <main className="h-full w-full">{children}</main>
           </body>
         </html>
       </Providers>

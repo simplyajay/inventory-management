@@ -1,4 +1,4 @@
-import { getCountries, getStates, getCities } from "@/services/api/csc";
+import { getCountries, getStates, getCities } from "@/api/csc";
 
 export const getEntityFormValues = (entity = {}) => {
   // ALWAYS DEFINE 'default' AS DEFAULT VALUE FOR A FIELD INTENDED TO BE A SELECT TAG

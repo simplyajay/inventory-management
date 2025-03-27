@@ -6,12 +6,12 @@ import Navigation from "./Navigation";
 import {
   getValidationSchema,
   initialValues,
-} from "../../../utils/schema/register.validationSchema";
+} from "../../../../utils/schema/register.validationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validateOnRegister } from "@/services/api/user/validation";
-import { getFetchOptions } from "@/services/options";
-import { createOrganization, createUser } from "@/services/api/user/registration";
+import { validateOnRegister } from "@/api/user/validation";
+import { getFetchOptions } from "@/api/options";
+import { createOrganization, createUser } from "@/api/user/registration";
 
 const Form = () => {
   const [step, setStep] = useState(1);

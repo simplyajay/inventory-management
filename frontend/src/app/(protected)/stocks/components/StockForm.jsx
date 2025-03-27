@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import { createStockFormHandler } from "@/utils/form/stockForm.util";
+import { createStockFormHandler } from "@/utils/stockForm.util";
 import {
   getProductComponents,
   getProductFormValues,
   productFormLabels,
-} from "@/utils/form/stockForm.util";
+} from "@/utils/stockForm.util";
 import BasicForm from "@/components/forms/basic-form/BasicForm";
 import { FormLayout } from "@/components/forms/basic-form/FormLayout";
 import { ClipLoader } from "react-spinners";

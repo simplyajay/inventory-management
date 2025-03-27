@@ -9,9 +9,9 @@ import {
   getEntityFormComponents,
   getEntityFormValues,
   entityFormLabels,
-} from "@/utils/form/bussinessEntity.util";
-import { getFetchOptions } from "@/services/options";
-import { updateSupplier } from "@/services/api/supplier";
+} from "@/utils/bussinessEntityForm.util";
+import { getFetchOptions } from "@/api/options";
+import { updateSupplier } from "@/api/supplier";
 import { notify } from "@/components/toast/ToastProvider";
 import { useRouter } from "next/navigation";
 

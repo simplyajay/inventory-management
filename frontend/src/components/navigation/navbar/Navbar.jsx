@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getFetchOptions } from "@/services/options";
-import { getAuthenticatedUser } from "@/services/api/user/authentication";
+import { getFetchOptions } from "@/api/options";
+import { getAuthenticatedUser } from "@/api/user/authentication";
 import { ToggleComponent, UserComponent } from "./components/NavbarComponents";
 import Skeleton from "react-loading-skeleton";
 

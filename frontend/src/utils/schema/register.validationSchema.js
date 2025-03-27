@@ -33,18 +33,12 @@ export const validationSchemaStep1 = Yup.object({
 });
 
 export const validationSchemaStep2 = Yup.object().shape({
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email address"),
+  email: Yup.string().required("Email is required").email("Invalid email address"),
   contact: Yup.string()
     .matches(/^\d*$/, "Enter a valid mobile number") // Regex to ensure only digits
-    .test(
-      "is-min-length",
-      "Mobile Number should be between 10 to 12 digits",
-      (value) => {
-        return value === "" || (value.length >= 10 && value.length <= 12);
-      }
-    ),
+    .test("is-min-length", "Mobile Number should be between 10 to 12 digits", (value) => {
+      return value === "" || (value.length >= 10 && value.length <= 12);
+    }),
   accountType: Yup.string().required(),
   organization: Yup.string().when("accountType", {
     is: "Organization",
@@ -60,10 +54,7 @@ export const validationSchemaStep3 = Yup.object().shape({
   username: Yup.string()
     .required("Please enter your username")
     .min(4, "Username should be atleast 4 characters.")
-    .matches(
-      /^[a-zA-Z0-9]*$/,
-      "Username should only contain letters and numbers"
-    )
+    .matches(/^[a-zA-Z0-9]*$/, "Username should only contain letters and numbers")
     .matches(/[a-zA-Z]/, "Username cannot be all numbers"),
 
   password: Yup.string()
@@ -81,3 +72,8 @@ export const getValidationSchema = (step) => {
     ? validationSchemaStep2
     : validationSchemaStep3;
 };
+
+export const loginSchema = Yup.object({
+  username: Yup.string().required("Username or email is required"),
+  password: Yup.string().required("Password is required"),
+});
