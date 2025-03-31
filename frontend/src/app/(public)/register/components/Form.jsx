@@ -113,7 +113,7 @@ const Form = () => {
   return (
     <form
       name="registration-form"
-      className="h-full flex flex-col items-center gap-2 p-10 w-full border"
+      className="h-full flex flex-col items-center gap-2 p-10 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full flex p-1 justify-center text-center text-4xl">

@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+yarn.lock
+pnpm-lock.yaml
+out
+dist
+
+.env
+.DS_Store
+Thumbs.db
+
+logs
+*.log
+.cache
