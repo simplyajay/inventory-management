@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - NEXT_PUBLIC_URL=http://localhost:5000
+      - NEXT_PUBLIC_TOKEN=user-jwt-token
+      - NEXT_PUBLIC_BASE_URL=http://localhost:3000
+      - NEXT_PUBLIC_JWT=point-of-sale-by-aldriahnjayjamio
+      - NEXT_PUBLIC_JWT=inv-management-sys-v1
+      - NEXT_PUBLIC_CSC_API_KEY=Tk1TdlJ0SmJ5NEx0ZnFEV1h4MDI2d05jV2UxbTcxSk9WSkpIZFFvTg==
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - JWT_SECRET=point-of-sale-by-aldriahnjayjamio
+      - JWT_SECRET=inv-management-sys-v1
+      - MONGODB_URL=mongodb+srv://aldriahnjayjamio:%40Mockingajay06%21@point-of-sale-system-db.z60yp.mongodb.net/point-of-sale?retryWrites=true&w=majority&appName=point-of-sale-system-db
+      - TOKEN=user-jwt-token
+      - PORT=5000
+
+volumes:
+  frontend_modules:
+  backend_modules:

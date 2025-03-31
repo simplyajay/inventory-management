@@ -11,7 +11,7 @@ import documentRouter from "./api/routes/document.route.js";
 import supplierRouter from "./api/routes/supplier.route.js";
 
 const app = express();
-const port = 3001;
+const port = 5000;
 dotenv.config();
 const url = process.env.MONGODB_URL;
 

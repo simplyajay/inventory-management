@@ -6,12 +6,22 @@ export const middleware = async (req) => {
   const res = NextResponse.next();
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    if (pathname !== "/register" && !pathname.startsWith("/register")) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
 
   if (token) {
     if (pathname === "/login") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+  }
+
+  if (pathname.startsWith("/register/")) {
+    const step = pathname.split("/")[2];
+
+    if (step !== "account") {
+      return NextResponse.redirect(new URL("/register", req.url));
     }
   }
 
@@ -27,5 +37,6 @@ export const config = {
     "/sale/:path*",
     "/stocks/:path*",
     "/suppliers/:path*",
+    "/register/:path*",
   ],
 };

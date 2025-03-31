@@ -34,7 +34,7 @@ const BasicForm = ({
         onSubmit={handleSubmit((values) => {
           onSubmit({ values, setError, clearErrors, reset });
         })}
-        className="h-full flex flex-col"
+        className="h-full flex flex-col p-10"
       >
         <FormComponents
           components={components}

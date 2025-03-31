@@ -2,25 +2,16 @@ import mongoose, { Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
-    accountType: {
-      type: String,
-      enum: ["Individual", "Organization"],
-      required: true,
-    },
-    _orgId: {
-      type: Schema.Types.ObjectId,
-      ref: "organizations", // refers to the collection named 'organizations'
-      required: function () {
-        return this.accountType === "Organization"; // only required if accountType is Organization
-      },
-    },
+    _orgId: { type: Schema.Types.ObjectId },
     username: { type: String, required: true },
     password: { type: String, required: true },
     firstname: { type: String, required: true },
     middlename: { type: String },
     lastname: { type: String, required: true },
     email: { type: String, required: true },
-    contact: { type: String },
+    phone: { type: String },
+    image: { type: String },
+    role: { type: String, enum: ["admin", "manager", "staff"], required: true },
   },
   { timestamps: true }
 );
@@ -28,6 +19,17 @@ const UserSchema = new Schema(
 const organizationSchema = new Schema(
   {
     name: { type: String, required: true },
+    trn: { type: String },
+    address: {
+      street1: { type: String },
+      street2: { type: String },
+      city: { type: String },
+      state: { type: String },
+      country: { type: String },
+      zip: { type: String },
+    },
+    phone: { type: String },
+    email: { type: String, required: true },
     image: { type: String, required: false },
   },
   { timestamps: true }
@@ -77,7 +79,7 @@ const BusinessEntitySchema = new Schema(
     openbalance: { type: Number, default: 0 },
     totaloverdue: { type: Number, default: 0 },
     status: { type: String, enum: ["inactive", "active"], required: true },
-    logo: { type: String },
+    image: { type: String },
   },
   { timestamps: true }
 );

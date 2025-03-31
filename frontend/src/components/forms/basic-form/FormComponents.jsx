@@ -1,8 +1,5 @@
 import React from "react";
 
-const defaultClass =
-  "p-2 text-responsive-xs focus:outline-none min-h-[2.5rem] w-full focus:ring-2 focus:ring-blue-100 border border-gray-200";
-
 //SELECT OPTION VALUES SHOULD BE AN OBJECT IDENTIFIED BY KEY AND VALUE
 //DEFAULT VALUE KEY WILL ALWAYS BE 'default'
 
@@ -14,14 +11,14 @@ const FormComponents = ({ register, errors, clearErrors, components, labels, loa
   };
 
   return (
-    <div className="flex-1 w-full flex flex-col items-center justify-around lg:p-10 p-10 gap-2 lg:gap-4 overflow-auto">
+    <div className="flex-1 w-full flex flex-col items-center justify-around gap-2 lg:gap-4 overflow-auto">
       {components.map((component, index) => {
         const props = {
           ...register(component.name),
           ...component, //spread component attributes defined in component props
-          className: `${defaultClass} ${errors[component.name] ? "ring-2 ring-red-100" : ""} ${
-            component?.customclass || ""
-          } `,
+          className: `input- text-responsive-xs ${
+            errors[component.name] ? "ring-2 ring-red-100" : ""
+          } ${component?.customclass || ""} `,
           disabled: component.disabled ? component.disabled : loading,
           onFocus: () => clearErrors(component.name),
         };
@@ -51,17 +48,25 @@ const FormComponents = ({ register, errors, clearErrors, components, labels, loa
             customComponent = <textarea {...props} autoComplete="off" />;
             break;
           default:
-            customComponent = <input {...props} autoComplete="off" />;
+            customComponent = (
+              <input
+                {...props}
+                autoComplete="off"
+                placeholder={component.placeholder || undefined}
+              />
+            );
             break;
         }
 
         return (
           <div key={index} className="flex flex-col gap-1 w-full">
-            <label className="text-sm" htmlFor={component.name}>
-              {labels?.find((label) => label.name === component.name)
-                ? labels?.find((label) => label.name === component.name).text
-                : component.name.charAt(0).toUpperCase() + component.name.slice(1)}
-            </label>
+            {labels && (
+              <label className="text-sm" htmlFor={component.name}>
+                {labels?.find((label) => label.name === component.name)
+                  ? labels?.find((label) => label.name === component.name).text
+                  : component.name.charAt(0).toUpperCase() + component.name.slice(1)}
+              </label>
+            )}
             {customComponent}
             {get(errors, component.name) && (
               <p className="text-red-500 text-sm">{get(errors, `${component.name}.message`)}</p>
